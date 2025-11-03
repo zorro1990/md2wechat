@@ -12,6 +12,8 @@ description: "Task list template for feature implementation"
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
+**宪法对齐检查**: 每个 user story 至少包含一次微信粘贴兼容验证、一次性能/效率确认（转换 ≤1 秒），并显式说明如何保持流程简洁、主题视觉一致与用户体验无额外负担。
+
 ## Format: `[ID] [P?] [Story] Description`
 
 - **[P]**: Can run in parallel (different files, no dependencies)

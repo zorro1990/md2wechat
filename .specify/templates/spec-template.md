@@ -77,6 +77,8 @@
 
 ## Requirements *(mandatory)*
 
+> **宪法校验提示**：说明本功能如何维持简洁流程、保证 Markdown → 微信富文本一键转换、达到 ≥95% 微信粘贴正确率，并在必要时记录主题/扩展点的模块化要求。
+
 <!--
   ACTION REQUIRED: The content in this section represents placeholders.
   Fill them out with the right functional requirements.
@@ -109,7 +111,7 @@
 
 ### Measurable Outcomes
 
-- **SC-001**: [Measurable metric, e.g., "Users can complete account creation in under 2 minutes"]
-- **SC-002**: [Measurable metric, e.g., "System handles 1000 concurrent users without degradation"]
-- **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"]
-- **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"]
+- **SC-001**: [效率指标，例如“创作者排版时间减少 ≥30%”]
+- **SC-002**: [兼容性指标，例如“微信后台粘贴格式正确率 ≥95%”]
+- **SC-003**: [体验指标，例如“Markdown → 富文本转换在主流文档中 ≤1 秒完成”]
+- **SC-004**: [口碑/商业指标，例如“NPS ≥40”或“增值主题在发布后保持正向留存”]

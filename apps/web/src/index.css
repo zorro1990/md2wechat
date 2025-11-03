@@ -1,0 +1,13 @@
+@import './styles/tailwind.css';
+@import './styles/themes.css';
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  @apply m-0 min-h-screen bg-zinc-50 text-zinc-900;
+}

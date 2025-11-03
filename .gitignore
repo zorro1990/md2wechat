@@ -1,0 +1,20 @@
+.DS_Store
+node_modules/
+**/node_modules/
+dist/
+build/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test outputs
+coverage/
+**/coverage/
+**/playwright-report/
+**/test-results/
+
+# Tool artifacts
+.codex/
+apps/web/temp-worker-logs.json

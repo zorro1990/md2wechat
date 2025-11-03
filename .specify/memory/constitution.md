@@ -1,50 +1,84 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+- Version: 0.0.0 → 1.0.0
+- Modified Principles: 初次立宪
+- Added Sections: 使命与愿景, 产品原则与承诺
+- Removed Sections: 无
+- Templates Requiring Updates:
+  - ✅ .specify/templates/plan-template.md
+  - ✅ .specify/templates/spec-template.md
+  - ✅ .specify/templates/tasks-template.md
+- Follow-up TODOs: 无
+-->
+
+# MD2WeChat Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. 简洁优先
+所有产品、界面与交互决策必须以减少创作者操作步骤为先，保持界面极简、信息清晰。新增功能必须证明对写作、排版、发布流程有显著提效，否则不得上线。
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. 美感一致
+内置主题、组件和排版样式必须维持统一的视觉语言，并与微信原生富文本风格高度对齐。所有视觉改动在发布前必须通过设计审查与实机粘贴测试，确保输出优雅。
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. 高效转换
+Markdown 到微信富文本的转换必须一键完成，并提供实时预览和快速复制能力。性能优化必须确保主流文章在 1 秒内生成预览；任何改动若导致体验退化，必须立即回滚或修复。
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. 微信兼容
+输出内容必须在微信公众平台和全系编辑器中保持 ≥95% 的格式正确率。所有外链需按规则转为脚注或其他兼容方案，禁止引入会触发微信拦截的样式或脚本。
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. 可拓展演进
+系统必须支持主题定制、样式扩展与 API/批量接口。扩展能力需模块化设计、具备文档说明，并在不影响核心流程的前提下向高阶用户开放。
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+### VI. 用户优先体验
+创作者效率与体验是决策的首要考量。禁止强迫填写冗余元数据或设置复杂流程；用户反馈必须被记录、评估并纳入迭代节奏，确保产品真正服务内容创作。
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### VII. 诚信透明交付
+用户数据必须严格保护，任何使用或采集需取得显式授权。收费与增值服务方案必须公开透明，禁止通过隐藏费用或内容黑箱使用获取收益。兼容性风险需主动告知并快速修复。
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## 使命与愿景
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### 使命
+为微信生态创作者提供极简、高效、美感统一的排版工具，让创作者专注内容本身，在“写作 → 排版 → 发布”流程中畅通无阻。
+
+### 愿景
+成为微信生态创作者首选的 Markdown → 微信富文本编辑与排版平台，并逐步扩展到微信小程序、生态外导出等多场景，实现“一套工具，多种用途”。
+
+## 产品原则与承诺
+
+### 使用者承诺
+- 输出结果保持一致、可预测，复制后即可贴入微信后台，保持原样呈现。
+- 编辑体验必须快速响应，左侧 Markdown 输入、右侧实时预览，主题切换秒级完成。
+- 提供多款专业美观的主题样式，持续优化视觉细节。
+- 持续更新与修复兼容问题，跟进微信后台调整并快速适配。
+- 面向高阶用户提供 API、批量排版等扩展能力（依据产品版本开放）。
+
+### 产品原则
+- 所有功能以节省创作者时间、提升内容质量为衡量标准。
+- 避免为“功能而功能”，优先解决真实痛点，如复制错乱、代码块与表格支持、样式不统一等。
+- 输出代码必须符合微信粘贴规则，对外链等高风险元素提供安全替代方案。
+- 保持界面轻量直观，围绕“写 + 复制”核心流程构建体验。
+- 为创作者成长设计阶梯化能力：基础功能免费，高阶能力可升级。
+- 深度收集真实场景反馈，维持快速迭代节奏。
+
+### 禁止事项
+- 禁止增加无助于效率的额外操作或复杂模板流程。
+- 禁止输出在微信后台呈现错乱、不可编辑或低兼容的富文本内容。
+- 禁止隐藏收费、捆绑增值服务或以基础功能设门槛。
+- 禁止在未获授权的情况下使用创作者内容或数据进行增值。
+- 禁止忽视微信编辑器更新导致的兼容性问题，所有相关 bug 必须优先修复。
+
+### 成功标准
+- 被创作者社群公认“公众号排版必备”工具。
+- 创作者平均每篇文章排版时间减少 ≥30%。
+- 微信后台粘贴后的格式正确率 ≥95%。
+- 月活跃用户及增长率持续上升，高价值主题/API 模块实现可持续营收。
+- NPS（净推荐值）长期保持 ≥40，并在季度复盘中跟踪提升措施。
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+- 本宪法为产品与技术决策的最高准则，所有规划、设计、实现与上线流程必须逐条对照核心原则与产品承诺。
+- 任一功能、主题或商业策略上线前，必须完成一次“宪法对齐”自检，记录在计划或评审文档中。
+- 宪法修改需经产品与研发双方评审，通过 `/speckit` 流程提交修订说明与影响分析；获批后更新版本号与修订日期。
+- 若微信生态规则或用户反馈引发重大兼容性、体验风险，需在 7 天内评估是否触发紧急修宪。
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
-
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-11-02 | **Last Amended**: 2025-11-02

@@ -1,0 +1,59 @@
+:root {
+  --wx-surface: #ffffff;
+  --wx-text: #18181b;
+  --wx-heading: #0f172a;
+  --wx-subheading: #334155;
+  --wx-accent: #2563eb;
+  --wx-accent-contrast: #ffffff;
+  --wx-link: #2563eb;
+  --wx-quote-border: #2563eb;
+  --wx-code-bg: #111827;
+  --wx-code-text: #f8fafc;
+}
+
+body {
+  background: var(--wx-surface);
+  color: var(--wx-text);
+}
+
+.wx-heading {
+  color: var(--wx-heading);
+}
+
+.wx-heading strong,
+.wx-heading em {
+  color: inherit;
+}
+
+.prose.wx-theme h1,
+.prose.wx-theme h2,
+.prose.wx-theme h3,
+.prose.wx-theme h4,
+.prose.wx-theme h5,
+.prose.wx-theme h6 {
+  color: var(--wx-heading);
+}
+
+.prose.wx-theme p {
+  color: var(--wx-text);
+}
+
+.prose.wx-theme a {
+  color: var(--wx-link);
+  text-decoration-color: var(--wx-link);
+}
+
+.prose.wx-theme blockquote {
+  border-left-color: var(--wx-quote-border);
+  color: var(--wx-subheading);
+}
+
+.wx-code {
+  background-color: var(--wx-code-bg);
+  color: var(--wx-code-text);
+}
+
+.wx-link-footnote::after {
+  content: ' ↗';
+  color: inherit;
+}
