@@ -4,6 +4,8 @@ import remarkGfm from 'remark-gfm'
 import { visit } from 'unist-util-visit'
 
 import { createMarkdownPipeline, type MarkdownPipeline, type PipelineOptions } from '@/conversion/pipeline'
+import { convertToInlineStyles } from '@/conversion/inline-style-converter'
+import { getThemePreset } from '@/themes/presets'
 import type { AnalyzeResponse, CompatibilityWarning, RenderResponse } from '@/conversion/contracts'
 
 const analyzer = remark().use(remarkParse).use(remarkGfm)
@@ -38,17 +40,25 @@ export async function renderMarkdownDocument(
   })
   const startedAt = performance.now()
   const file = await pipeline.process(markdown)
+
+  // 🔧 关键修复：应用内联样式转换器
+  const themeId = options.themeId ?? 'chinese'
+  const theme = getThemePreset(themeId)
+  const htmlWithInlineStyles = convertToInlineStyles(String(file.value), theme)
+
   const durationMs = performance.now() - startedAt
   if (import.meta.env?.DEV) {
     console.debug('[renderMarkdownDocument] completed', {
       durationMs: Number(durationMs.toFixed(2)),
       length: markdown.length,
-      themeId: options.themeId ?? 'default',
+      themeId,
+      originalHtmlLength: String(file.value).length,
+      convertedHtmlLength: htmlWithInlineStyles.length,
     })
   }
 
   return {
-    html: String(file.value),
+    html: htmlWithInlineStyles, // ✅ 使用转换后的HTML
     astVersion: Date.now(),
     durationMs,
     warnings: [],

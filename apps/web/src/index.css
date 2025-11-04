@@ -1,13 +1,325 @@
 @import './styles/tailwind.css';
 @import './styles/themes.css';
 
+/* ========== New App UI Design System ========== */
+/* Warm, Professional, Content-First Design */
+
+/* Color System - Neutral & Warm */
 :root {
+  /* Warm Neutral Palette */
+  --ui-bg-primary: #faf9f7;      /* Soft cream */
+  --ui-bg-secondary: #f5f4f1;    /* Warm gray */
+  --ui-bg-tertiary: #f0eee9;     /* Light beige */
+  --ui-surface: #ffffff;         /* Pure white cards */
+
+  /* Text Colors - Warm Grays */
+  --ui-text-primary: #2c2c2c;    /* Dark warm gray */
+  --ui-text-secondary: #6b6b6b;  /* Medium warm gray */
+  --ui-text-tertiary: #9a9a9a;   /* Light warm gray */
+  --ui-text-accent: #8b4513;     /* Saddle brown for emphasis */
+
+  /* Border Colors - Subtle */
+  --ui-border-light: #e8e5e0;    /* Very light beige */
+  --ui-border-medium: #ddd8d0;   /* Light warm gray */
+
+  /* Accent Colors - Warm Orange/Red */
+  --ui-accent-primary: #d2691e;  /* Chocolate orange */
+  --ui-accent-secondary: #e67e22; /* Carrot orange */
+  --ui-accent-hover: #c45e1b;    /* Darker orange */
+  --ui-accent-contrast: #ffffff; /* White text on accent */
+
+  /* Shadows - Soft & Subtle */
+  --ui-shadow-sm: 0 1px 2px rgba(139, 69, 19, 0.04);
+  --ui-shadow-md: 0 2px 8px rgba(139, 69, 19, 0.06);
+  --ui-shadow-lg: 0 4px 16px rgba(139, 69, 19, 0.08);
+
+  /* Spacing System */
+  --ui-space-xs: 0.25rem;
+  --ui-space-sm: 0.5rem;
+  --ui-space-md: 1rem;
+  --ui-space-lg: 1.5rem;
+  --ui-space-xl: 2rem;
+  --ui-space-2xl: 3rem;
+
+  /* Border Radius */
+  --ui-radius-sm: 6px;
+  --ui-radius-md: 10px;
+  --ui-radius-lg: 14px;
+  --ui-radius-xl: 20px;
+  --ui-radius-full: 9999px;
+
+  /* Typography */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ========== Dark Mode - Complete Override ========== */
+html.dark {
+  /* Dark Background Colors */
+  --ui-bg-primary: #0a0a0a;
+  --ui-bg-secondary: #1a1a1a;
+  --ui-bg-tertiary: #262626;
+  --ui-surface: #2a2a2a;
+
+  /* Dark Text Colors */
+  --ui-text-primary: #f5f5f5;
+  --ui-text-secondary: #d4d4d4;
+  --ui-text-tertiary: #a0a0a0;
+  --ui-text-accent: #ffa500;
+
+  /* Dark Border Colors */
+  --ui-border-light: #404040;
+  --ui-border-medium: #4d4d4d;
+
+  /* Dark Accent Colors */
+  --ui-accent-primary: #ff8c00;
+  --ui-accent-secondary: #ffa500;
+  --ui-accent-hover: #ff7700;
+  --ui-accent-contrast: #1a1a1a;
+
+  /* Dark Shadows */
+  --ui-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --ui-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --ui-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+/* Force apply dark colors with high specificity */
+html.dark,
+html.dark body {
+  background: #0a0a0a !important;
+  color: #f5f5f5 !important;
+}
+
+html.dark .app-shell {
+  background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%) !important;
+}
+
+/* Force all components to use dark colors */
+html.dark .header-bar {
+  background: rgba(26, 26, 26, 0.98) !important;
+  border-bottom-color: #4d4d4d !important;
+}
+
+html.dark .app-panel,
+html.dark .settings-panel {
+  background: #2a2a2a !important;
+  border-color: #404040 !important;
+  color: #f5f5f5 !important;
+}
+
+html.dark .theme-card,
+html.dark .radio-card,
+html.dark .setting-item {
+  background: #2a2a2a !important;
+  border-color: #404040 !important;
+  color: #f5f5f5 !important;
+}
+
+html.dark .theme-card:hover,
+html.dark .radio-card:hover,
+html.dark .setting-item:hover {
+  border-color: #4d4d4d !important;
+}
+
+html.dark .theme-card.is-selected {
+  background: rgba(255, 140, 0, 0.15) !important;
+  border-color: #ff8c00 !important;
+}
+
+/* Force all text to be light in dark mode */
+html.dark * {
+  color: inherit;
+}
+
+html.dark .header-bar__title,
+html.dark .app-panel__title,
+html.dark .settings-section__title,
+html.dark .theme-card__name,
+html.dark .theme-card__description,
+html.dark .radio-card__title,
+html.dark .radio-card__description,
+html.dark .setting-item__label,
+html.dark .setting-item__description {
+  color: #f5f5f5 !important;
+}
+
+html.dark .app-panel__eyebrow {
+  color: #a0a0a0 !important;
+}
+
+html.dark .header-bar__button {
+  border-color: #ff8c00 !important;
+  background: #ff8c00 !important;
+  color: #1a1a1a !important;
+}
+
+html.dark .header-bar__button:hover {
+  background: #ff7700 !important;
+  border-color: #ff7700 !important;
+}
+
+/* Base Body - Warm & Comfortable */
 body {
-  @apply m-0 min-h-screen bg-zinc-50 text-zinc-900;
+  margin: 0;
+  min-height: 100vh;
+  background: var(--ui-bg-primary);
+  color: var(--ui-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* App Shell - Soft Background */
+.app-shell {
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, var(--ui-bg-primary) 0%, var(--ui-bg-secondary) 100%);
+  transition: background 0.3s ease;
+}
+
+/* Content Container - Unified Three-Column Grid Layout */
+.app-container {
+  display: grid;
+  align-items: stretch; /* ✅ 统一高度对齐 */
+  gap: var(--ui-space-xl);
+  margin: var(--ui-space-xl) auto;
+  padding: 0 var(--ui-space-xl) var(--ui-space-2xl);
+  width: 96vw; /* ✅ 移除1600px限制，充分利用全屏宽度 */
+  max-width: 96vw; /* 保持响应式 */
+  min-height: calc(100vh - 140px); /* 减去header高度 */
+  transition: all 0.3s ease;
+}
+
+/* Two Column Layout - 1:1 Ratio (Flexible) */
+.app-container:not(.is-settings-open) {
+  grid-template-columns: 1fr 1fr; /* ✅ 编辑区与预览区1:1等比例分配（可缩放） */
+  padding-right: var(--ui-space-xl);
+}
+
+/* Settings Open State - Three Column: 1:1 + Auto */
+.app-container.is-settings-open {
+  grid-template-columns: 1fr 1fr auto; /* ✅ 编辑区与预览区1:1等比例，设置区自适应内容宽度 */
+  padding-right: var(--ui-space-xl);
+}
+
+/* ✅ 统一列内边距，确保所有卡片对齐 */
+.app-container .app-panel {
+  padding: var(--ui-space-lg);
+  background: transparent; /* 背景透明，让卡片使用自己的背景 */
+}
+
+/* Settings Panel - Fixed Width Column with Consistent Styling */
+.settings-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* ✅ 使用容器高度 */
+  background: var(--ui-surface);
+  border: 1px solid var(--ui-border-light);
+  border-radius: var(--ui-radius-lg);
+  box-shadow: var(--ui-shadow-md);
+  overflow: hidden; /* ✅ 统一溢出处理 */
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.3s ease;
+}
+
+.app-container.is-settings-open .settings-panel {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.settings-panel__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-sm);
+  padding: var(--ui-space-xl);
+  border-bottom: 1px solid var(--ui-border-light);
+  flex-shrink: 0; /* ✅ 防止收缩 */
+}
+
+.settings-panel__subtitle {
+  font-size: 0.9rem;
+  color: var(--ui-text-secondary);
+  margin: var(--ui-space-sm) 0 0 0;
+  line-height: 1.5;
+}
+
+.settings-panel__content {
+  flex: 1; /* ✅ 占据剩余空间 */
+  padding: var(--ui-space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-xl);
+  overflow-y: auto; /* ✅ 内容区域独立滚动 */
+}
+
+.settings-panel__content .settings-section {
+  padding-bottom: var(--ui-space-lg);
+  border-bottom: 1px solid var(--ui-border-light);
+}
+
+.settings-panel__content .settings-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Responsive Design - Tablet */
+@media (max-width: 1200px) {
+  .app-container {
+    width: 96vw;
+    max-width: 96vw;
+    padding: 0 var(--ui-space-lg) var(--ui-space-2xl);
+  }
+
+  /* ✅ 保持与大屏相同的1:1比例 */
+  .app-container:not(.is-settings-open) {
+    grid-template-columns: 1fr 1fr; /* ✅ 与大屏保持一致，1:1等比例 */
+  }
+
+  /* ✅ 三列布局：保持1:1比例，设置区自适应不压缩前两列 */
+  .app-container.is-settings-open {
+    grid-template-columns: 1fr 1fr auto; /* ✅ 编辑区与预览区1:1，设置区自适应内容宽度 */
+  }
+
+  .app-panel {
+    min-height: 400px; /* 响应式调整最小高度 */
+  }
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    grid-template-columns: 1fr;
+    width: 96vw;
+    padding: 0 var(--ui-space-md) var(--ui-space-2xl);
+  }
+
+  .app-container:not(.is-settings-open),
+  .app-container.is-settings-open {
+    grid-template-columns: 1fr; /* 移动端单列堆叠 */
+    grid-template-areas:
+      "editor"
+      "preview"
+      "settings";
+  }
+
+  .app-panel {
+    min-height: 300px; /* 移动端调整 */
+    padding: var(--ui-space-lg);
+  }
+
+  .settings-panel {
+    height: auto;
+    max-height: none;
+  }
+
+  .header-bar__content {
+    padding: var(--ui-space-md) var(--ui-space-lg);
+  }
+
+  .settings-panel__header,
+  .settings-panel__content {
+    padding: var(--ui-space-lg);
+  }
 }

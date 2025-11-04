@@ -1,11 +1,10 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useRef } from 'react'
 
-import { useFeedback } from '@/components/feedback/FeedbackProvider'
 import { useAutosave } from '@/features/editor/autosave'
 import { useEditorStore } from '@/features/editor/store'
 import type { DraftUpdate } from '@/features/editor/store'
-import { EditorActions } from '@/features/editor/EditorActions'
 import { analyzeMarkdownDocument } from '@/conversion/render'
+import { EditorActions } from './EditorActions'
 
 const EMPTY_MARKDOWN_PLACEHOLDER = '# 开始写作\n\n在此处输入 Markdown 内容……'
 
@@ -16,11 +15,11 @@ export function EditorPane() {
   const drafts = useEditorStore((state) => state.drafts)
   const upsertDraft = useEditorStore((state) => state.upsertDraft)
   const setActiveTheme = useEditorStore((state) => state.setActiveTheme)
-  const { notify } = useFeedback()
   const { schedule: scheduleAutosave, forceSave } = useAutosave({ delayMs: 800 })
   const [value, setValue] = useState('')
   const currentDraft = useMemo(() => (currentDraftId ? drafts[currentDraftId] : null), [currentDraftId, drafts])
   const isReady = isHydrated && Boolean(currentDraftId)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     void hydrate()
@@ -65,52 +64,29 @@ export function EditorPane() {
     void forceSave()
   }
 
-  const handleCopyMarkdown = async () => {
-    try {
-      await navigator.clipboard.writeText(value)
-      notify({ title: '已复制 Markdown 内容', variant: 'success' })
-    } catch (error) {
-      notify({
-        title: '复制失败',
-        description: error instanceof Error ? error.message : '请检查浏览器权限设置',
-        variant: 'error',
-      })
-    }
-  }
-
   return (
     <div
-      className="flex h-full flex-col gap-4"
+      className="editor-pane"
       data-testid="markdown-panel"
       data-hydrated={isHydrated ? 'true' : 'false'}
       data-ready={isReady ? 'true' : 'false'}
     >
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex flex-col">
-          <span className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Markdown</span>
-          <span className="text-lg font-bold text-zinc-900">{currentDraft?.title ?? '未命名草稿'}</span>
+      <header className="editor-pane__header">
+        <div className="editor-pane__title">
+          <span className="editor-pane__eyebrow">Markdown 编辑区</span>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <EditorActions />
-          <button
-            type="button"
-            className="rounded-full border border-zinc-300 px-3 py-1.5 text-sm font-medium text-zinc-600 transition hover:border-zinc-400 hover:text-zinc-900"
-            onClick={handleCopyMarkdown}
-          >
-            复制 Markdown
-          </button>
-        </div>
+        <EditorActions textareaRef={textareaRef} value={value} onChange={setValue} />
       </header>
       <textarea
+        ref={textareaRef}
         data-testid="markdown-editor"
-        className="h-full w-full resize-none rounded-2xl border border-zinc-200 bg-white p-6 font-mono text-sm leading-relaxed text-zinc-900 shadow-inner focus:border-zinc-400 focus:outline-none"
+        className="editor-pane__textarea"
         value={value}
         onChange={handleChange}
         onBlur={handleBlur}
         placeholder={EMPTY_MARKDOWN_PLACEHOLDER}
         spellCheck={false}
         aria-label="Markdown 编辑器"
-        disabled={!isReady}
       />
     </div>
   )
