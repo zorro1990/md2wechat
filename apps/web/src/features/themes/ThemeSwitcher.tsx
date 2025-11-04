@@ -6,12 +6,15 @@ import { applyTheme } from '@/themes/manager'
 
 export function ThemeSwitcher() {
   const themes = useMemo(() => BUILTIN_THEMES, [])
-  const activeThemeId = useEditorStore((state) => state.activeThemeId ?? themes[0]?.id ?? 'default')
+  const appSettings = useEditorStore((state) => state.appSettings)
+  const setSelectedThemeId = useEditorStore((state) => state.setSelectedThemeId)
   const setActiveTheme = useEditorStore((state) => state.setActiveTheme)
+  const activeThemeId = appSettings.selectedThemeId
 
   const handleChange = async (themeId: string) => {
-    applyTheme(themeId)
+    setSelectedThemeId(themeId)
     await setActiveTheme(themeId)
+    applyTheme(themeId)
   }
 
   return (

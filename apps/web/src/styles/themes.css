@@ -1,3 +1,6 @@
+/*
+ * 全局默认变量 - 会被各主题覆盖
+ */
 :root {
   --wx-surface: #ffffff;
   --wx-text: #18181b;
@@ -11,49 +14,845 @@
   --wx-code-text: #f8fafc;
 }
 
-body {
-  background: var(--wx-surface);
-  color: var(--wx-text);
+/*
+ * ========== 中国风主题 ==========
+ */
+body.theme-chinese {
+  font-family: "Songti SC", "STSong", "KaiTi", "SimSun", serif, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.9;
+  color: #333333;
+  background-color: #f7f6f2;
 }
 
-.wx-heading {
-  color: var(--wx-heading);
+body.theme-chinese .content {
+  background-color: #ffffff;
+  padding: 30px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.wx-heading strong,
-.wx-heading em {
-  color: inherit;
+body.theme-chinese h1 {
+  font-size: 1.9em;
+  font-weight: 500;
+  text-align: center;
+  color: #a72f2f;
+  padding-bottom: 15px;
+  margin: 25px 0 35px;
+  border-bottom: 2px dashed rgba(167, 47, 47, 0.5);
 }
 
-.prose.wx-theme h1,
-.prose.wx-theme h2,
-.prose.wx-theme h3,
-.prose.wx-theme h4,
-.prose.wx-theme h5,
-.prose.wx-theme h6 {
-  color: var(--wx-heading);
+body.theme-chinese h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #fff;
+  margin: 50px 0 25px;
+  padding: 10px 20px;
+  display: inline-block;
+  background-color: #a72f2f;
+  background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05) 1px, transparent 1px, transparent 4px);
 }
 
-.prose.wx-theme p {
-  color: var(--wx-text);
+body.theme-chinese h3 {
+  font-size: 1.3em;
+  font-weight: 600;
+  color: #555;
+  margin: 35px 0 20px;
+  padding: 10px 0;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: center;
 }
 
-.prose.wx-theme a {
-  color: var(--wx-link);
-  text-decoration-color: var(--wx-link);
+body.theme-chinese h4 {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #a72f2f;
+  margin: 30px 0 15px;
+  padding-left: 12px;
+  border-left: 4px solid #a72f2f;
 }
 
-.prose.wx-theme blockquote {
-  border-left-color: var(--wx-quote-border);
-  color: var(--wx-subheading);
+body.theme-chinese a {
+  color: #a72f2f;
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(167, 47, 47, 0.3);
+  transition: all 0.2s ease-in-out;
 }
 
-.wx-code {
-  background-color: var(--wx-code-bg);
-  color: var(--wx-code-text);
+body.theme-chinese a:hover {
+  background-color: rgba(167, 47, 47, 0.1);
+  border-bottom-color: #a72f2f;
 }
 
-.wx-link-footnote::after {
-  content: ' ↗';
-  color: inherit;
+body.theme-chinese blockquote {
+  background-color: #fdfdfb;
+  color: #666;
+  padding: 15px 20px;
+  margin: 30px 0;
+  border-left: 3px solid #a72f2f;
+  font-size: 0.95em;
+}
+
+body.theme-chinese ul li::marker {
+  content: "·";
+  color: #a72f2f;
+  font-size: 1.2em;
+}
+
+body.theme-chinese code {
+  font-family: "SFMono-Regular", Consolas, Menlo, Courier, monospace;
+  background-color: #f3f3f1;
+  color: #555;
+  padding: 0.2em 0.5em;
+  margin: 0 2px;
+  font-size: 0.9em;
+  border-radius: 4px;
+}
+
+body.theme-chinese pre {
+  font-family: "SFMono-Regular", Consolas, Menlo, Courier, monospace;
+  background: #f3f3f1;
+  color: #333;
+  padding: 1.5em;
+  margin: 25px 0;
+  border-radius: 4px;
+  overflow-x: auto;
+  border: 1px solid #e0e0e0;
+}
+
+/*
+ * ========== 字节风主题 ==========
+ */
+body.theme-bytedance {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "WenQuanYi Micro Hei", sans-serif;
+  line-height: 1.8;
+  color: #1f2329;
+  background-color: #f4f5f5;
+}
+
+body.theme-bytedance .content {
+  background-color: #ffffff;
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+body.theme-bytedance h1 {
+  font-size: 1.8em;
+  font-weight: 600;
+  text-align: center;
+  color: #1f2329;
+  padding-bottom: 20px;
+  margin: 25px 0 35px;
+  border-bottom: 1px solid #e5e6eb;
+}
+
+body.theme-bytedance h2 {
+  font-size: 1.5em;
+  font-weight: 500;
+  color: #fff;
+  margin: 50px auto 25px;
+  padding: 12px 25px;
+  display: table;
+  border-radius: 100px;
+  background-image: linear-gradient(135deg, #2970FF 0%, #5A98FF 100%);
+  box-shadow: 0 4px 10px rgba(41, 112, 255, 0.3);
+}
+
+body.theme-bytedance h3 {
+  font-size: 1.25em;
+  font-weight: 500;
+  color: #1f2329;
+  margin: 35px 0 20px;
+  padding: 12px 18px;
+  background-color: #f4f5f5;
+  border-left: 4px solid #5A98FF;
+  border-radius: 6px;
+}
+
+body.theme-bytedance h4 {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #4e5969;
+  margin: 30px 0 15px;
+}
+
+body.theme-bytedance a {
+  color: #2970FF;
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+body.theme-bytedance a:hover {
+  border-bottom-color: #2970FF;
+}
+
+body.theme-bytedance blockquote {
+  background-color: #f4f5f5;
+  color: #4e5969;
+  padding: 15px 20px;
+  margin: 30px 0;
+  border-left: 4px solid #c9cdd4;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
+body.theme-bytedance ul li::marker {
+  color: #5A98FF;
+  font-size: 1.2em;
+}
+
+body.theme-bytedance code {
+  font-family: "SFMono-Regular", Consolas, Menlo, Courier, monospace;
+  background-color: #f4f5f5;
+  color: #1f2329;
+  padding: 0.2em 0.5em;
+  margin: 0 2px;
+  font-size: 0.9em;
+  border-radius: 4px;
+}
+
+body.theme-bytedance pre {
+  font-family: "SFMono-Regular", Consolas, Menlo, Courier, monospace;
+  background: #f4f5f5;
+  color: #1f2329;
+  padding: 1.5em;
+  margin: 25px 0;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid #e5e6eb;
+}
+
+/*
+ * ========== 孟菲斯主题 ==========
+ */
+body.theme-memphis {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.8;
+  color: #2c2c2c;
+  background-color: #f7f7f7;
+  background-image: radial-gradient(#ffd166 15%, transparent 16%), radial-gradient(#06d6a0 15%, transparent 16%);
+  background-size: 60px 60px;
+  background-position: 0 0, 30px 30px;
+}
+
+body.theme-memphis .content {
+  background-color: #ffffff;
+  padding: 40px;
+  border: 3px solid #000;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+body.theme-memphis .content::before {
+  content: '';
+  position: absolute;
+  top: -25px;
+  left: 20px;
+  width: 120px;
+  height: 15px;
+  background-image: repeating-linear-gradient(-45deg, #000, #000 10px, #ffd166 10px, #ffd166 20px);
+  z-index: 1;
+  transform: rotate(-3deg);
+}
+
+body.theme-memphis .content::after {
+  content: '';
+  position: absolute;
+  bottom: 20px;
+  right: -30px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 30px 50px 30px;
+  border-color: transparent transparent #EF476F transparent;
+  z-index: -1;
+}
+
+body.theme-memphis h1 {
+  font-size: 2.5em;
+  font-weight: 900;
+  text-align: center;
+  margin: 25px 0 40px;
+  padding: 20px;
+  line-height: 1.3;
+  color: #000;
+  background-color: #fff;
+  border: 3px solid #000;
+  box-shadow: 8px 8px 0 #EF476F;
+  transform: rotate(-2deg);
+}
+
+body.theme-memphis h2 {
+  font-size: 1.8em;
+  font-weight: 800;
+  color: #fff;
+  background-color: #118AB2;
+  margin: 60px 0 30px;
+  padding: 15px 25px;
+  border: 3px solid #000;
+  display: inline-block;
+  box-shadow: 8px 8px 0 #FFD166;
+  transform: rotate(1.5deg);
+}
+
+body.theme-memphis h3 {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: #000;
+  margin: 45px 0 20px;
+  padding: 10px 15px;
+  display: inline-block;
+  border: 2px solid #000;
+  background: #fff;
+  position: relative;
+  z-index: 1;
+}
+
+body.theme-memphis h4 {
+  font-size: 1.2em;
+  font-weight: 700;
+  color: #000;
+  margin: 30px 0 15px;
+  padding: 8px 30px 8px 15px;
+  display: inline-block;
+  background-color: #06D6A0;
+  position: relative;
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0px #000;
+}
+
+body.theme-memphis a {
+  color: #118AB2;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+body.theme-memphis blockquote {
+  background-color: #fff;
+  color: #000;
+  padding: 25px;
+  margin: 40px 0;
+  border: 3px solid #000;
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  font-size: 1.1em;
+  font-weight: 600;
+  position: relative;
+  transform: rotate(1deg);
+}
+
+body.theme-memphis ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 30px 0;
+}
+
+body.theme-memphis ul li {
+  margin-bottom: 1.2em;
+  padding-left: 3.5em;
+  position: relative;
+  font-weight: 500;
+}
+
+body.theme-memphis ul li::before {
+  content: '★';
+  position: absolute;
+  left: 0;
+  top: -5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.5em;
+  line-height: 40px;
+  text-align: center;
+  transform: rotate(-10deg);
+}
+
+body.theme-memphis ul li:nth-child(4n+1)::before { background-color: #EF476F; }
+body.theme-memphis ul li:nth-child(4n+2)::before { background-color: #06D6A0; }
+body.theme-memphis ul li:nth-child(4n+3)::before { background-color: #FFD166; }
+body.theme-memphis ul li:nth-child(4n+4)::before { background-color: #118AB2; }
+
+body.theme-memphis hr {
+  border: none;
+  height: 8px;
+  background-color: transparent;
+  background-image: repeating-linear-gradient(45deg, #000, #000 10px, transparent 10px, transparent 20px);
+  margin: 60px 0;
+}
+
+body.theme-memphis code {
+  font-family: "SFMono-Regular", Consolas, Menlo, Courier, monospace;
+  background-color: #f4f5f5;
+  color: #1f2329;
+  padding: 0.2em 0.5em;
+  margin: 0 2px;
+  font-size: 0.9em;
+  border-radius: 4px;
+}
+
+body.theme-memphis pre {
+  font-family: "SFMono-Regular", Consolas, Menlo, Courier, monospace;
+  background: #f4f5f5;
+  color: #1f2329;
+  padding: 1.5em;
+  margin: 25px 0;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid #e5e6eb;
+}
+
+/*
+ * ========== 文艺复兴主题 ==========
+ */
+body.theme-renaissance {
+  font-family: "Garamond", "Palatino", "Georgia", "Times New Roman", "FangSong", "STFangsong", serif;
+  line-height: 1.9;
+  color: #3d3d3d;
+  background-color: #fbf5e9;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"%3E%3Cg fill="%23ab987a" fill-opacity="0.07"%3E%3Cpath fill-rule="evenodd" d="M11 0l5 20-5-5-5 5L11 0zm28 28l5 20-5-5-5 5L39 28zm28 28l5 20-5-5-5 5L67 56zM0 28l5 20-5-5-5 5L0 28zm28 56l5 20-5-5-5 5L28 84zm28-28l5 20-5-5-5 5L56 56zM56 0l5 20-5-5-5 5L56 0z"/%3E%3C/g%3E%3C/svg%3E');
+}
+
+body.theme-renaissance .content {
+  background-color: rgba(251, 245, 233, 0.8);
+  padding: 40px 50px;
+  max-width: 800px;
+  margin: 0 auto;
+  border: 1px solid #e9c46a;
+  outline: 1px solid #e9c46a;
+  outline-offset: -8px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.08);
+}
+
+body.theme-renaissance h1 {
+  font-size: 2.2em;
+  font-weight: 600;
+  text-align: center;
+  color: #9B2226;
+  margin: 15px 0 15px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+body.theme-renaissance h2 {
+  font-size: 1.1em;
+  font-style: italic;
+  font-weight: normal;
+  text-align: center;
+  color: #003049;
+  margin: 0 auto 40px;
+}
+
+body.theme-renaissance h3 {
+  font-size: 1.4em;
+  font-weight: 600;
+  color: #3d3d3d;
+  margin: 50px 0 25px;
+  text-align: center;
+  border-bottom: 2px solid #e9c46a;
+  padding-bottom: 10px;
+}
+
+body.theme-renaissance h4 {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #3d3d3d;
+  margin: 30px 0 15px;
+}
+
+body.theme-renaissance a {
+  color: #003049;
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0, 48, 73, 0.4);
+  transition: all 0.2s ease-in-out;
+}
+
+body.theme-renaissance a:hover {
+  background-color: rgba(0, 48, 73, 0.05);
+}
+
+body.theme-renaissance blockquote {
+  font-family: "Georgia", "Times New Roman", "KaiTi", "STKaiti", serif;
+  font-size: 1.2em;
+  font-style: italic;
+  color: #9B2226;
+  padding: 20px;
+  margin: 40px 0;
+  text-align: center;
+  position: relative;
+  line-height: 1.7;
+  border-top: 1px solid #e9c46a;
+  border-bottom: 1px solid #e9c46a;
+  background-color: transparent;
+}
+
+body.theme-renaissance ul {
+  list-style-type: none;
+  margin: 30px 0;
+  padding-left: 0;
+}
+
+body.theme-renaissance ul li {
+  margin-bottom: 1.2em;
+  padding-left: 2.8em;
+  position: relative;
+}
+
+body.theme-renaissance ul li::before {
+  content: "⚜";
+  color: #003049;
+  font-size: 1.2em;
+  position: absolute;
+  left: 0;
+  top: 2px;
+}
+
+body.theme-renaissance .separator {
+  text-align: center;
+  color: #e9c46a;
+  margin: 40px 0;
+  font-size: 1.5em;
+  font-weight: normal;
+}
+
+body.theme-renaissance .separator::before {
+  content: "❦";
+}
+
+body.theme-renaissance code,
+body.theme-renaissance pre {
+  font-family: "Courier New", "Menlo", monospace;
+  background-color: rgba(233, 196, 106, 0.1);
+  color: #3d3d3d;
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+}
+
+body.theme-renaissance pre {
+  padding: 1.5em;
+  margin: 25px 0;
+  border: 1px solid rgba(233, 196, 106, 0.4);
+}
+
+/*
+ * ========== 现代简约主题 ==========
+ */
+body.theme-minimalist {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "WenQuanYi Micro Hei", sans-serif;
+  line-height: 1.85;
+  color: #2c3e50;
+  background-color: #f8f9fa;
+}
+
+body.theme-minimalist .content {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+body.theme-minimalist h1 {
+  font-size: 1.9em;
+  font-weight: 700;
+  text-align: center;
+  color: #2c3e50;
+  margin: 20px 0 40px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #f1f1f1;
+  letter-spacing: 1px;
+}
+
+body.theme-minimalist h2 {
+  font-size: 1.6em;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 70px 0 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f1f1f1;
+  counter-increment: h2-counter;
+  position: relative;
+}
+
+body.theme-minimalist h2::before {
+  content: "0" counter(h2-counter);
+  font-size: 0.9em;
+  font-weight: 400;
+  color: #95a5a6;
+  position: absolute;
+  left: 0;
+  top: -35px;
+}
+
+body.theme-minimalist h3 {
+  font-size: 1.3em;
+  font-weight: 600;
+  color: #34495e;
+  margin: 45px 0 20px;
+  padding-left: 15px;
+  border-left: 3px solid #3498db;
+}
+
+body.theme-minimalist h4 {
+  font-size: 1.15em;
+  font-weight: 600;
+  color: #34495e;
+  margin: 30px 0 15px;
+}
+
+body.theme-minimalist a {
+  color: #3498db;
+  text-decoration: none;
+  border-bottom: 1.5px solid rgba(52, 152, 219, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+body.theme-minimalist a:hover {
+  background-color: rgba(52, 152, 219, 0.1);
+  border-bottom-color: rgba(52, 152, 219, 0.8);
+}
+
+body.theme-minimalist blockquote {
+  background-color: #f8f9fa;
+  color: #576574;
+  padding: 20px;
+  margin: 30px 0;
+  border: 1px solid #e9ecef;
+  border-left: 4px solid #95a5a6;
+  border-radius: 6px;
+  font-size: 0.95em;
+}
+
+body.theme-minimalist ul li::marker {
+  color: #3498db;
+}
+
+body.theme-minimalist code {
+  font-family: "SFMono-Regular", Consolas, Menlo, Courier, monospace;
+  background-color: #e9ecef;
+  color: #2c3e50;
+  padding: 0.3em 0.6em;
+  margin: 0 2px;
+  font-size: 0.9em;
+  border-radius: 4px;
+}
+
+body.theme-minimalist pre {
+  font-family: "SFMono-Regular", Consolas, Menlo, Courier, monospace;
+  background: #f8f9fa;
+  color: #2c3e50;
+  padding: 1.5em;
+  margin: 25px 0;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid #e9ecef;
+}
+
+body.theme-minimalist hr {
+  border: none;
+  height: 1px;
+  background-color: #e9ecef;
+  margin: 70px 0;
+}
+
+/*
+ * ========== 赛博朋克风主题 ==========
+ */
+body.theme-cyberpunk {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.8;
+  color: #cddc39;
+  background-color: #1a1a2e;
+  background-image: repeating-linear-gradient(0deg, rgba(22, 22, 47, 0.8), rgba(22, 22, 47, 0.8) 1px, transparent 1px, transparent 4px);
+}
+
+body.theme-cyberpunk .content {
+  background-color: rgba(16, 16, 32, 0.7);
+  padding: 28px;
+  border: 1px solid #00ffff;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+body.theme-cyberpunk h1 {
+  font-size: 2.2em;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  background-color: transparent;
+  padding: 20px;
+  margin: 25px 0 40px;
+  border: 2px solid #f0f;
+  text-transform: uppercase;
+  position: relative;
+  text-shadow: 0 0 5px #f0f, 0 0 10px #f0f;
+}
+
+body.theme-cyberpunk h2 {
+  font-size: 1.6em;
+  font-weight: 700;
+  color: #00ffff;
+  margin: 50px 0 25px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #00ffff;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.7);
+}
+
+body.theme-cyberpunk h3 {
+  font-size: 1.3em;
+  font-weight: 700;
+  color: #cddc39;
+  margin: 30px 0 15px;
+  text-transform: uppercase;
+}
+
+body.theme-cyberpunk h3::before {
+  content: ">> ";
+  color: #f0f;
+}
+
+body.theme-cyberpunk h4 {
+  font-size: 1.1em;
+  font-weight: 700;
+  color: #f0f;
+  text-shadow: 0 0 5px rgba(255, 0, 255, 0.7);
+  margin: 25px 0 12px;
+  padding: 5px 10px;
+  border-left: 3px solid #f0f;
+  background-color: rgba(255, 0, 255, 0.1);
+}
+
+body.theme-cyberpunk a {
+  color: #f0f;
+  text-decoration: none;
+  font-weight: 700;
+  text-shadow: 0 0 5px rgba(255, 0, 255, 0.7);
+  transition: all 0.2s ease-in-out;
+}
+
+body.theme-cyberpunk a:hover {
+  color: #fff;
+  background-color: #f0f;
+  box-shadow: 0 0 15px #f0f;
+}
+
+body.theme-cyberpunk blockquote {
+  background-color: rgba(255, 255, 0, 0.1);
+  color: #ffff00;
+  padding: 20px;
+  margin: 30px 0;
+  border: 2px solid #ffff00;
+  border-left-width: 10px;
+  font-family: monospace;
+}
+
+body.theme-cyberpunk blockquote::before {
+  content: "SYSTEM ALERT: ";
+  font-weight: bold;
+  color: #fff;
+}
+
+body.theme-cyberpunk ul {
+  margin: 0 0 1.5em 0;
+  padding-left: 0;
+}
+
+body.theme-cyberpunk ul li {
+  margin-bottom: 0.8em;
+  list-style-type: none;
+  position: relative;
+  padding-left: 25px;
+}
+
+body.theme-cyberpunk ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 8px;
+  height: 8px;
+  background-color: #00ffff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00ffff, 0 0 12px rgba(0, 255, 255, 0.7);
+}
+
+body.theme-cyberpunk hr {
+  border: none;
+  height: 2px;
+  background-image: linear-gradient(to right, transparent, #00ffff, transparent);
+  margin: 50px 0;
+}
+
+body.theme-cyberpunk code {
+  font-family: inherit;
+  background-color: rgba(0, 255, 255, 0.1);
+  color: #00ffff;
+  padding: 0.2em 0.5em;
+  margin: 0 2px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+body.theme-cyberpunk pre {
+  background: #000;
+  color: #cddc39;
+  padding: 1.5em;
+  margin: 25px 0;
+  overflow-x: auto;
+  border: 1px solid #cddc39;
+  box-shadow: inset 0 0 10px rgba(205, 220, 57, 0.3);
+}
+
+/* Glitch 动画效果 */
+@keyframes glitch-anim-1 {
+  0% { clip-path: inset(45% 0 55% 0); }
+  25% { clip-path: inset(0% 0 100% 0); }
+  50% { clip-path: inset(80% 0 20% 0); }
+  75% { clip-path: inset(30% 0 70% 0); }
+  100% { clip-path: inset(90% 0 10% 0); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip-path: inset(60% 0 40% 0); }
+  25% { clip-path: inset(100% 0 0% 0); }
+  50% { clip-path: inset(10% 0 90% 0); }
+  75% { clip-path: inset(75% 0 25% 0); }
+  100% { clip-path: inset(40% 0 60% 0); }
+}
+
+body.theme-cyberpunk h1::before,
+body.theme-cyberpunk h1::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  clip-path: inset(50% 0 50% 0);
+}
+
+body.theme-cyberpunk h1::before {
+  transform: translate(-0.05em, -0.02em);
+  animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
+}
+
+body.theme-cyberpunk h1::after {
+  transform: translate(0.05em, 0.02em);
+  animation: glitch-anim-2 2.5s infinite linear alternate-reverse;
 }

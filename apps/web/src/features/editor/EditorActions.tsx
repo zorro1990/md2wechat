@@ -1,41 +1,82 @@
-import { useCallback } from 'react'
+import { useState, useRef } from 'react'
 
-import { useFeedback } from '@/components/feedback/FeedbackProvider'
-import { useEditorStore } from '@/features/editor/store'
+interface EditorActionsProps {
+  textareaRef: React.RefObject<HTMLTextAreaElement>
+  value: string
+  onChange: (value: string) => void
+}
 
-export function EditorActions() {
-  const { notify } = useFeedback()
-  const currentDraftId = useEditorStore((state) => state.currentDraftId)
-  const drafts = useEditorStore((state) => state.drafts)
+export function EditorActions({ textareaRef, value, onChange }: EditorActionsProps) {
+  const [isInsertingLink, setIsInsertingLink] = useState(false)
 
-  const handleExport = useCallback(() => {
-    if (!currentDraftId) {
-      notify({ title: '暂无可导出的草稿', variant: 'warning' })
+  const insertLink = () => {
+    setIsInsertingLink(true)
+    const text = window.prompt('请输入链接文本（显示文字）')
+    if (text === null) {
+      setIsInsertingLink(false)
       return
     }
-    const draft = drafts[currentDraftId]
-    if (!draft) {
-      notify({ title: '草稿不存在或已删除', variant: 'error' })
+
+    const url = window.prompt('请输入链接地址（URL）')
+    if (url === null) {
+      setIsInsertingLink(false)
       return
     }
-    const blob = new Blob([JSON.stringify(draft, null, 2)], { type: 'application/json' })
-    const fileName = `md2wechat-draft-${draft.id}.json`
-    const url = URL.createObjectURL(blob)
-    const anchor = document.createElement('a')
-    anchor.href = url
-    anchor.download = fileName
-    anchor.click()
-    URL.revokeObjectURL(url)
-    notify({ title: '草稿已导出', description: fileName, variant: 'success' })
-  }, [currentDraftId, drafts, notify])
+
+    if (!url) {
+      setIsInsertingLink(false)
+      return
+    }
+
+    const textarea = textareaRef.current
+    if (!textarea) {
+      setIsInsertingLink(false)
+      return
+    }
+
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+    const selectedText = value.substring(start, end) || text
+    const linkText = selectedText || text
+    const link = `[${linkText}](${url})`
+
+    const newValue = value.substring(0, start) + link + value.substring(end)
+    onChange(newValue)
+
+    // 重新设置光标位置
+    setTimeout(() => {
+      textarea.focus()
+      const newCursorPos = start + link.length
+      textarea.setSelectionRange(newCursorPos, newCursorPos)
+    }, 0)
+
+    setIsInsertingLink(false)
+  }
 
   return (
-    <button
-      type="button"
-      className="rounded-full border border-zinc-200 px-3 py-1.5 text-sm font-medium text-zinc-600 transition hover:border-zinc-400 hover:text-zinc-900"
-      onClick={handleExport}
-    >
-      导出草稿 JSON
-    </button>
+    <div className="editor-actions">
+      <button
+        type="button"
+        className="editor-actions__button"
+        onClick={insertLink}
+        disabled={isInsertingLink}
+        title="插入链接"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.72" />
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.72" />
+        </svg>
+        <span>插入链接</span>
+      </button>
+    </div>
   )
 }

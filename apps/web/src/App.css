@@ -1,272 +1,909 @@
-.app-shell {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  gap: 1.5rem;
-  width: min(1200px, 90vw);
-  margin: 3rem auto;
+/* ========== Header Bar - Warm & Inviting ========== */
+.header-bar {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--ui-border-light);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: var(--ui-shadow-sm);
+  transition: all 0.3s ease;
 }
 
+.header-bar__content {
+  width: 96vw; /* ✅ 移除1400px限制，与容器保持一致 */
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--ui-space-md) var(--ui-space-xl);
+  min-height: 72px;
+}
+
+.header-bar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-md);
+}
+
+.header-bar__logo {
+  transition: transform 0.2s ease;
+}
+
+.header-bar__brand:hover .header-bar__logo {
+  transform: scale(1.05);
+}
+
+.header-bar__title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--ui-text-primary);
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.header-bar__actions {
+  display: flex;
+  gap: var(--ui-space-md);
+  align-items: center;
+}
+
+/* ========== Primary Buttons - Warm & Friendly ========== */
+.header-bar__button,
+.compat-panel__action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ui-space-xs);
+  padding: var(--ui-space-sm) var(--ui-space-lg);
+  border: 1px solid var(--ui-accent-primary);
+  border-radius: var(--ui-radius-full);
+  background: var(--ui-accent-primary);
+  color: var(--ui-accent-contrast);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 48px;
+  min-height: 44px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.header-bar__button svg {
+  flex-shrink: 0;
+}
+
+.header-bar__button-text {
+  display: inline-block;
+}
+
+.header-bar__button:hover,
+.compat-panel__action:hover:not(:disabled) {
+  background: var(--ui-accent-hover);
+  border-color: var(--ui-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--ui-shadow-md);
+}
+
+.header-bar__button:active,
+.compat-panel__action:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.header-bar__button:disabled,
+.compat-panel__action:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ========== Secondary Buttons - Gentle ========== */
+.header-bar__button--secondary {
+  background: transparent;
+  color: var(--ui-accent-primary);
+  border-color: var(--ui-border-medium);
+}
+
+.header-bar__button--secondary:hover {
+  background: rgba(210, 105, 30, 0.08);
+  border-color: var(--ui-accent-primary);
+  box-shadow: none;
+}
+
+/* ========== App Panels - Unified Card Design ========== */
 .app-panel {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--ui-space-lg);
+  background: var(--ui-surface);
+  border: 1px solid var(--ui-border-light);
+  border-radius: var(--ui-radius-lg);
+  box-shadow: var(--ui-shadow-md);
+  padding: var(--ui-space-xl);
+  min-height: calc(100vh - 220px); /* ✅ 统一最小高度，减去header和padding */
+  transition: all 0.3s ease;
 }
 
 .app-panel__header {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--ui-space-sm);
+  margin-bottom: var(--ui-space-lg);
 }
 
 .app-panel__eyebrow {
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: rgb(113 113 122);
+  letter-spacing: 0.12em;
+  color: var(--ui-text-tertiary);
 }
 
 .app-panel__title {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: rgb(24 24 27);
+  color: var(--ui-text-primary);
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
 }
 
+/* ✅ 预览容器 - 精简布局，只负责占位和滚动 */
+.preview-container {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* ✅ 预览区域样式 - 现在只保留占位功能 */
 .app-preview {
-  min-height: 480px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
 }
 
+/* ✅ 移除预览内容容器的卡片样式，改为最小化样式 */
+.app-preview article {
+  display: block;
+  width: 100%;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+}
+
+/* ✅ 主题容器继承父容器样式 */
+.preview-container .wx-theme,
+.app-preview .wx-theme {
+  border-radius: inherit;
+}
+
+.preview-container .wx-theme *,
+.app-preview .wx-theme * {
+  border-radius: inherit;
+}
+
+
+/* ========== Theme Switcher - Refined Pills ========== */
 .theme-switcher {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--ui-space-sm);
 }
 
 .theme-switcher__option {
-  border-radius: 9999px;
-  border: 1px solid rgb(228 228 231);
-  background: rgba(255, 255, 255, 0.85);
-  padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
+  border-radius: var(--ui-radius-full);
+  border: 1px solid var(--ui-border-medium);
+  background: var(--ui-surface);
+  padding: var(--ui-space-xs) var(--ui-space-md);
+  font-size: 0.8rem;
   font-weight: 600;
-  color: rgb(82 82 91);
+  color: var(--ui-text-secondary);
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .theme-switcher__option:hover {
-  border-color: rgb(161 161 170);
-  color: rgb(24 24 27);
+  border-color: var(--ui-accent-primary);
+  color: var(--ui-text-primary);
+  box-shadow: var(--ui-shadow-sm);
 }
 
 .theme-switcher__option.is-active {
-  border-color: var(--wx-accent, rgb(39 39 42));
-  background: var(--wx-accent, rgb(39 39 42));
-  color: var(--wx-accent-contrast, #ffffff);
-  box-shadow: 0 1px 2px rgb(15 23 42 / 0.2);
+  border-color: var(--ui-accent-primary);
+  background: var(--ui-accent-primary);
+  color: var(--ui-accent-contrast);
+  box-shadow: var(--ui-shadow-sm);
 }
 
 .theme-switcher__name {
   white-space: nowrap;
 }
 
+/* ========== Compatibility Panel - Professional Card ========== */
 .compat-panel {
-  border-radius: 1rem;
-  border: 1px solid rgb(228 228 231);
-  background: rgba(255, 255, 255, 0.95);
-  padding: 1.25rem;
-  box-shadow: 0 1px 2px rgb(15 23 42 / 0.06);
+  border-radius: var(--ui-radius-lg);
+  border: 1px solid var(--ui-border-light);
+  background: var(--ui-surface);
+  padding: var(--ui-space-xl);
+  box-shadow: var(--ui-shadow-md);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--ui-space-lg);
 }
 
 .compat-panel__header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 1rem;
+  gap: var(--ui-space-lg);
   flex-wrap: wrap;
 }
 
 .compat-panel__eyebrow {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: rgb(113 113 122);
+  letter-spacing: 0.12em;
+  color: var(--ui-text-tertiary);
 }
 
 .compat-panel__title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: rgb(24 24 27);
-  margin-top: 0.25rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ui-text-primary);
+  margin: 0.25rem 0 0 0;
+  letter-spacing: -0.01em;
 }
 
-.compat-panel__action {
-  border-radius: 9999px;
-  background: var(--wx-accent, rgb(39 39 42));
-  color: var(--wx-accent-contrast, #ffffff);
-  padding: 0.5rem 1.25rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.compat-panel__action:disabled {
-  opacity: 0.6;
-  cursor: wait;
-}
-
-.compat-panel__action:not(:disabled):hover {
-  transform: translateY(-1px);
-}
-
-.compat-panel__action--ghost {
-  background: transparent;
-  color: var(--wx-accent, rgb(39 39 42));
-  border: 1px solid var(--wx-accent, rgb(39 39 42));
-  margin-left: 0.5rem;
-}
-
-.compat-panel__action--ghost:disabled {
-  opacity: 0.6;
-  cursor: wait;
+.compat-panel__header-actions {
+  display: flex;
+  gap: var(--ui-space-sm);
+  flex-wrap: wrap;
 }
 
 .compat-panel__body {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--ui-space-lg);
 }
 
 .compat-panel__empty {
-  font-size: 0.85rem;
-  color: rgb(82 82 91);
+  font-size: 0.9rem;
+  color: var(--ui-text-secondary);
+  text-align: center;
+  padding: var(--ui-space-xl);
 }
 
+/* ========== Reports List - Clean Structure ========== */
 .compat-panel__reports {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--ui-space-md);
 }
 
 .compat-panel__report {
-  border-radius: 0.75rem;
-  background: rgba(250 250 250 / 0.9);
-  border: 1px solid rgb(228 228 231);
-  padding: 0.75rem 1rem;
+  border-radius: var(--ui-radius-md);
+  background: var(--ui-bg-tertiary);
+  border: 1px solid var(--ui-border-light);
+  padding: var(--ui-space-md) var(--ui-space-lg);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--ui-space-sm);
 }
 
 .compat-panel__report-summary {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 0.75rem;
+  gap: var(--ui-space-md);
 }
 
 .compat-panel__report-score {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  color: rgb(24 24 27);
+  color: var(--ui-text-accent);
 }
 
 .compat-panel__report-time {
   font-size: 0.75rem;
-  color: rgb(113 113 122);
+  color: var(--ui-text-tertiary);
 }
 
 .compat-panel__report-text {
-  font-size: 0.85rem;
-  color: rgb(63 63 70);
+  font-size: 0.9rem;
+  color: var(--ui-text-secondary);
+  line-height: 1.5;
 }
 
+/* ========== Issues & Recommendations ========== */
 .compat-panel__issues {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: var(--ui-space-sm) 0 0 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--ui-space-xs);
 }
 
 .compat-panel__issue {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  padding: 0.4rem 0.6rem;
-  border-radius: 0.6rem;
-  background: rgba(244 244 245 / 0.9);
-  color: rgb(39 39 42);
+  gap: var(--ui-space-sm);
+  align-items: flex-start;
+  padding: var(--ui-space-sm) var(--ui-space-md);
+  border-radius: var(--ui-radius-sm);
+  background: rgba(107, 107, 107, 0.08);
+  color: var(--ui-text-primary);
 }
 
 .compat-panel__issue.is-warning {
-  background: rgba(253 224 71 / 0.18);
-  color: rgb(161 98 7);
+  background: rgba(255, 193, 7, 0.12);
+  color: #b26a00;
 }
 
 .compat-panel__issue.is-critical {
-  background: rgba(254 202 202 / 0.24);
-  color: rgb(185 28 28);
+  background: rgba(220, 38, 38, 0.1);
+  color: #b91c1c;
 }
 
 .compat-panel__issue.is-info {
-  background: rgba(191 219 254 / 0.3);
-  color: rgb(37 99 235);
+  background: rgba(59, 130, 246, 0.12);
+  color: #1e40af;
 }
 
 .compat-panel__issue-type {
   font-weight: 600;
+  flex-shrink: 0;
 }
 
 .compat-panel__recommendations {
-  margin-top: 0.5rem;
+  margin-top: var(--ui-space-sm);
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--ui-space-xs);
 }
 
 .compat-panel__recommendations-title {
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgb(113 113 122);
-}
-
-.compat-panel__header-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  color: var(--ui-text-tertiary);
 }
 
 .compat-panel__recommendations-list {
   list-style: disc;
-  margin: 0 0 0 1.25rem;
+  margin: 0 0 0 var(--ui-space-lg);
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  color: rgb(63 63 70);
-  font-size: 0.8rem;
+  gap: var(--ui-space-xs);
+  color: var(--ui-text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.5;
 }
 
 .compat-panel__recommendation-item {
+  line-height: 1.6;
+}
+
+/* ========== Ghost Buttons ========== */
+.compat-panel__action--ghost {
+  background: transparent;
+  color: var(--ui-accent-primary);
+  border: 1px solid var(--ui-accent-primary);
+  margin-left: var(--ui-space-sm);
+}
+
+.compat-panel__action--ghost:hover {
+  background: rgba(210, 105, 30, 0.08);
+}
+
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-sm);
+}
+
+.settings-section__title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ui-text-primary);
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.settings-section__description {
+  font-size: 0.85rem;
+  color: var(--ui-text-secondary);
+  margin: var(--ui-space-xs) 0 var(--ui-space-sm) 0;
+  line-height: 1.6;
+}
+
+/* ========== Theme Options - Elegant Cards ========== */
+.theme-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--ui-space-sm);
+}
+
+.theme-card {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-md);
+  padding: var(--ui-space-md);
+  border: 1px solid var(--ui-border-light);
+  border-radius: var(--ui-radius-lg);
+  background: var(--ui-surface);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: left;
+  width: 100%;
+  box-shadow: var(--ui-shadow-sm);
+}
+
+.theme-card:hover {
+  border-color: var(--ui-accent-primary);
+  box-shadow: var(--ui-shadow-md);
+  transform: translateY(-1px);
+}
+
+.theme-card.is-selected {
+  border: 2px solid var(--ui-accent-primary);
+  background: rgba(210, 105, 30, 0.06);
+  box-shadow: 0 0 0 2px rgba(210, 105, 30, 0.15), var(--ui-shadow-md);
+}
+
+.theme-card__colors {
+  display: flex;
+  gap: var(--ui-space-xs);
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.theme-card__color-indicator {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--ui-surface);
+  box-shadow: 0 1px 3px rgba(139, 69, 19, 0.15);
+}
+
+.theme-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.theme-card__name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ui-text-primary);
   line-height: 1.4;
 }
 
+.theme-card__description {
+  font-size: 0.8rem;
+  color: var(--ui-text-secondary);
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ========== Radio Cards - Modern Layout ========== */
+.radio-card {
+  display: flex;
+  gap: var(--ui-space-md);
+  padding: var(--ui-space-md);
+  border: 1px solid var(--ui-border-light);
+  border-radius: var(--ui-radius-md);
+  background: var(--ui-surface);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.radio-card:hover {
+  border-color: var(--ui-border-medium);
+  box-shadow: var(--ui-shadow-sm);
+}
+
+.radio-card__radio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.radio-card__radio input[type='radio'] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--ui-accent-primary);
+}
+
+.radio-card__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-xs);
+  min-width: 0;
+}
+
+.radio-card__main {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-sm);
+  flex-wrap: wrap;
+}
+
+.radio-card__label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--ui-bg-tertiary);
+  color: var(--ui-text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.radio-card__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ui-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.radio-card__description {
+  font-size: 0.8rem;
+  color: var(--ui-text-secondary);
+  line-height: 1.5;
+  margin-left: calc(28px + var(--ui-space-sm));
+}
+
+.radio-card__color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(139, 69, 19, 0.15);
+}
+
+/* ========== Setting Items - Clean Rows ========== */
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--ui-space-lg);
+  padding: var(--ui-space-lg);
+  border: 1px solid var(--ui-border-light);
+  border-radius: var(--ui-radius-md);
+  background: var(--ui-surface);
+  transition: all 0.2s ease;
+}
+
+.setting-item:hover {
+  border-color: var(--ui-border-medium);
+  box-shadow: var(--ui-shadow-sm);
+}
+
+.setting-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-xs);
+  flex: 1;
+}
+
+.setting-item__label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ui-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.setting-item__description {
+  font-size: 0.8rem;
+  color: var(--ui-text-secondary);
+  line-height: 1.5;
+}
+
+/* ========== Toggle Switch - Modern Design ========== */
+.toggle-switch {
+  position: relative;
+  width: 52px;
+  height: 32px;
+  border-radius: var(--ui-radius-full);
+  background: var(--ui-border-medium);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  flex-shrink: 0;
+}
+
+.toggle-switch.is-active {
+  background: var(--ui-accent-primary);
+  box-shadow: 0 0 0 3px rgba(210, 105, 30, 0.2);
+}
+
+.toggle-switch__knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--ui-surface);
+  box-shadow: 0 1px 3px rgba(139, 69, 19, 0.2);
+  transition: transform 0.25s ease;
+}
+
+.toggle-switch.is-active .toggle-switch__knob {
+  transform: translateX(20px);
+}
+
+/* ========== Radio Buttons - Gentle Options ========== */
+.radio-group {
+  display: flex;
+  gap: var(--ui-space-sm);
+}
+
+.radio-button {
+  padding: var(--ui-space-sm) var(--ui-space-lg);
+  border: 1px solid var(--ui-border-medium);
+  border-radius: var(--ui-radius-md);
+  background: var(--ui-surface);
+  color: var(--ui-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 70px;
+  text-align: center;
+}
+
+.radio-button:hover {
+  border-color: var(--ui-accent-primary);
+  color: var(--ui-text-primary);
+  box-shadow: var(--ui-shadow-sm);
+}
+
+.radio-button.is-selected {
+  border-color: var(--ui-accent-primary);
+  background: var(--ui-accent-primary);
+  color: var(--ui-accent-contrast);
+  box-shadow: var(--ui-shadow-sm);
+}
+
+/* ========== Editor Pane - Unified Design ========== */
+.editor-pane {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--ui-space-lg);
+}
+
+.editor-pane__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--ui-space-lg);
+  flex-wrap: wrap;
+}
+
+.editor-pane__title {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-xs);
+}
+
+.editor-pane__eyebrow {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ui-text-tertiary);
+}
+
+.editor-pane__name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ui-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.editor-pane__actions {
+  display: flex;
+  gap: var(--ui-space-sm);
+  flex-wrap: wrap;
+}
+
+/* ========== Editor Actions - Insert Link Button ========== */
+.editor-actions {
+  display: flex;
+  gap: var(--ui-space-sm);
+  align-items: center;
+}
+
+.editor-actions__button {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-xs);
+  padding: var(--ui-space-sm) var(--ui-space-md);
+  border: 1px solid var(--ui-border-medium);
+  border-radius: var(--ui-radius-md);
+  background: var(--ui-surface);
+  color: var(--ui-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.editor-actions__button:hover {
+  border-color: var(--ui-accent-primary);
+  color: var(--ui-text-primary);
+  box-shadow: var(--ui-shadow-sm);
+  transform: translateY(-1px);
+}
+
+.editor-actions__button:active {
+  transform: translateY(0);
+}
+
+.editor-actions__button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.editor-actions__button svg {
+  flex-shrink: 0;
+}
+
+/* ✅ 移除复制按钮样式，简化界面 */
+
+/* 文本输入区域 - 统一圆角和阴影 */
+.editor-pane__textarea {
+  flex: 1;
+  width: 100%;
+  resize: none;
+  border: 1px solid var(--ui-border-light);
+  border-radius: var(--ui-radius-md);
+  background: var(--ui-surface);
+  padding: var(--ui-space-xl);
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ui-text-primary);
+  transition: all 0.2s ease;
+  box-shadow: var(--ui-shadow-sm);
+  outline: none;
+}
+
+.editor-pane__textarea::placeholder {
+  color: var(--ui-text-tertiary);
+  opacity: 0.8;
+}
+
+.editor-pane__textarea:focus {
+  border-color: var(--ui-accent-primary);
+  box-shadow: 0 0 0 3px rgba(210, 105, 30, 0.1), var(--ui-shadow-md);
+}
+
+.editor-pane__textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Dark Mode Editor Styles */
+html.dark .editor-pane__eyebrow {
+  color: var(--ui-text-tertiary);
+}
+
+html.dark .editor-pane__name {
+  color: var(--ui-text-primary);
+}
+
+html.dark .editor-pane__copy-button {
+  border-color: var(--ui-accent-primary);
+  color: var(--ui-accent-primary);
+}
+
+html.dark .editor-pane__copy-button:hover {
+  background: rgba(255, 140, 0, 0.15);
+  border-color: var(--ui-accent-hover);
+}
+
+html.dark .editor-pane__textarea {
+  background: var(--ui-surface);
+  border-color: var(--ui-border-light);
+  color: var(--ui-text-primary);
+}
+
+html.dark .editor-pane__textarea::placeholder {
+  color: var(--ui-text-tertiary);
+}
+
+html.dark .editor-pane__textarea:focus {
+  border-color: var(--ui-accent-primary);
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.15), var(--ui-shadow-md);
+}
+
+/* Selection styling */
+.editor-pane__textarea::selection {
+  background: rgba(210, 105, 30, 0.2);
+}
+
+html.dark .editor-pane__textarea::selection {
+  background: rgba(255, 140, 0, 0.3);
+}
+
+/* Responsive Design */
 @media (max-width: 960px) {
-  .app-shell {
-    margin: 1.5rem auto 3rem;
+  .app-container {
+    margin: var(--ui-space-xl) auto var(--ui-space-2xl);
     width: 95vw;
+    gap: var(--ui-space-lg);
+  }
+
+  .header-bar__content {
+    padding: var(--ui-space-md) var(--ui-space-lg);
+  }
+
+  .header-bar__title {
+    font-size: 1.2rem;
+  }
+
+  .settings-drawer__header,
+  .settings-drawer__content {
+    padding: var(--ui-space-lg);
+  }
+}
+
+@media (max-width: 768px) {
+  .header-bar__actions {
+    gap: var(--ui-space-xs);
+  }
+
+  .header-bar__button {
+    padding: var(--ui-space-sm);
+    min-width: 44px;
+  }
+
+  .compat-panel__header-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .compat-panel__action,
+  .compat-panel__action--ghost {
+    margin-left: 0;
+    width: 100%;
   }
 }
