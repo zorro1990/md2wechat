@@ -22,28 +22,14 @@ export function CompatibilityPanel() {
 
   const handleRunCheck = async () => {
     if (!draft) {
-      notify({
-        title: '暂无草稿',
-        description: '请先创建或选择一个草稿后再执行兼容性检查。',
-        variant: 'warning',
-      })
       return
     }
     setIsChecking(true)
     try {
       const report = await evaluateCompatibility(draft, { themeId: activeThemeId })
       await recordCompatibility(report)
-      notify({
-        title: '兼容性检查完成',
-        description: report.successRate >= 95 ? '粘贴兼容率通过 95% 阈值' : '发现潜在兼容风险，请检查详情',
-        variant: report.successRate >= 95 ? 'success' : 'warning',
-      })
     } catch (error) {
-      notify({
-        title: '兼容性检查失败',
-        description: error instanceof Error ? error.message : '请稍后重试',
-        variant: 'error',
-      })
+      // 静默模式 - 不显示错误通知
     } finally {
       setIsChecking(false)
     }

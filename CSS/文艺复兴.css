@@ -1,0 +1,164 @@
+/*
+ * @name: WeChat MD Theme - Renaissance Style
+ * @description: A theme inspired by the aesthetics of the Renaissance, featuring rich colors, classic typography, and ornate details, avoiding brown and green.
+ * @version: 2.0
+ * @author: Gemini
+*/
+
+/* --- 全局与容器样式 --- */
+.container {
+  /* 优先使用经典的衬线字体 */
+  font-family: "Garamond", "Palatino", "Georgia", "Times New Roman", "FangSong", "STFangsong", serif;
+  line-height: 1.9;
+  color: #3d3d3d; /* 柔和的炭灰色，而非纯黑 */
+  background-color: #fbf5e9; /* 羊皮纸/奶油白背景 */
+  /* 使用更精致的卷草纹图案作为背景 */
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"%3E%3Cg fill="%23ab987a" fill-opacity="0.07"%3E%3Cpath fill-rule="evenodd" d="M11 0l5 20-5-5-5 5L11 0zm28 28l5 20-5-5-5 5L39 28zm28 28l5 20-5-5-5 5L67 56zM0 28l5 20-5-5-5 5L0 28zm28 56l5 20-5-5-5 5L28 84zm28-28l5 20-5-5-5 5L56 56zM56 0l5 20-5-5-5 5L56 0z"/%3E%3C/g%3E%3C/svg%3E');
+  padding: 20px 10px;
+  margin: 0 auto;
+}
+
+.content {
+  background-color: rgba(251, 245, 233, 0.8); /* 半透明背景，让纹理隐约可见 */
+  padding: 40px 50px;
+  max-width: 800px;
+  margin: 0 auto;
+  /* 使用双层边框模拟画框/手抄本 */
+  border: 1px solid #e9c46a;
+  outline: 1px solid #e9c46a;
+  outline-offset: -8px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.08);
+}
+
+
+/* --- 标题样式 --- */
+
+/* H1: 主标题 */
+h1 {
+  font-size: 2.2em;
+  font-weight: 600;
+  text-align: center;
+  color: #9B2226; /* 深绯红色 */
+  margin: 15px 0 15px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* H2: 副标题 */
+h2 {
+  font-size: 1.1em;
+  font-style: italic;
+  font-weight: normal;
+  text-align: center;
+  color: #003049; /* 宝石蓝 */
+  margin: 0 auto 40px;
+}
+
+/* H3: 章节标题 (备用) */
+h3 {
+  font-size: 1.4em;
+  font-weight: 600;
+  color: #3d3d3d;
+  margin: 50px 0 25px;
+  text-align: center;
+  border-bottom: 2px solid #e9c46a; /* 金色下划线 */
+  padding-bottom: 10px;
+}
+
+/* --- 文本元素与装饰 --- */
+
+/* 用于顶部的日期 */
+.date-header {
+  text-align: center;
+  font-family: "Cursive", "Apple Chancery", sans-serif;
+  color: #a09383;
+  margin-bottom: 30px;
+  font-size: 1em;
+}
+
+/* 用于分隔的装饰元素 */
+.separator {
+  text-align: center;
+  color: #e9c46a; /* 金色 */
+  margin: 40px 0;
+  font-size: 1.5em;
+  font-weight: normal;
+}
+.separator::before {
+    content: "❦"; /* 古典花饰符号 */
+}
+
+
+/* 段落 */
+p {
+  margin: 0 0 1.6em;
+  text-align: justify;
+}
+
+/* 链接 */
+a {
+  color: #003049; /* 宝石蓝 */
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0, 48, 73, 0.4);
+  transition: all 0.2s ease-in-out;
+}
+
+a:hover {
+  background-color: rgba(0, 48, 73, 0.05);
+}
+
+/* 引用块 - 优雅的引文样式 */
+blockquote {
+  font-family: "Georgia", "Times New Roman", "KaiTi", "STKaiti", serif;
+  font-size: 1.2em;
+  font-style: italic;
+  color: #9B2226; /* 深绯红色 */
+  padding: 20px;
+  margin: 40px 0;
+  text-align: center;
+  position: relative;
+  line-height: 1.7;
+  border-top: 1px solid #e9c46a;
+  border-bottom: 1px solid #e9c46a;
+  background-color: transparent;
+}
+
+
+/* --- 列表 --- */
+ul {
+  list-style-type: none;
+  margin: 30px 0;
+  padding-left: 0;
+}
+
+li {
+  margin-bottom: 1.2em;
+  padding-left: 2.8em; /* 为项目符号留出空间 */
+  position: relative;
+}
+
+/* 自定义列表项目符号 - 法国百合 */
+ul li::before {
+  content: "⚜";
+  color: #003049; /* 宝石蓝 */
+  font-size: 1.2em;
+  position: absolute;
+  left: 0;
+  top: 2px;
+}
+
+
+/* --- 其他元素 --- */
+code, pre {
+  font-family: "Courier New", "Menlo", monospace;
+  background-color: rgba(233, 196, 106, 0.1); /* 淡淡的金色背景 */
+  color: #3d3d3d;
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+}
+pre {
+  padding: 1.5em;
+  margin: 25px 0;
+  border: 1px solid rgba(233, 196, 106, 0.4); /* 金色边框 */
+}

@@ -1,0 +1,214 @@
+/*
+ * @name: WeChat MD Theme - Memphis Style Harmony
+ * @description: A refined version of the Memphis style, focusing on color harmony, element consistency, and overall visual appeal.
+ * @version: 2.3
+ * @author: Gemini
+*/
+
+/* --- 全局与容器样式 --- */
+.container {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.8;
+  color: #2c2c2c;
+  background-color: #f7f7f7;
+  /* 使用更丰富的几何图案背景 */
+  background-image:
+    radial-gradient(#ffd166 15%, transparent 16%),
+    radial-gradient(#06d6a0 15%, transparent 16%);
+  background-size: 60px 60px;
+  background-position: 0 0, 30px 30px;
+  padding: 20px 10px;
+  margin: 0 auto;
+}
+
+.content {
+  background-color: #ffffff;
+  padding: 40px;
+  border: 3px solid #000;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative; /* 为绝对定位的装饰元素提供基准 */
+}
+
+/* 添加一些绝对定位的装饰图形 */
+.content::before {
+    content: '';
+    position: absolute;
+    top: -25px;
+    left: 20px;
+    width: 120px;
+    height: 15px;
+    background-image: repeating-linear-gradient(-45deg, #000, #000 10px, #ffd166 10px, #ffd166 20px); /* 黑黄条纹 */
+    z-index: 1;
+    transform: rotate(-3deg);
+}
+.content::after {
+    content: '';
+    position: absolute;
+    bottom: 20px;
+    right: -30px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 30px 50px 30px;
+    border-color: transparent transparent #EF476F transparent; /* 粉色三角 */
+    z-index: -1;
+}
+
+
+/* --- 标题样式 (和谐性调整) --- */
+
+/* H1: 主标题 - 拼贴海报风格 */
+h1 {
+  font-size: 2.5em;
+  font-weight: 900;
+  text-align: center;
+  margin: 25px 0 40px;
+  padding: 20px;
+  line-height: 1.3;
+  color: #000;
+  background-color: #fff;
+  border: 3px solid #000;
+  box-shadow: 8px 8px 0 #EF476F; /* 粉色阴影 */
+  transform: rotate(-2deg); /* 轻微旋转 */
+}
+
+/* H2: 章节标题 - 蓝色块状 */
+h2 {
+  font-size: 1.8em;
+  font-weight: 800;
+  color: #fff;
+  background-color: #118AB2; /* 采用明亮的蓝色 */
+  margin: 60px 0 30px;
+  padding: 15px 25px;
+  border: 3px solid #000;
+  display: inline-block;
+  box-shadow: 8px 8px 0 #FFD166; /* 黄色阴影 */
+  transform: rotate(1.5deg); /* 与H1相反的旋转 */
+}
+
+/* H3: 子章节标题 - 涂鸦背景 (已更新) */
+h3 {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: #000;
+  margin: 45px 0 20px;
+  padding: 10px 15px;
+  display: inline-block;
+  border: 2px solid #000;
+  background: #fff; /* 白色底 */
+  position: relative;
+  z-index: 1;
+}
+/* 使用伪元素创建带有涂鸦图案的错位背景 */
+h3::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    /* 使用SVG创建手绘波浪线条图案 */
+    background-image: url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23EF476F"%3E%3Cpath d="M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+    z-index: -1;
+    border: 2px solid #000;
+}
+
+
+/* H4: 小标题 - 标签样式 (已更新) */
+h4 {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #000; /* 字体改为黑色，提高对比度 */
+    margin: 30px 0 15px;
+    padding: 8px 30px 8px 15px;
+    display: inline-block;
+    background-color: #06D6A0; /* 绿色 */
+    position: relative;
+    border: 2px solid #000;
+    box-shadow: 4px 4px 0px #000; /* 增加阴影 */
+}
+/* 移除了三角形伪元素，简化样式 */
+h4::after {
+    content: none;
+}
+
+/* H5: 强调文本 - 点状下划线 */
+h5 {
+  font-size: 1.1em;
+  font-weight: 700;
+  color: #000;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+  border-bottom: 3px dotted #000;
+  display: inline-block;
+}
+
+/* H6: 注释文本 - 带装饰线 */
+h6 {
+  font-size: 1em;
+  font-style: italic;
+  color: #888;
+}
+h6::before {
+  content: "⁓ ";
+}
+
+
+/* --- 文本元素与装饰 --- */
+
+/* 引用块 - 对话框样式 */
+blockquote {
+  background-color: #fff;
+  color: #000;
+  padding: 25px;
+  margin: 40px 0;
+  border: 3px solid #000;
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px; /* 不规则圆角 */
+  font-size: 1.1em;
+  font-weight: 600;
+  position: relative;
+  transform: rotate(1deg);
+}
+
+/* --- 列表 --- */
+ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 30px 0;
+}
+li {
+  margin-bottom: 1.2em;
+  padding-left: 3.5em;
+  position: relative;
+  font-weight: 500;
+}
+ul li::before {
+  content: '★'; /* 星星符号 */
+  position: absolute;
+  left: 0;
+  top: -5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* 圆形 */
+  color: #fff;
+  font-size: 1.5em;
+  line-height: 40px;
+  text-align: center;
+  transform: rotate(-10deg);
+}
+ul li:nth-child(4n+1)::before { background-color: #EF476F; }
+ul li:nth-child(4n+2)::before { background-color: #06D6A0; }
+ul li:nth-child(4n+3)::before { background-color: #FFD166; }
+ul li:nth-child(4n+4)::before { background-color: #118AB2; }
+
+
+/* --- 其他元素 --- */
+hr {
+  border: none;
+  height: 8px;
+  background-color: transparent;
+  background-image: repeating-linear-gradient(45deg, #000, #000 10px, transparent 10px, transparent 20px);
+  margin: 60px 0;
+}

@@ -30,9 +30,12 @@ export function useAutosave(config: AutosaveConfig = {}) {
       const snapshot = useEditorStore.getState()
       let baseDraft = snapshot.drafts[payload.draftId]
       if (!baseDraft) {
-        baseDraft = (await getDraft(payload.draftId)) ?? undefined
+        const fetched = await getDraft(payload.draftId)
+        if (fetched) {
+          baseDraft = fetched
+        }
       }
-      const themeId = snapshot.activeThemeId ?? baseDraft?.themeId ?? 'default'
+      const themeId = snapshot.activeThemeId ?? baseDraft?.themeId ?? 'chinese'
       await upsertDraft({
         draft: baseDraft ?? {
           id: payload.draftId,
@@ -81,7 +84,7 @@ export function useAutosave(config: AutosaveConfig = {}) {
             previewHtml: '',
             wordCount: 0,
             mediaStats: { images: 0, tables: 0, codeBlocks: 0 },
-            themeId: state.activeThemeId ?? 'default',
+            themeId: state.activeThemeId ?? 'chinese',
             updatedAt: new Date().toISOString(),
           }
         state.drafts[id] = {
