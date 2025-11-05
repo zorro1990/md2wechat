@@ -12,6 +12,7 @@ export function PreviewPane() {
   const drafts = useEditorStore((state) => state.drafts)
   const activeThemeId = useEditorStore((state) => state.activeThemeId ?? DEFAULT_THEME_ID)
   const upsertDraft = useEditorStore((state) => state.upsertDraft)
+  const appSettings = useEditorStore((state) => state.appSettings)
   const [html, setHtml] = useState('')
   const lastRequestRef = useRef<number>(0)
 
@@ -25,7 +26,14 @@ export function PreviewPane() {
     }
     const requestId = Date.now()
     lastRequestRef.current = requestId
-    renderMarkdown({ markdown, themeId: activeThemeId, options: { enableFootnoteLinks: true } })
+    renderMarkdown({
+      markdown,
+      themeId: activeThemeId,
+      options: {
+        enableFootnoteLinks: true,
+        fontSize: appSettings.fontSize
+      }
+    })
       .then(async (result) => {
         if (lastRequestRef.current !== requestId) {
           return
@@ -54,7 +62,7 @@ export function PreviewPane() {
           console.error('renderMarkdown failed', error)
         }
       })
-  }, [activeThemeId, currentDraft, currentDraftId, markdown, upsertDraft])
+  }, [activeThemeId, currentDraft, currentDraftId, markdown, upsertDraft, appSettings.fontSize])
 
   const themeClass = `wx-theme wx-theme-${activeThemeId}`
 

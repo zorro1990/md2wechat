@@ -11,20 +11,15 @@ export function applyThemeTokens(preset: ThemePreset) {
     return
   }
   const root = document.documentElement
-  const body = document.body
 
-  // 应用 CSS 变量
+  // 应用 CSS 变量（保留）
   for (const [token, value] of Object.entries(preset.tokens)) {
     root.style.setProperty(token, String(value))
   }
   root.dataset.wxTheme = preset.id
 
-  // 切换 body 上的主题类
-  // 移除所有 theme- 开头的类
-  const classesToRemove = Array.from(body.classList).filter(cls => cls.startsWith('theme-'))
-  classesToRemove.forEach(cls => body.classList.remove(cls))
-  // 添加当前主题类
-  body.classList.add(`theme-${preset.id}`)
+  // 移除 body 上的主题类切换逻辑
+  // 现在主题样式只在预览区应用，不影响产品UI
 }
 
 export function ensureDefaultTheme() {
