@@ -4,7 +4,6 @@ import { useAutosave } from '@/features/editor/autosave'
 import { useEditorStore } from '@/features/editor/store'
 import type { DraftUpdate } from '@/features/editor/store'
 import { analyzeMarkdownDocument } from '@/conversion/render'
-import { EditorActions } from './EditorActions'
 
 const EMPTY_MARKDOWN_PLACEHOLDER = '# 开始写作\n\n在此处输入 Markdown 内容……'
 
@@ -19,7 +18,6 @@ export function EditorPane() {
   const [value, setValue] = useState('')
   const currentDraft = useMemo(() => (currentDraftId ? drafts[currentDraftId] : null), [currentDraftId, drafts])
   const isReady = isHydrated && Boolean(currentDraftId)
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     void hydrate()
@@ -75,10 +73,9 @@ export function EditorPane() {
         <div className="editor-pane__title">
           <span className="editor-pane__eyebrow">Markdown 编辑区</span>
         </div>
-        <EditorActions textareaRef={textareaRef} value={value} onChange={setValue} />
       </header>
       <textarea
-        ref={textareaRef}
+        ref={null}
         data-testid="markdown-editor"
         className="editor-pane__textarea"
         value={value}

@@ -743,51 +743,6 @@
   flex-wrap: wrap;
 }
 
-/* ========== Editor Actions - Insert Link Button ========== */
-.editor-actions {
-  display: flex;
-  gap: var(--ui-space-sm);
-  align-items: center;
-}
-
-.editor-actions__button {
-  display: flex;
-  align-items: center;
-  gap: var(--ui-space-xs);
-  padding: var(--ui-space-sm) var(--ui-space-md);
-  border: 1px solid var(--ui-border-medium);
-  border-radius: var(--ui-radius-md);
-  background: var(--ui-surface);
-  color: var(--ui-text-secondary);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.editor-actions__button:hover {
-  border-color: var(--ui-accent-primary);
-  color: var(--ui-text-primary);
-  box-shadow: var(--ui-shadow-sm);
-  transform: translateY(-1px);
-}
-
-.editor-actions__button:active {
-  transform: translateY(0);
-}
-
-.editor-actions__button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.editor-actions__button svg {
-  flex-shrink: 0;
-}
-
-/* ✅ 移除复制按钮样式，简化界面 */
-
 /* 文本输入区域 - 统一圆角和阴影 */
 .editor-pane__textarea {
   flex: 1;
