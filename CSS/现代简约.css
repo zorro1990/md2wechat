@@ -1,0 +1,198 @@
+/*
+ * @name: WeChat MD Theme - Modern Minimalist
+ * @description: A refined, modern, and clean theme with an emphasis on typography, hierarchy, and whitespace.
+ * @version: 2.0
+ * @author: Gemini
+*/
+
+/* --- 全局与容器样式 --- */
+.container {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "WenQuanYi Micro Hei", sans-serif;
+  line-height: 1.85; /* 增加行高，提升阅读舒适度 */
+  color: #2c3e50; /* 使用更柔和的深蓝灰色作为主文本颜色 */
+  background-color: #f8f9fa; /* 更明亮的背景色 */
+  padding: 20px 10px;
+  margin: 0 auto;
+}
+
+.content {
+  background-color: #ffffff;
+  padding: 40px; /* 增加内边距，留白更充足 */
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07); /* 更柔和的阴影 */
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+
+/* --- 标题样式 --- */
+
+/* H1: 主标题 */
+h1 {
+  font-size: 1.9em;
+  font-weight: 700;
+  text-align: center;
+  color: #2c3e50;
+  margin: 20px 0 40px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #f1f1f1;
+  letter-spacing: 1px; /* 增加字间距 */
+}
+
+/* H2: 主要章节标题 - 带有数字序号 */
+h2 {
+  font-size: 1.6em;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 70px 0 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f1f1f1;
+  counter-increment: h2-counter;
+  position: relative;
+}
+/* 使用伪元素添加章节序号 */
+h2::before {
+  content: "0" counter(h2-counter);
+  font-size: 0.9em;
+  font-weight: 400;
+  color: #95a5a6; /* 淡灰色序号 */
+  position: absolute;
+  left: 0;
+  top: -35px;
+}
+
+/* H3: 子章节标题 - 细节点缀 */
+h3 {
+  font-size: 1.3em;
+  font-weight: 600;
+  color: #34495e;
+  margin: 45px 0 20px;
+  padding-left: 15px;
+  border-left: 3px solid #3498db; /* 使用清爽的蓝色作为点缀 */
+}
+
+/* H4: 更深层级标题 */
+h4 {
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #34495e;
+    margin: 30px 0 15px;
+}
+
+
+/* --- 文本元素 --- */
+
+/* 段落 */
+p {
+  margin: 0 0 1.7em;
+  text-align: justify;
+}
+
+/* 链接 */
+a {
+  color: #3498db;
+  text-decoration: none;
+  border-bottom: 1.5px solid rgba(52, 152, 219, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+a:hover {
+  background-color: rgba(52, 152, 219, 0.1);
+  border-bottom-color: rgba(52, 152, 219, 0.8);
+}
+
+/* 引用块 - 卡片式设计 */
+blockquote {
+  background-color: #f8f9fa; /* 与页面背景色一致 */
+  color: #576574;
+  padding: 20px;
+  margin: 30px 0;
+  border: 1px solid #e9ecef; /* 细边框 */
+  border-left: 4px solid #95a5a6; /* 边线颜色与序号呼应 */
+  border-radius: 6px;
+  font-size: 0.95em;
+}
+
+
+/* --- 列表 --- */
+ul, ol {
+  margin: 0 0 1.5em 0;
+  padding-left: 1.8em;
+}
+
+li {
+  margin-bottom: 1em;
+  padding-left: 5px; /* 增加文本与项目符号的间距 */
+}
+
+ul li::marker {
+  color: #3498db; /* 项目符号使用蓝色点缀 */
+}
+
+
+/* --- 代码块 --- */
+code {
+  font-family: "SFMono-Regular", Consolas, Menlo, Courier, monospace;
+  background-color: #e9ecef;
+  color: #2c3e50;
+  padding: 0.3em 0.6em;
+  margin: 0 2px;
+  font-size: 0.9em;
+  border-radius: 4px;
+}
+
+pre {
+  font-family: "SFMono-Regular", Consolas, Menlo, Courier, monospace;
+  background: #f8f9fa;
+  color: #2c3e50;
+  padding: 1.5em;
+  margin: 25px 0;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid #e9ecef;
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+
+/* --- 其他元素 --- */
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: #e9ecef;
+  margin: 70px 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 30px auto;
+  border-radius: 8px;
+  border: 1px solid #f1f1f1;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.95em;
+  border: 1px solid #e9ecef;
+}
+
+th, td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e9ecef;
+}
+
+thead th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #2c3e50;
+}

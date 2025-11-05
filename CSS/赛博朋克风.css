@@ -1,0 +1,266 @@
+/*
+ * @name: WeChat MD Theme - Cyberpunk
+ * @description: A cyberpunk style theme with neon glows, glitch effects, and a dark, futuristic aesthetic.
+ * @version: 5.2
+ * @author: Gemini
+*/
+
+/* --- 全局与容器样式 --- */
+.container {
+  /* 使用未来感的无衬线字体和等宽字体 */
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.8;
+  color: #cddc39; /* 主文本颜色 - 荧光绿 */
+  /* 深邃的蓝紫色背景，带有扫描线效果 */
+  background-color: #1a1a2e;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(22, 22, 47, 0.8),
+    rgba(22, 22, 47, 0.8) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  padding: 20px 10px;
+  margin: 0 auto;
+}
+
+.content {
+  background-color: rgba(16, 16, 32, 0.7); /* 半透明的深色背景，营造层次感 */
+  padding: 28px;
+  border: 1px solid #00ffff; /* 青色霓虹边框 */
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.2);
+  backdrop-filter: blur(5px); /* 毛玻璃效果（部分浏览器支持） */
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+
+/* --- 标题样式 --- */
+
+/* H1: 主标题 - 数字故障效果 */
+h1 {
+  font-size: 2.2em;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  background-color: transparent;
+  padding: 20px;
+  margin: 25px 0 40px;
+  border: 2px solid #f0f; /* 品红色边框 */
+  text-transform: uppercase;
+  position: relative;
+  text-shadow:
+    0 0 5px #f0f,
+    0 0 10px #f0f;
+}
+
+h1::before, h1::after {
+  content: attr(data-text); /* 使用 data-text 属性来创建 glitch 效果 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  clip-path: inset(50% 0 50% 0);
+}
+
+h1::before {
+  transform: translate(-0.05em, -0.02em);
+  /* 动画效果 */
+  animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
+}
+
+h1::after {
+  transform: translate(0.05em, 0.02em);
+  animation: glitch-anim-2 2.5s infinite linear alternate-reverse;
+}
+
+/* H2: 主要章节标题 - 霓虹灯条 */
+h2 {
+  font-size: 1.6em;
+  font-weight: 700;
+  color: #00ffff; /* 青色 */
+  margin: 50px 0 25px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #00ffff;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.7);
+}
+
+/* H3: 子章节标题 - 终端提示符样式 */
+h3 {
+  font-size: 1.3em;
+  font-weight: 700;
+  color: #cddc39; /* 荧光绿 */
+  margin: 30px 0 15px;
+  text-transform: uppercase;
+}
+h3::before {
+  content: ">> ";
+  color: #f0f; /* 品红色 */
+}
+
+/* H4: 更深层级标题 (优化可读性) */
+h4 {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: #f0f; /* 更改为高对比度的品红色 */
+    text-shadow: 0 0 5px rgba(255, 0, 255, 0.7); /* 添加霓虹光晕效果 */
+    margin: 25px 0 12px;
+    padding: 5px 10px; /* 增加内边距 */
+    border-left: 3px solid #f0f;
+    background-color: rgba(255, 0, 255, 0.1); /* 保留淡品红色背景 */
+}
+
+
+/* --- 文本元素 --- */
+
+/* 段落 */
+p {
+  margin: 0 0 1.5em;
+  text-align: justify;
+}
+
+/* 链接 */
+a {
+  color: #f0f;
+  text-decoration: none;
+  font-weight: 700;
+  text-shadow: 0 0 5px rgba(255, 0, 255, 0.7);
+  transition: all 0.2s ease-in-out;
+}
+
+a:hover {
+  color: #fff;
+  background-color: #f0f;
+  box-shadow: 0 0 15px #f0f;
+}
+
+/* 引用块 - 系统警报样式 */
+blockquote {
+  background-color: rgba(255, 255, 0, 0.1);
+  color: #ffff00; /* 警告黄色 */
+  padding: 20px;
+  margin: 30px 0;
+  border: 2px solid #ffff00;
+  border-left-width: 10px;
+  font-family: monospace;
+}
+blockquote::before {
+    content: "SYSTEM ALERT: ";
+    font-weight: bold;
+    color: #fff;
+}
+
+
+/* --- 列表 (优化) --- */
+ul, ol {
+  margin: 0 0 1.5em 0;
+  padding-left: 0; /* 重置内边距，交由 li 控制 */
+}
+
+li {
+  margin-bottom: 0.8em;
+}
+
+ul li {
+    list-style-type: none;
+    position: relative; /* 为 ::before 定位提供基准 */
+    padding-left: 25px; /* 为项目符号留出空间 */
+}
+
+ul li::before {
+  content: ""; /* 不再使用字符，而是创建一个元素 */
+  position: absolute;
+  left: 0;
+  top: 0.6em; /* 调整垂直位置使其居中 */
+  width: 8px;
+  height: 8px;
+  background-color: #00ffff; /* 青色 */
+  border-radius: 50%; /* 变为圆形 */
+  box-shadow: 0 0 8px #00ffff, 0 0 12px rgba(0, 255, 255, 0.7); /* 霓虹光晕效果 */
+}
+
+
+/* --- 代码块 --- */
+code {
+  font-family: inherit;
+  background-color: rgba(0, 255, 255, 0.1);
+  color: #00ffff;
+  padding: 0.2em 0.5em;
+  margin: 0 2px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+pre {
+  background: #000;
+  color: #cddc39;
+  padding: 1.5em;
+  margin: 25px 0;
+  overflow-x: auto;
+  border: 1px solid #cddc39;
+  box-shadow: inset 0 0 10px rgba(205, 220, 57, 0.3);
+}
+
+pre code {
+  background: none;
+  border: none;
+}
+
+
+/* --- 其他元素 --- */
+
+hr {
+  border: none;
+  height: 2px;
+  background-image: linear-gradient(to right, transparent, #00ffff, transparent);
+  margin: 50px 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 25px auto;
+  border: 2px solid #f0f;
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  border: 1px solid #00ffff;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+thead th {
+  background-color: rgba(0, 255, 255, 0.1);
+  font-weight: 700;
+  color: #00ffff;
+}
+
+
+/* Glitch 动画 */
+@keyframes glitch-anim-1 {
+  0% { clip-path: inset(45% 0 55% 0); }
+  25% { clip-path: inset(0% 0 100% 0); }
+  50% { clip-path: inset(80% 0 20% 0); }
+  75% { clip-path: inset(30% 0 70% 0); }
+  100% { clip-path: inset(90% 0 10% 0); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip-path: inset(60% 0 40% 0); }
+  25% { clip-path: inset(100% 0 0% 0); }
+  50% { clip-path: inset(10% 0 90% 0); }
+  75% { clip-path: inset(75% 0 25% 0); }
+  100% { clip-path: inset(40% 0 60% 0); }
+}

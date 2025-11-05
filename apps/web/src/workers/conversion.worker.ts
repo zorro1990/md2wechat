@@ -35,7 +35,7 @@ function loadRenderModule(): Promise<RenderModule> {
         const decoder = (module as unknown as { decodeNamedCharacterReference?: (value: string) => string | false })
           .decodeNamedCharacterReference
         if (decoder && decoder.length === 1) {
-          module.decodeNamedCharacterReference = (value: string) => {
+          ;(module as any).decodeNamedCharacterReference = (value: string) => {
             if (entityCache.has(value)) return entityCache.get(value) ?? false
             const decoded = decodeNamedCharacterReference(value)
             if (typeof decoded === 'string') {
@@ -127,8 +127,13 @@ function ensureDocumentShim(): void {
 
   class NodeShim {
     protected _textContent = ''
+    public readonly nodeType: number
+    public readonly ownerDocument: DocumentShim
 
-    constructor(public readonly nodeType: number, public readonly ownerDocument: DocumentShim) {}
+    constructor(nodeType: number, ownerDocument: DocumentShim) {
+      this.nodeType = nodeType
+      this.ownerDocument = ownerDocument
+    }
 
     get textContent(): string {
       return this._textContent
@@ -166,9 +171,11 @@ function ensureDocumentShim(): void {
     private _innerHTML = ''
     private _children: NodeShim[] = []
     private readonly _attributes = new Map<string, string>()
+    public readonly tagName: string
 
-    constructor(public readonly tagName: string, ownerDocument: DocumentShim) {
+    constructor(tagName: string, ownerDocument: DocumentShim) {
       super(ELEMENT_NODE, ownerDocument)
+      this.tagName = tagName
     }
 
     get innerHTML(): string {
@@ -233,7 +240,7 @@ function ensureDocumentShim(): void {
       this.body = new ElementShim('body', this)
       this.documentElement.appendChild(this.head)
       this.documentElement.appendChild(this.body)
-      this.defaultView = globalScope
+      this.defaultView = globalScope as any
     }
 
     createElement(tagName: string): ElementShim {
@@ -319,8 +326,8 @@ function ensureDocumentShim(): void {
   }
 
   const documentShim = new DocumentShim()
-  globalScope.document = documentShim
+  ;(globalScope as any).document = documentShim
   if (typeof globalScope.window === 'undefined') {
-    globalScope.window = globalScope
+    ;(globalScope as any).window = globalScope
   }
 }

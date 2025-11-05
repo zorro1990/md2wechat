@@ -106,60 +106,13 @@ export function FeedbackProvider({ children }: FeedbackProviderProps) {
   return (
     <FeedbackContext.Provider value={value}>
       {children}
-      <ToastViewport toasts={toasts} onDismiss={dismiss} />
       <ConfirmDialogs queue={confirmQueue.current} onAnswer={acceptConfirm} />
     </FeedbackContext.Provider>
   )
 }
 
-interface ToastViewportProps {
-  toasts: ToastMessage[]
-  onDismiss: (id: string) => void
-}
+// Toast components removed - notifications disabled for silent mode
 
-function ToastViewport({ toasts, onDismiss }: ToastViewportProps) {
-  return (
-    <div className="pointer-events-none fixed inset-x-0 top-4 z-50 flex flex-col gap-3 px-4">
-      {toasts.map((toast) => (
-        <Toast key={toast.id} toast={toast} onDismiss={onDismiss} />
-      ))}
-    </div>
-  )
-}
-
-interface ToastProps {
-  toast: ToastMessage
-  onDismiss: (id: string) => void
-}
-
-function Toast({ toast, onDismiss }: ToastProps) {
-  const colors: Record<ToastVariant, string> = {
-    info: 'bg-blue-600 text-white',
-    success: 'bg-emerald-600 text-white',
-    warning: 'bg-amber-500 text-black',
-    error: 'bg-rose-600 text-white',
-  }
-
-  return (
-    <div
-      className={`pointer-events-auto flex flex-col gap-1 rounded-xl px-4 py-3 shadow-lg transition-all ${colors[toast.variant]}`}
-    >
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-sm font-semibold">{toast.title}</p>
-          {toast.description ? <p className="text-sm opacity-90">{toast.description}</p> : null}
-        </div>
-        <button
-          type="button"
-          className="rounded-full border border-current/40 px-2 py-1 text-xs font-medium"
-          onClick={() => onDismiss(toast.id)}
-        >
-          关闭
-        </button>
-      </div>
-    </div>
-  )
-}
 
 interface ConfirmDialogsProps {
   queue: PendingConfirm[]
