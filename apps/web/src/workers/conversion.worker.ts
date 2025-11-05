@@ -104,6 +104,7 @@ async function handleRender(request: RenderRequest): Promise<RenderResponse> {
   return module.renderMarkdownDocument(request.markdown, {
     themeId: request.themeId,
     enableFootnoteLinks: request.options?.enableFootnoteLinks,
+    fontSize: request.options?.fontSize,
   })
 }
 

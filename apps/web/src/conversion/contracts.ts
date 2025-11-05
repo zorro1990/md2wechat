@@ -4,6 +4,7 @@ export interface RenderRequest {
   options?: {
     enableFootnoteLinks?: boolean
     format?: 'wechat-html'
+    fontSize?: 'small' | 'medium' | 'large'
   }
 }
 

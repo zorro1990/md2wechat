@@ -95,6 +95,7 @@ export async function renderMarkdown(payload: RenderRequest): Promise<RenderResp
     return renderMarkdownDocument(payload.markdown, {
       themeId: payload.themeId,
       enableFootnoteLinks: payload.options?.enableFootnoteLinks,
+      fontSize: payload.options?.fontSize,
     })
   }
 }
