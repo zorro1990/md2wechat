@@ -126,6 +126,49 @@
   transition: all 0.3s ease;
 }
 
+/* ========== Panel Utility Classes - Chinese Elegant Typography ========== */
+/* 统一的面板标题区域 */
+.panel-heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-sm);
+  margin-bottom: var(--ui-space-lg);
+}
+
+/* 统一的面板顶部装饰线 */
+.panel-heading::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--ui-accent-primary), var(--ui-accent-secondary));
+  border-radius: var(--ui-radius-full);
+  margin-top: var(--ui-space-sm);
+  opacity: 0.8;
+}
+
+/* 统一的面板标题 eyebrow - 中国风雅致 */
+.panel-heading .panel-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--ui-text-tertiary);
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
+/* 统一的面板主标题 - 中国风雅致 */
+.panel-heading .panel-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ui-text-primary);
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", sans-serif;
+}
+
 .app-panel__header {
   display: flex;
   flex-direction: column;
@@ -160,6 +203,7 @@
   border: none;
   box-shadow: none;
   padding: 0;
+  border-radius: var(--ui-radius-lg); /* ✅ 给预览容器自身添加圆角 */
 }
 
 /* ✅ 预览区域样式 - 现在只保留占位功能 */
@@ -172,6 +216,7 @@
   border: none;
   box-shadow: none;
   padding: 0;
+  border-radius: var(--ui-radius-lg); /* ✅ 给预览容器自身添加圆角 */
 }
 
 /* ✅ 移除预览内容容器的卡片样式，改为最小化样式 */
@@ -186,15 +231,10 @@
   box-shadow: none;
 }
 
-/* ✅ 主题容器继承父容器样式 */
+/* ✅ 主题容器继承父容器样式 - 仅外层容器，保留内部元素原有样式 */
 .preview-container .wx-theme,
 .app-preview .wx-theme {
-  border-radius: inherit;
-}
-
-.preview-container .wx-theme *,
-.app-preview .wx-theme * {
-  border-radius: inherit;
+  border-radius: var(--ui-radius-lg); /* ✅ 统一使用 var(--ui-radius-lg) = 14px */
 }
 
 
@@ -700,101 +740,14 @@
   box-shadow: var(--ui-shadow-sm);
 }
 
-/* ========== Editor Pane - Unified Design ========== */
-.editor-pane {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  gap: var(--ui-space-lg);
-}
-
-.editor-pane__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: var(--ui-space-lg);
-  flex-wrap: wrap;
-}
-
-.editor-pane__title {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ui-space-xs);
-}
-
-.editor-pane__eyebrow {
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--ui-text-tertiary);
-}
-
-.editor-pane__name {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--ui-text-primary);
-  letter-spacing: -0.01em;
-}
-
-.editor-pane__actions {
-  display: flex;
-  gap: var(--ui-space-sm);
-  flex-wrap: wrap;
-}
-
-/* ========== Editor Actions - Insert Link Button ========== */
-.editor-actions {
-  display: flex;
-  gap: var(--ui-space-sm);
-  align-items: center;
-}
-
-.editor-actions__button {
-  display: flex;
-  align-items: center;
-  gap: var(--ui-space-xs);
-  padding: var(--ui-space-sm) var(--ui-space-md);
-  border: 1px solid var(--ui-border-medium);
-  border-radius: var(--ui-radius-md);
-  background: var(--ui-surface);
-  color: var(--ui-text-secondary);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.editor-actions__button:hover {
-  border-color: var(--ui-accent-primary);
-  color: var(--ui-text-primary);
-  box-shadow: var(--ui-shadow-sm);
-  transform: translateY(-1px);
-}
-
-.editor-actions__button:active {
-  transform: translateY(0);
-}
-
-.editor-actions__button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.editor-actions__button svg {
-  flex-shrink: 0;
-}
-
-/* ✅ 移除复制按钮样式，简化界面 */
-
+/* ========== Editor Textarea - Unified Design ========== */
 /* 文本输入区域 - 统一圆角和阴影 */
 .editor-pane__textarea {
   flex: 1;
   width: 100%;
   resize: none;
   border: 1px solid var(--ui-border-light);
-  border-radius: var(--ui-radius-md);
+  border-radius: var(--ui-radius-lg); /* ✅ 统一使用 var(--ui-radius-lg) = 14px */
   background: var(--ui-surface);
   padding: var(--ui-space-xl);
   font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
@@ -821,25 +774,7 @@
   cursor: not-allowed;
 }
 
-/* Dark Mode Editor Styles */
-html.dark .editor-pane__eyebrow {
-  color: var(--ui-text-tertiary);
-}
-
-html.dark .editor-pane__name {
-  color: var(--ui-text-primary);
-}
-
-html.dark .editor-pane__copy-button {
-  border-color: var(--ui-accent-primary);
-  color: var(--ui-accent-primary);
-}
-
-html.dark .editor-pane__copy-button:hover {
-  background: rgba(255, 140, 0, 0.15);
-  border-color: var(--ui-accent-hover);
-}
-
+/* Dark Mode Textarea Styles */
 html.dark .editor-pane__textarea {
   background: var(--ui-surface);
   border-color: var(--ui-border-light);

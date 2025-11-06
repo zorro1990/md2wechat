@@ -18,3 +18,16 @@ coverage/
 # Tool artifacts
 .codex/
 apps/web/temp-worker-logs.json
+
+# Temporary test files
+test-*.js
+test-*.mjs
+test-*.html
+
+# Temporary reports
+BORDER_RADIUS_FIX_*.md
+格式问题总结.md
+
+# Root package files (monorepo uses workspace packages)
+/package.json
+/package-lock.json

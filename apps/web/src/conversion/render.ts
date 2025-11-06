@@ -28,7 +28,15 @@ function getPipeline(options: PipelineOptions): MarkdownPipeline {
 export interface RenderMarkdownOptions {
   themeId?: string
   enableFootnoteLinks?: boolean
+  fontSize?: 'small' | 'medium' | 'large'
 }
+
+// 字体大小映射表
+export const FONT_SIZE_MAP = {
+  small: '14px',
+  medium: '15px',
+  large: '16px',
+} as const
 
 export async function renderMarkdownDocument(
   markdown: string,
@@ -46,6 +54,10 @@ export async function renderMarkdownDocument(
   const theme = getThemePreset(themeId)
   const htmlWithInlineStyles = convertToInlineStyles(String(file.value), theme)
 
+  // 🎨 应用用户选择的字体大小
+  const fontSizeValue = FONT_SIZE_MAP[options.fontSize ?? 'medium']
+  const htmlWithFontSize = `<div style="font-size: ${fontSizeValue};">${htmlWithInlineStyles}</div>`
+
   const durationMs = performance.now() - startedAt
   if (import.meta.env?.DEV) {
     console.debug('[renderMarkdownDocument] completed', {
@@ -58,7 +70,7 @@ export async function renderMarkdownDocument(
   }
 
   return {
-    html: htmlWithInlineStyles, // ✅ 使用转换后的HTML
+    html: htmlWithFontSize, // ✅ 使用包含字体大小的HTML
     astVersion: Date.now(),
     durationMs,
     warnings: [],

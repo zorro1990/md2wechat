@@ -736,6 +736,7 @@ function applyBaseElementStyles(element: HTMLElement, theme: ThemePreset): void 
         color: ${theme.tokens['--wx-heading']};
         margin: 24px 0 16px;
         line-height: 1.3;
+        word-break: keep-all;
       `
       break
 
@@ -746,6 +747,7 @@ function applyBaseElementStyles(element: HTMLElement, theme: ThemePreset): void 
         color: ${theme.tokens['--wx-heading']};
         margin: 32px 0 16px;
         line-height: 1.4;
+        word-break: keep-all;
       `
       break
 
@@ -756,6 +758,7 @@ function applyBaseElementStyles(element: HTMLElement, theme: ThemePreset): void 
         color: ${theme.tokens['--wx-subheading']};
         margin: 24px 0 12px;
         line-height: 1.4;
+        word-break: keep-all;
       `
       break
 
@@ -766,6 +769,7 @@ function applyBaseElementStyles(element: HTMLElement, theme: ThemePreset): void 
         color: ${theme.tokens['--wx-subheading']};
         margin: 20px 0 10px;
         line-height: 1.5;
+        word-break: keep-all;
       `
       break
 
@@ -775,6 +779,7 @@ function applyBaseElementStyles(element: HTMLElement, theme: ThemePreset): void 
         line-height: 1.75;
         color: ${theme.tokens['--wx-text']};
         font-size: 1em;
+        word-break: keep-all;
       `
       break
 
@@ -791,6 +796,7 @@ function applyBaseElementStyles(element: HTMLElement, theme: ThemePreset): void 
       element.style.cssText = `
         margin: 8px 0;
         line-height: 1.75;
+        word-break: keep-all;
       `
       break
 
@@ -812,7 +818,18 @@ function applyBaseElementStyles(element: HTMLElement, theme: ThemePreset): void 
         color: ${theme.tokens['--wx-text']};
         font-style: italic;
         line-height: 1.75;
+        word-break: keep-all;
       `
+      break
+
+    case 'strong':
+      // 🔧 强制 <strong> 标签为 inline，防止微信换行
+      element.style.display = 'inline'
+      break
+
+    case 'em':
+      // 🔧 强制 <em> 标签为 inline，防止微信换行
+      element.style.display = 'inline'
       break
 
     case 'code':
@@ -823,6 +840,7 @@ function applyBaseElementStyles(element: HTMLElement, theme: ThemePreset): void 
         padding: 2px 6px;
         border-radius: 4px;
         font-size: 0.875em;
+        display: inline;
       `
       break
 
@@ -1033,6 +1051,100 @@ function processTables(element: HTMLElement, theme: ThemePreset): void {
 // ========== Clipboard Functions ==========
 
 /**
+ * 防止微信后台在中文标点前换行：
+ * - 在「字/词」与中文标点之间插入 WORD JOINER (U+2060)
+ * - 对于以标点开头的文本节点（如 </strong>：），在该文本节点前插入 WORD JOINER
+ * 注意：仅处理文本节点，不影响标签与属性。
+ */
+function preventWechatPunctuationBreaks(html: string): string {
+  try {
+    const WORD_JOINER = '\u2060'
+    // 包含中文标点 + 各种破折号（半角、全角、长、短）
+    const PUNCTS = new Set(['：', '，', '。', '！', '？', '；', '、', '）', '】', '》', '」', '』', '-', '－', '—', '–'])
+
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(html, 'text/html')
+
+    // 遍历所有文本节点
+    const walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT)
+    const textNodes: Text[] = []
+    while (walker.nextNode()) {
+      textNodes.push(walker.currentNode as Text)
+    }
+
+    // 🔍 DEBUG: 统计信息
+    let insertCount = 0
+    let nodeWithPunctCount = 0
+
+    for (const t of textNodes) {
+      if (!t.nodeValue) continue
+
+      const originalValue = t.nodeValue
+
+      // 1) 同一文本节点内部：在“字/词 + 标点”之间插入 WORD_JOINER
+      //    覆盖：中日韩、拉丁、数字
+      const re = /([\u4E00-\u9FFF\u3040-\u30FF\uAC00-\uD7AFA-Za-z0-9])([：，。！？；、）】》」』])/g
+      let val = t.nodeValue.replace(re, (match, p1, p2) => {
+        insertCount++
+        if (import.meta.env?.DEV) {
+          console.log(`🔍 [DEBUG] 在文本节点内部插入 U+2060: "${p1}" + "${p2}"`)
+        }
+        return `${p1}${WORD_JOINER}${p2}`
+      })
+
+      // 2) 如果文本以标点开头（常见于 </b>： 这样的结构），在文本开头添加 WORD_JOINER
+      //    🔧 修复：直接添加到文本节点开头，而不是创建新节点，避免微信在节点间换行
+      if (val.length > 0 && PUNCTS.has(val[0])) {
+        nodeWithPunctCount++
+        val = WORD_JOINER + val
+        insertCount++
+        if (import.meta.env?.DEV) {
+          console.log(`🔍 [DEBUG] 在文本开头添加 U+2060: 节点内容="${val.substring(0, 20)}"`)
+        }
+      }
+
+      // 3) 🔧 新增：如果文本以空格开头，检查第一个非空格字符是否是标点
+      //    处理 </strong> - 这样的结构（空格 + 破折号）
+      const trimmed = val.trimStart()
+      const leadingSpaces = val.length - trimmed.length
+      if (leadingSpaces > 0 && trimmed.length > 0 && PUNCTS.has(trimmed[0])) {
+        nodeWithPunctCount++
+        val = WORD_JOINER + val
+        insertCount++
+        if (import.meta.env?.DEV) {
+          console.log(`🔍 [DEBUG] 在空格前添加 U+2060: 节点内容="${val.substring(0, 20)}"`)
+        }
+      }
+
+      if (originalValue !== val && import.meta.env?.DEV) {
+        console.log(`🔍 [DEBUG] 文本节点变化:`, {
+          before: originalValue,
+          after: val
+        })
+      }
+
+      t.nodeValue = val
+    }
+
+    if (import.meta.env?.DEV) {
+      console.log(`🔍 [DEBUG] preventWechatPunctuationBreaks 统计:`, {
+        totalTextNodes: textNodes.length,
+        insertCount,
+        nodeWithPunctCount
+      })
+    }
+
+    return doc.body.innerHTML
+  } catch (e) {
+    if (import.meta.env?.DEV) {
+      console.warn('preventWechatPunctuationBreaks failed', e)
+    }
+    return html
+  }
+}
+
+
+/**
  * 将HTML和纯文本复制到剪贴板
  */
 async function copyToClipboard(html: string, plainText: string): Promise<void> {
@@ -1044,24 +1156,48 @@ async function copyToClipboard(html: string, plainText: string): Promise<void> {
         'text/plain': new Blob([plainText], { type: 'text/plain' }),
       }
       await navigator.clipboard.write([new ClipboardItem(data)])
+
+      if (import.meta.env?.DEV) {
+        console.log('✅ [DEBUG] 使用 Clipboard API 复制成功')
+      }
       return
     } catch (error) {
-      console.warn('Clipboard API failed, falling back to execCommand', error)
+      console.warn('❌ Clipboard API failed, falling back to execCommand', error)
     }
   }
 
-  // 兜底方案：使用 execCommand
-  const textarea = document.createElement('textarea')
-  textarea.value = plainText
-  textarea.style.position = 'fixed'
-  textarea.style.left = '-9999px'
-  document.body.appendChild(textarea)
-  textarea.select()
+  // 兜底方案：使用 execCommand（支持富文本）
+  if (import.meta.env?.DEV) {
+    console.log('⚠️ [DEBUG] 使用 execCommand 兜底方案')
+  }
+
+  // 创建一个临时的 div 元素来承载 HTML
+  const container = document.createElement('div')
+  container.innerHTML = html
+  container.style.position = 'fixed'
+  container.style.left = '-9999px'
+  container.contentEditable = 'true'
+  document.body.appendChild(container)
+
+  // 选中整个容器
+  const range = document.createRange()
+  range.selectNodeContents(container)
+  const selection = window.getSelection()
+  if (selection) {
+    selection.removeAllRanges()
+    selection.addRange(range)
+  }
 
   try {
     document.execCommand('copy')
+    if (import.meta.env?.DEV) {
+      console.log('✅ [DEBUG] execCommand 复制成功')
+    }
   } finally {
-    document.body.removeChild(textarea)
+    if (selection) {
+      selection.removeAllRanges()
+    }
+    document.body.removeChild(container)
   }
 }
 
@@ -1073,13 +1209,130 @@ export async function copyConvertedHTML(html: string, theme: ThemePreset): Promi
     // 转换HTML为内联样式
     const convertedHTML = convertToInlineStyles(html, theme)
 
-    // 提取纯文本内容
+    // 🔍 DEBUG: 检查转换后的HTML
+    if (import.meta.env?.DEV) {
+      console.log('🔍 [DEBUG] 转换后的HTML (before preventWechat):', convertedHTML.substring(0, 500))
+
+      // 🔍 新增：检查 <li> 标签的内容
+      const liMatches = convertedHTML.match(/<li[^>]*>([^<]*)<strong>/g)
+      if (liMatches) {
+        console.log('\n🔍 [DEBUG] <li> 和 <strong> 之间的内容:')
+        liMatches.slice(0, 5).forEach((match, i) => {
+          const between = match.replace(/<li[^>]*>/, '').replace(/<strong>/, '')
+          const chars = [...between].map(c => {
+            const code = c.charCodeAt(0)
+            const hex = code.toString(16).toUpperCase().padStart(4, '0')
+            const name = code === 0x0020 ? 'SPACE' : code === 0x00A0 ? 'NBSP' : code === 0x2060 ? 'WORD_JOINER' : ''
+            return `U+${hex}${name ? ` (${name})` : ''}`
+          })
+          console.log(`  ${i + 1}. 长度=${between.length}, 内容="${between}", 字符=[${chars.join(', ')}]`)
+        })
+      }
+    }
+
+    // 🔧 [方案 E] 将标点符号移到 <strong> 内，防止微信换行
+    // 例如：<strong>实时预览</strong>：... → <strong>实时预览：</strong>...
+    // 处理两种情况：
+    // 1. </strong>： → ：</strong>
+    // 2. </strong> - → -</strong> （空格 + 破折号）
+    let wechatSafeHTML = convertedHTML
+      // 先处理 空格 + 标点 的情况
+      .replace(/<\/strong>(\s+)([：，。！？；、）】》」』\-－—–])/g, '$2</strong>$1')
+      // 再处理 直接标点 的情况
+      .replace(/<\/strong>([：，。！？；、）】》」』\-－—–])/g, '$1</strong>')
+
+    // 🔧 [方案 F] 在列表项中，将 </strong> 后面的文本包裹在 <span style="display: inline;"> 中
+    // 这样可以防止微信在 </strong> 后换行
+    // 例如：<li>...<strong>实时预览：</strong>左侧编辑...</li>
+    //   → <li>...<strong>实时预览：</strong><span style="display: inline;">左侧编辑...</span></li>
+    wechatSafeHTML = wechatSafeHTML.replace(
+      /(<li[^>]*>.*?<strong[^>]*>.*?<\/strong>)([^<]+)(<\/li>)/g,
+      '$1<span style="display: inline;">$2</span>$3'
+    )
+
+    // 🔍 DEBUG: 检查是否插入了 U+2060
+    if (import.meta.env?.DEV) {
+      const hasWordJoiner = wechatSafeHTML.includes('\u2060')
+      const wordJoinerCount = (wechatSafeHTML.match(/\u2060/g) || []).length
+      console.log('🔍 [DEBUG] U+2060 检查:', {
+        hasWordJoiner,
+        wordJoinerCount,
+        sample: wechatSafeHTML.substring(0, 500),
+        // 显示 U+2060 的位置
+        positions: [...wechatSafeHTML.matchAll(/\u2060/g)].map(m => m.index).slice(0, 10)
+      })
+
+      // 显示包含冒号的部分
+      const colonMatches = wechatSafeHTML.match(/.{0,20}[：].{0,20}/g)
+      if (colonMatches) {
+        console.log('🔍 [DEBUG] 冒号周围的内容:', colonMatches.slice(0, 5))
+      }
+
+      // 🔍 新增：检查 </span> 和 <strong> 之间的字符（在插入 U+2060 之后）
+      const spanToStrongPattern = /<\/span>([^<]*?)<strong>/g
+      const spanMatches = [...wechatSafeHTML.matchAll(spanToStrongPattern)]
+      if (spanMatches.length > 0) {
+        console.log('\n🔍 [DEBUG] </span> 和 <strong> 之间的字符（插入 U+2060 后）:')
+        spanMatches.slice(0, 5).forEach((match, i) => {
+          const between = match[1]
+          const chars = [...between].map(c => {
+            const code = c.charCodeAt(0)
+            const hex = code.toString(16).toUpperCase().padStart(4, '0')
+            let name = ''
+            if (code === 0x0020) name = 'SPACE'
+            else if (code === 0x00A0) name = 'NBSP'
+            else if (code === 0x2060) name = 'WORD_JOINER'
+            else if (code === 0x200B) name = 'ZERO_WIDTH_SPACE'
+            return `U+${hex}${name ? ` (${name})` : ''}`
+          })
+          console.log(`  ${i + 1}. 长度=${between.length}, 字符=[${chars.join(', ')}]`)
+        })
+      }
+
+      // 🔍 新增：详细分析 </strong> 和 ： 之间的字符
+      const strongPattern = /<\/strong>([^<]*?)：/g
+      const strongMatches = [...wechatSafeHTML.matchAll(strongPattern)]
+      if (strongMatches.length > 0) {
+        console.log('\n🔍 [DEBUG] </strong> 和 ： 之间的字符详细分析:')
+        strongMatches.slice(0, 5).forEach((match, i) => {
+          const between = match[1]
+          const chars = [...between].map(c => {
+            const code = c.charCodeAt(0)
+            const hex = code.toString(16).toUpperCase().padStart(4, '0')
+            return `U+${hex}`
+          })
+          console.log(`  ${i + 1}. 长度=${between.length}, 字符=[${chars.join(', ')}]`)
+        })
+      }
+    }
+
+    // 提取纯文本内容（移除不可见的 U+2060）
     const parser = new DOMParser()
-    const doc = parser.parseFromString(convertedHTML, 'text/html')
-    const plainText = doc.body.textContent || ''
+    const doc = parser.parseFromString(wechatSafeHTML, 'text/html')
+    const plainText = (doc.body.textContent || '').replace(/\u2060/g, '')
 
     // 复制到剪贴板
-    await copyToClipboard(convertedHTML, plainText)
+    await copyToClipboard(wechatSafeHTML, plainText)
+
+    // 🔍 DEBUG: 验证剪贴板内容
+    if (import.meta.env?.DEV && navigator.clipboard && navigator.clipboard.read) {
+      try {
+        const clipboardItems = await navigator.clipboard.read()
+        for (const item of clipboardItems) {
+          if (item.types.includes('text/html')) {
+            const blob = await item.getType('text/html')
+            const text = await blob.text()
+            const hasWordJoinerInClipboard = text.includes('\u2060')
+            console.log('🔍 [DEBUG] 剪贴板中的HTML:', {
+              hasWordJoiner: hasWordJoinerInClipboard,
+              sample: text.substring(0, 500)
+            })
+          }
+        }
+      } catch (e) {
+        console.warn('无法读取剪贴板内容进行验证:', e)
+      }
+    }
 
     return {
       success: true,
