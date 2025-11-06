@@ -36,7 +36,7 @@ export const BUILTIN_THEMES: ThemePreset[] = [
       // 页面全局样式（替代 body.theme-chinese）
       page: {
         styles: {
-          fontFamily: '"Songti SC", "STSong", "KaiTi", "SimSun", serif, -apple-system, BlinkMacSystemFont, sans-serif',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif',
           lineHeight: '1.9',
           color: '#333333',
           backgroundColor: '#f7f6f2',
@@ -991,7 +991,7 @@ export const BUILTIN_THEMES: ThemePreset[] = [
       // 页面全局样式（从 themes.css:418-424 提取）
       page: {
         styles: {
-          fontFamily: '"Garamond", "Palatino", "Georgia", "Times New Roman", "FangSong", "STFangsong", serif',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif',
           lineHeight: '1.9',
           color: '#3d3d3d',
           backgroundColor: '#fbf5e9',

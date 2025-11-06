@@ -35,14 +35,18 @@ function App() {
           <EditorPane />
         </aside>
         <main className="app-panel">
-          <header className="app-panel__header">
-            <span className="app-panel__eyebrow">微信预览</span>
-            {/* 移除副标题和风格切换按钮 */}
+          <header className="panel-heading app-panel__header">
+            <span className="panel-eyebrow">微信预览</span>
+            <h2 className="panel-title">效果展示</h2>
           </header>
           <PreviewPane />
         </main>
         {isSettingsOpen && (
           <aside className="app-panel settings-panel">
+            <header className="panel-heading settings-panel__header">
+              <span className="panel-eyebrow">编辑器设置</span>
+              <h2 className="panel-title">个性化配置</h2>
+            </header>
             <SettingsPanel />
           </aside>
         )}

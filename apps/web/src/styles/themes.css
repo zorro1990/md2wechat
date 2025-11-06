@@ -14,6 +14,17 @@
   --wx-code-text: #f8fafc;
 }
 
+/* ✅ 为所有主题的内容容器添加圆角 - 统一视觉 */
+/* 使用 !important 确保覆盖主题特定规则 */
+.wx-theme-chinese .content,
+.wx-theme-bytedance .content,
+.wx-theme-memphis .content,
+.wx-theme-renaissance .content,
+.wx-theme-minimalist .content,
+.wx-theme-cyberpunk .content {
+  border-radius: 14px !important;
+}
+
 /*
  * ========== 中国风主题 ==========
  */

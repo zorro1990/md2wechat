@@ -69,14 +69,8 @@ export function SettingsPanel() {
   }
 
   return (
-    <aside className="settings-panel">
-      <div className="settings-panel__header">
-        <h2 className="app-panel__title">编辑器设置</h2>
-        {/* 移除"设置"标签和"自定义你的创作体验"描述 */}
-      </div>
-
-      <div className="settings-panel__content">
-        <section className="settings-section">
+    <>
+      <section className="settings-section">
           <h3 className="settings-section__title">主题风格</h3>
           <p className="settings-section__description">选择喜欢的主题风格</p>
           <div className="theme-grid">
@@ -254,7 +248,6 @@ export function SettingsPanel() {
             </div>
           </div>
         </section>
-      </div>
-    </aside>
+    </>
   )
 }

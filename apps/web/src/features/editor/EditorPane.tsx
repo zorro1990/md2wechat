@@ -63,16 +63,10 @@ export function EditorPane() {
   }
 
   return (
-    <div
-      className="editor-pane"
-      data-testid="markdown-panel"
-      data-hydrated={isHydrated ? 'true' : 'false'}
-      data-ready={isReady ? 'true' : 'false'}
-    >
-      <header className="editor-pane__header">
-        <div className="editor-pane__title">
-          <span className="editor-pane__eyebrow">Markdown 编辑区</span>
-        </div>
+    <>
+      <header className="panel-heading">
+        <span className="panel-eyebrow">Markdown 编辑区</span>
+        <h2 className="panel-title">内容创作</h2>
       </header>
       <textarea
         ref={null}
@@ -84,8 +78,10 @@ export function EditorPane() {
         placeholder={EMPTY_MARKDOWN_PLACEHOLDER}
         spellCheck={false}
         aria-label="Markdown 编辑器"
+        data-hydrated={isHydrated ? 'true' : 'false'}
+        data-ready={isReady ? 'true' : 'false'}
       />
-    </div>
+    </>
   )
 }
 
