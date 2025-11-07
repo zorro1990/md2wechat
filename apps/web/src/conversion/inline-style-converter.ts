@@ -110,6 +110,7 @@ function applyPseudoElement(
 
 /**
  * 创建简单 marker
+ * ✅ 微信兼容: 不使用 position: absolute,改用 inline 显示
  */
 function createSimpleMarker(
   config: NonNullable<import('@/types').ListMarkerConfig['simple']>,
@@ -117,20 +118,22 @@ function createSimpleMarker(
 ): HTMLElement | null {
   const marker = document.createElement('span')
   marker.setAttribute('data-wx-marker', 'true')
-  marker.textContent = config.symbol
+  marker.textContent = config.symbol + ' '
 
-  // 默认样式
+  // ✅ 微信兼容样式: 使用 inline 而不是 absolute
   marker.style.cssText = `
-    position: absolute;
-    left: ${config.position?.left || '8px'};
+    display: inline;
     color: ${config.color};
-    font-size: 1.2em;
-    line-height: 1.4;
+    font-weight: bold;
+    margin-right: 0.3em;
   `
 
-  // 应用自定义样式
+  // 应用自定义样式(但覆盖 position 和 display)
   if (config.styles) {
     safeApplyStyles(marker, config.styles)
+    // 强制覆盖,确保微信兼容
+    marker.style.display = 'inline'
+    marker.style.position = 'static'
   }
 
   return marker
@@ -138,6 +141,7 @@ function createSimpleMarker(
 
 /**
  * 创建 nth-child marker
+ * ✅ 微信兼容: 不使用 position: absolute 和 transform
  */
 function createNthChildMarker(
   config: NthChildPattern,
@@ -146,25 +150,23 @@ function createNthChildMarker(
   const marker = document.createElement('span')
   marker.setAttribute('data-wx-marker', 'true')
   marker.setAttribute('data-wx-pattern', config.pattern)
-  marker.textContent = config.content
+  marker.textContent = config.content + ' '
 
-  // Memphis 默认样式（旋转星形）
+  // ✅ 微信兼容样式: 使用 inline 而不是 absolute
   marker.style.cssText = `
-    position: absolute;
-    left: 0;
-    top: -5px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    color: white;
-    font-size: 1.5em;
-    line-height: 40px;
-    text-align: center;
-    transform: rotate(-10deg);
+    display: inline;
+    font-weight: bold;
+    margin-right: 0.3em;
   `
 
-  // 应用自定义样式
-  safeApplyStyles(marker, config.styles)
+  // 应用自定义样式(但覆盖 position, display, transform)
+  if (config.styles) {
+    safeApplyStyles(marker, config.styles)
+    // 强制覆盖,确保微信兼容
+    marker.style.display = 'inline'
+    marker.style.position = 'static'
+    marker.style.transform = 'none'
+  }
 
   return marker
 }
@@ -172,6 +174,7 @@ function createNthChildMarker(
 /**
  * 处理复杂列表 marker
  * 支持 Memphis 的 4 色循环、自定义生成等
+ * ✅ 微信兼容: 不使用 position: relative/absolute
  */
 function processComplexListMarkers(
   listElement: HTMLElement,
@@ -189,7 +192,7 @@ function processComplexListMarkers(
     }
 
     const listItem = li as HTMLElement
-    listItem.style.position = 'relative'
+    // ❌ 移除 position: relative - 微信不支持,改用 inline marker
 
     // 1. 简单 marker（Chinese/Renaissance）
     if (markers.simple) {
@@ -275,13 +278,7 @@ function wrapContentWithContainer(
       `
     }
 
-    // 3. 应用容器的伪元素到内层
-    if (theme.structured?.container?.pseudoBefore) {
-      applyPseudoElement(innerContainer, 'before', theme.structured.container.pseudoBefore)
-    }
-    if (theme.structured?.container?.pseudoAfter) {
-      applyPseudoElement(innerContainer, 'after', theme.structured.container.pseudoAfter)
-    }
+    // ❌ 移除容器伪元素处理 - 微信不支持,已在主题配置中移除
 
     // 4. 应用装饰元素到内层
     if (theme.structured?.container?.decorations) {
@@ -321,13 +318,7 @@ function wrapContentWithContainer(
       `
     }
 
-    // 2. 应用容器的伪元素（::before/::after）
-    if (theme.structured?.container?.pseudoBefore) {
-      applyPseudoElement(container, 'before', theme.structured.container.pseudoBefore)
-    }
-    if (theme.structured?.container?.pseudoAfter) {
-      applyPseudoElement(container, 'after', theme.structured.container.pseudoAfter)
-    }
+    // ❌ 移除容器伪元素处理 - 微信不支持,已在主题配置中移除
 
     // 3. 应用装饰元素（Renaissance 等）
     if (theme.structured?.container?.decorations) {
@@ -360,10 +351,7 @@ function applyHeadingStyles(
   // 1. 基础样式
   safeApplyStyles(element, config.styles)
 
-  // 2. 变换（旋转等）
-  if (config.transforms && config.transforms.length > 0) {
-    element.style.transform = config.transforms.join(' ')
-  }
+  // ❌ 移除变换处理 - 微信不支持 transform,已在主题配置中移除
 
   // 3. 阴影效果
   if (config.textShadow) {
@@ -374,30 +362,15 @@ function applyHeadingStyles(
     element.style.boxShadow = config.boxShadow
   }
 
-  // 4. 渐变背景 - ✅ 支持普通和 repeating 两种类型
-  if (config.gradient) {
-    const { type = 'linear', angle, colors } = config.gradient
-    if (colors.length > 1) {
-      const gradientType = type === 'repeating-linear' ? 'repeating-linear-gradient' : 'linear-gradient'
-      const gradientStr = `${gradientType}(${angle}, ${colors.join(', ')})`
-      element.style.backgroundImage = gradientStr
-    }
-  }
+  // ❌ 移除渐变背景处理 - 微信不支持,已在主题配置中移除
+  // ❌ 移除伪元素处理 - 微信不支持 position: absolute,已在主题配置中移除
 
-  // 5. Counter（Minimalist）
+  // 4. Counter（Minimalist）
   if (config.counter?.reset) {
     element.style.counterReset = config.counter.reset
   }
   if (config.counter?.increment) {
     element.style.counterIncrement = config.counter.increment
-  }
-
-  // 6. 伪元素
-  if (config.pseudoBefore) {
-    applyPseudoElement(element, 'before', config.pseudoBefore)
-  }
-  if (config.pseudoAfter) {
-    applyPseudoElement(element, 'after', config.pseudoAfter)
   }
 }
 
@@ -428,15 +401,7 @@ function applyDividerStyles(
   // 1. 基础样式
   safeApplyStyles(element, config.styles)
 
-  // 2. 斜条纹图案（Memphis）
-  if (config.hasPattern && config.pattern) {
-    const { angle, colors, size } = config.pattern
-    const stripeStr = colors.map((color, i) =>
-      `${color} ${i * parseInt(size) / colors.length}px, ${color} ${(i + 1) * parseInt(size) / colors.length}px`
-    ).join(', ')
-    element.style.backgroundImage = `repeating-linear-gradient(${angle}, ${stripeStr})`
-    element.style.height = '8px'
-  }
+  // ❌ 移除斜条纹图案处理 - 微信不支持 background-image,已在主题配置中移除
 }
 
 /**
@@ -970,6 +935,114 @@ function processComponentTemplates(element: HTMLElement, theme: ThemePreset): vo
       element.style.setProperty(prop, String(value))
     })
   }
+
+  // ========== 对话框组件 ==========
+  const components = theme.structured?.components
+
+  // 对话框容器
+  if (classList.contains('dialogue-container') && components?.dialogueContainer) {
+    Object.entries(components.dialogueContainer).forEach(([prop, value]) => {
+      const kebabProp = prop.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
+      element.style.setProperty(kebabProp, String(value))
+    })
+  }
+
+  // 对话标题
+  if (classList.contains('dialogue-title') && components?.dialogueTitle) {
+    Object.entries(components.dialogueTitle).forEach(([prop, value]) => {
+      const kebabProp = prop.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
+      element.style.setProperty(kebabProp, String(value))
+    })
+  }
+
+  // 对话消息容器
+  if (classList.contains('dialogue-messages') && components?.dialogueMessages) {
+    Object.entries(components.dialogueMessages).forEach(([prop, value]) => {
+      const kebabProp = prop.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
+      element.style.setProperty(kebabProp, String(value))
+    })
+  }
+
+  // 对话消息
+  if (classList.contains('dialogue-message')) {
+    // 基础样式
+    if (components?.dialogueMessage) {
+      Object.entries(components.dialogueMessage).forEach(([prop, value]) => {
+        const kebabProp = prop.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
+        element.style.setProperty(kebabProp, String(value))
+      })
+    }
+
+    // 用户消息
+    if (classList.contains('user') && components?.dialogueMessageUser) {
+      Object.entries(components.dialogueMessageUser).forEach(([prop, value]) => {
+        const kebabProp = prop.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
+        element.style.setProperty(kebabProp, String(value))
+      })
+    }
+
+    // AI消息
+    if (classList.contains('ai') && components?.dialogueMessageAi) {
+      Object.entries(components.dialogueMessageAi).forEach(([prop, value]) => {
+        const kebabProp = prop.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
+        element.style.setProperty(kebabProp, String(value))
+      })
+    }
+  }
+
+  // 对话头像
+  if (classList.contains('dialogue-avatar')) {
+    // 基础样式
+    if (components?.dialogueAvatar) {
+      Object.entries(components.dialogueAvatar).forEach(([prop, value]) => {
+        const kebabProp = prop.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
+        element.style.setProperty(kebabProp, String(value))
+      })
+    }
+
+    // 用户头像
+    if (classList.contains('user') && components?.dialogueAvatarUser) {
+      Object.entries(components.dialogueAvatarUser).forEach(([prop, value]) => {
+        const kebabProp = prop.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
+        element.style.setProperty(kebabProp, String(value))
+      })
+    }
+
+    // AI头像
+    if (classList.contains('ai') && components?.dialogueAvatarAi) {
+      Object.entries(components.dialogueAvatarAi).forEach(([prop, value]) => {
+        const kebabProp = prop.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
+        element.style.setProperty(kebabProp, String(value))
+      })
+    }
+  }
+
+  // 对话气泡
+  if (classList.contains('dialogue-bubble')) {
+    // 基础样式
+    if (components?.dialogueBubble) {
+      Object.entries(components.dialogueBubble).forEach(([prop, value]) => {
+        const kebabProp = prop.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
+        element.style.setProperty(kebabProp, String(value))
+      })
+    }
+
+    // 检查气泡自己的类名或父元素的类名
+    const isUser = classList.contains('user')
+    const isAi = classList.contains('ai')
+
+    if (isUser && components?.dialogueBubbleUser) {
+      Object.entries(components.dialogueBubbleUser).forEach(([prop, value]) => {
+        const kebabProp = prop.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
+        element.style.setProperty(kebabProp, String(value))
+      })
+    } else if (isAi && components?.dialogueBubbleAi) {
+      Object.entries(components.dialogueBubbleAi).forEach(([prop, value]) => {
+        const kebabProp = prop.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
+        element.style.setProperty(kebabProp, String(value))
+      })
+    }
+  }
 }
 
 /**
@@ -1000,6 +1073,11 @@ function processIcons(element: HTMLElement): void {
  */
 function processTables(element: HTMLElement, theme: ThemePreset): void {
   if (element.tagName === 'TABLE') {
+    // 跳过对话框表格 (由对话框样式处理)
+    if (element.classList.contains('dialogue-messages')) {
+      return
+    }
+
     // 设置表格整体样式
     element.style.cssText = `
       width: 100%;
@@ -1248,6 +1326,17 @@ export async function copyConvertedHTML(html: string, theme: ThemePreset): Promi
     wechatSafeHTML = wechatSafeHTML.replace(
       /(<li[^>]*>.*?<strong[^>]*>.*?<\/strong>)([^<]+)(<\/li>)/g,
       '$1<span style="display: inline;">$2</span>$3'
+    )
+
+    // 🔧 [方案 G] 在列表项中，将 marker 后面的裸文本节点包裹在 <span style="display: inline;"> 中
+    // 这样可以防止微信在 marker 和文本之间插入换行
+    // 例如：<li><span data-wx-marker="true">● </span>简洁的设计哲学</li>
+    //   → <li><span data-wx-marker="true">● </span><span style="display: inline;">简洁的设计哲学</span></li>
+    // 注意：这个正则会匹配所有marker后面的文本，包括已经被方案F处理过的
+    // 所以需要排除已经被<span>包裹的文本
+    wechatSafeHTML = wechatSafeHTML.replace(
+      /(<span[^>]*data-wx-marker="true"[^>]*>.*?<\/span>)([^<]+)/g,
+      '$1<span style="display: inline;">$2</span>'
     )
 
     // 🔍 DEBUG: 检查是否插入了 U+2060

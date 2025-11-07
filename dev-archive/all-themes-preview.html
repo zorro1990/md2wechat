@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全部17个主题预览</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f0f2f5; padding: 20px; }
+        .container { max-width: 1600px; margin: 0 auto; }
+        .page-title { text-align: center; color: #333; margin-bottom: 30px; font-size: 36px; font-weight: bold; }
+        .theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); gap: 25px; }
+        .theme-card { background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; transition: transform 0.2s; }
+        .theme-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+        .theme-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 18px 24px; }
+        .theme-name { font-size: 20px; font-weight: bold; margin-bottom: 6px; }
+        .theme-desc { font-size: 13px; opacity: 0.95; }
+        .theme-content { padding: 24px; max-height: 500px; overflow-y: auto; font-size: 14px; line-height: 1.6; }
+        .theme-content::-webkit-scrollbar { width: 6px; }
+        .theme-content::-webkit-scrollbar-track { background: #f1f1f1; }
+        .theme-content::-webkit-scrollbar-thumb { background: #888; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="page-title">�� 全部17个主题预览</h1>
+        <div class="theme-grid" id="themeGrid"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/gh/zorro-html/md2wechat-themes@main/all-themes.js"></script>
+</body>
+</html>

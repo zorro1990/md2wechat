@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主题预览 - 5个精选CSS主题</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .theme-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .theme-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .theme-content {
+            padding: 20px;
+            max-height: 600px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        /* 基础样式 */
+        .theme-content h1,
+        .theme-content h2,
+        .theme-content h3,
+        .theme-content h4,
+        .theme-content h5,
+        .theme-content h6 {
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        
+        .theme-content p {
+            margin: 0.8em 0;
+        }
+        
+        .theme-content ul,
+        .theme-content ol {
+            margin: 1em 0;
+            padding-left: 2em;
+        }
+        
+        .theme-content li {
+            margin: 0.5em 0;
+        }
+        
+        .theme-content blockquote {
+            margin: 1em 0;
+            padding: 10px 15px;
+            border-left: 4px solid #ddd;
+            background: #f9f9f9;
+        }
+        
+        .theme-content code {
+            padding: 2px 6px;
+            background: #f5f5f5;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .theme-content pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 1em 0;
+        }
+        
+        .theme-content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        .theme-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1em 0;
+        }
+        
+        .theme-content table th,
+        .theme-content table td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        
+        .theme-content table th {
+            background: #f5f5f5;
+            font-weight: bold;
+        }
+        
+        .theme-content a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        
+        .theme-content hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 2em 0;
+        }
+        
+        .theme-content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1em auto;
+        }
+        
+        .theme-content strong {
+            font-weight: bold;
+        }
+        
+        .theme-content em {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 5个精选微信兼容主题预览</h1>
+        <div class="theme-grid" id="themeGrid"></div>
+    </div>
+
+    <script>
+        // Markdown内容
+        const markdownContent = `# 欢迎使用微信 Markdown 编辑器
+
+**沉浸创作，美由心生。我们致力于为您提供一个简洁、高效、美观的公众号文章排版工具。**
+
+您只管专注于文字，排版的美感，我们来呈现。
+
+---
+
+## ✨ 主要功能
+
+*   **实时预览**：左侧编辑，右侧即时查看排版效果。
+*   **一键复制**：轻松复制富文本格式，直接粘贴到公众号后台。
+*   **精美样式**：内置精心调校的微信主题，确保最佳阅读体验。
+
+## 🚀 如何使用
+
+### 🖊️ 基础编辑
+
+1.  在左侧的编辑区输入或粘贴您的 Markdown 内容。
+2.  在右侧的预览区查看实时渲染的效果。
+3.  点击右上角的"复制"按钮，然后到微信公众号后台粘贴即可。
+
+### 文本与段落
+
+这是普通段落文本。我们相信，好的工具能让创作事半功倍。通过简化排版流程，您可以将更多精力投入到创造有价值的内容上。\`代码内联\` 也是支持的。
+
+**这是加粗文本**，而 *这是斜体文本*。
+
+### 引用
+
+> 这是一个标准的引用块。正如乔布斯所说：设计不仅仅是外观和感觉，设计是产品如何运作。
+
+### 列表
+
+**无序列表:**
+*   简洁的设计哲学
+*   强大的功能内核
+*   流畅的用户体验
+
+**有序列表:**
+1.  撰写内容
+2.  调整排版
+3.  发布分享
+
+### 代码块
+
+\`\`\`javascript
+function sayHello(name) {
+  console.log(\`Hello, \${name}!\`);
+}
+\`\`\`
+
+### 表格
+
+| 功能 | 状态 | 优先级 |
+| --- | --- | --- |
+| 实时预览 | ✅ 已支持 | 高 |
+| 自定义主题 | 🚀 计划中 | 中 |
+
+---
+
+感谢使用！`;
+
+        // 5个主题的CSS样式
+        const themes = [
+            {
+                name: '1. 极简主题 (jian)',
+                description: '简洁优雅 · 100%微信兼容',
+                css: `
+                    font-size: 16px;
+                    color: #333;
+                    font-family: -apple-system, system-ui, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+
+                    h1 { font-size: 1.4em; padding-bottom: 0.3em; border-bottom: 1px solid #dfe2e5; }
+                    h2 { font-size: 1.3em; padding-bottom: 0.3em; border-bottom: 1px solid #dfe2e5; }
+                    h3 { font-size: 1.2em; }
+
+                    p { margin: 1em 0; color: #333; }
+
+                    blockquote { background: none; border-left: 4px solid #ddd; padding: 0 1em; }
+                    blockquote p { margin: 0; color: #666; }
+
+                    a { color: #3e64ff; font-weight: normal; }
+
+                    strong { color: #333; }
+
+                    code { color: #e46918; background-color: #efefef; padding: 2px 6px; border-radius: 3px; }
+
+                    pre { background: #f5f5f5; padding: 15px; border-radius: 4px; }
+                    pre code { background: none; color: #333; }
+
+                    hr { border-top: 1px solid #dfe2e5; }
+                `
+            },
+            {
+                name: '2. 橙心主题 (chengxin)',
+                description: '活力橙红 · 适合热情内容',
+                css: `
+                    font-size: 15px;
+                    color: #333;
+
+                    h1 { font-size: 24px; font-weight: bold; margin-top: 30px; margin-bottom: 15px; }
+
+                    h2 {
+                        border-bottom: 2px solid rgb(239, 112, 96);
+                        font-size: 1.3em;
+                        padding-bottom: 10px;
+                        color: rgb(239, 112, 96);
+                        font-weight: bold;
+                    }
+
+                    h3 { font-size: 1.2em; font-weight: bold; margin: 1em 0; }
+
+                    blockquote { border-left: 4px solid rgb(239, 112, 96); background: #fff9f9; padding: 10px 15px; }
+
+                    a { color: rgb(239, 112, 96); border-bottom: 1px solid rgb(239, 112, 96); }
+
+                    strong { font-weight: bold; }
+
+                    code { color: rgb(239, 112, 96); background: #fff9f9; padding: 2px 6px; border-radius: 3px; }
+
+                    pre { background: #f5f5f5; padding: 15px; border-radius: 4px; }
+                    pre code { background: none; color: #333; }
+                `
+            },
+            {
+                name: '3. 绿意主题 (lvyi)',
+                description: '清新绿色 · 自然舒适',
+                css: `
+                    font-size: 15px;
+                    letter-spacing: 0.05em;
+                    color: #595959;
+
+                    h1 { margin: 1.2em 0 1em; font-weight: bold; color: #35b378; }
+
+                    h2 {
+                        line-height: 32px;
+                        color: #35b378;
+                        padding: 0.5em 0;
+                        font-size: 23px;
+                        margin: 1em 0;
+                        font-weight: bold;
+                    }
+
+                    h3 { margin: 1.2em 0 1em; font-weight: bold; color: #35b378; }
+
+                    p { margin: 1em 4px; }
+
+                    blockquote {
+                        margin: 10px 5px;
+                        border-left: 3px solid #35b378;
+                        color: #616161;
+                        background: #fbf9fd;
+                        padding: 10px 15px;
+                    }
+
+                    a { color: #35b378; border-bottom: 1px solid #35b378; }
+
+                    strong { color: #35b378; font-weight: bold; }
+
+                    code { color: #35b378; background: #f5f5f5; padding: 2px 6px; border-radius: 3px; }
+
+                    pre { background: #f5f5f5; padding: 15px; border-radius: 4px; }
+                    pre code { background: none; color: #333; }
+
+                    hr { border: 1px solid #35b378; margin: 1.5em auto; }
+                `
+            },
+            {
+                name: '4. 茶紫主题 (chazi)',
+                description: '优雅紫色 · 高贵典雅',
+                css: `
+                    font-size: 15px;
+                    letter-spacing: 0.05em;
+                    color: #595959;
+
+                    h1 { margin: 1.2em 0 1em; font-weight: bold; color: #773098; }
+
+                    h2 {
+                        line-height: 28px;
+                        color: #773098;
+                        border-bottom: 1px solid #773098;
+                        padding: 0.5em 0;
+                        font-size: 22px;
+                        margin: 1em auto;
+                        text-align: center;
+                        width: 85%;
+                        font-weight: bold;
+                    }
+
+                    h3 { margin: 1.2em 0 1em; font-weight: bold; color: #773098; }
+
+                    p { margin: 1em 4px; }
+
+                    blockquote {
+                        margin: 10px 5px;
+                        border-left: 3px solid #9654b5;
+                        border-right: 1px solid #9654b5;
+                        color: #616161;
+                        background: #fbf9fd;
+                        padding: 10px 15px;
+                    }
+
+                    a { color: #773098; border-bottom: 1px solid #773098; }
+
+                    strong { color: #773098; font-weight: bold; }
+
+                    code { color: #9654b5; background: #f5f5f5; padding: 2px 6px; border-radius: 3px; }
+
+                    pre { background: #f5f5f5; padding: 15px; border-radius: 4px; }
+                    pre code { background: none; color: #333; }
+
+                    hr { border: 1px solid #773098; margin: 1.5em auto; }
+                `
+            },
+            {
+                name: '5. 蓝樱主题 (lanying)',
+                description: '科技蓝色 · 现代专业',
+                css: `
+                    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+                    font-size: 15px;
+                    color: #666;
+
+                    h1 {
+                        font-size: 1.7em;
+                        font-weight: normal;
+                        border-bottom: 2px solid hsl(216, 100%, 68%);
+                        color: white;
+                        background: hsl(216, 100%, 68%);
+                        padding: 3px 10px;
+                        border-radius: 3px 3px 0 0;
+                    }
+
+                    h2 {
+                        font-weight: normal;
+                        color: #333;
+                        font-size: 1.4em;
+                        border-bottom: 1px solid hsl(216, 100%, 68%);
+                        padding-bottom: 3px;
+                    }
+
+                    h3 { font-weight: normal; color: #333; font-size: 1.2em; }
+
+                    p { color: #666; }
+
+                    blockquote {
+                        background: #f9f9f9;
+                        border-left: 4px solid hsl(216, 100%, 68%);
+                        padding: 10px 15px;
+                    }
+                    blockquote p { color: #999; padding: 3px 0; }
+
+                    a { color: hsl(187, 100%, 45%); font-weight: normal; }
+
+                    strong { color: hsl(216, 80%, 44%); font-weight: bold; }
+
+                    em {
+                        font-style: normal;
+                        color: white;
+                        background: hsl(244, 100%, 75%);
+                        padding: 2px 4px;
+                        margin: 0 2px;
+                    }
+
+                    code { color: hsl(216, 100%, 68%); background: #f5f5f5; padding: 2px 6px; border-radius: 3px; }
+
+                    pre { background: #f5f5f5; padding: 15px; border-radius: 4px; }
+                    pre code { background: none; color: #333; }
+
+                    hr {
+                        width: 90%;
+                        margin: 1.5em auto;
+                        border-top: 2px dashed hsl(216, 100%, 68%);
+                    }
+                `
+            }
+        ];
+
+        // 渲染主题
+        function renderThemes() {
+            const grid = document.getElementById('themeGrid');
+
+            themes.forEach((theme, index) => {
+                const card = document.createElement('div');
+                card.className = 'theme-card';
+
+                const header = document.createElement('div');
+                header.className = 'theme-header';
+                header.innerHTML = `
+                    <div>${theme.name}</div>
+                    <div style="font-size: 12px; font-weight: normal; opacity: 0.9; margin-top: 5px;">${theme.description}</div>
+                `;
+
+                const content = document.createElement('div');
+                content.className = `theme-content theme-${index}`;
+                content.innerHTML = marked.parse(markdownContent);
+
+                // 应用主题CSS - 使用更具体的选择器
+                const style = document.createElement('style');
+                const cssRules = theme.css
+                    .split('}')
+                    .filter(rule => rule.trim())
+                    .map(rule => {
+                        const trimmed = rule.trim();
+                        if (!trimmed) return '';
+
+                        // 为每个CSS规则添加主题特定的前缀
+                        const parts = trimmed.split('{');
+                        if (parts.length === 2) {
+                            const selector = parts[0].trim();
+                            const properties = parts[1].trim();
+
+                            // 如果选择器不包含空格,说明是简单选择器
+                            if (!selector.includes(' ')) {
+                                return `.theme-${index} ${selector} { ${properties} }`;
+                            } else {
+                                // 复杂选择器,在最前面添加类名
+                                return `.theme-${index} ${selector} { ${properties} }`;
+                            }
+                        }
+                        return trimmed;
+                    })
+                    .join('\n');
+
+                style.textContent = cssRules;
+                document.head.appendChild(style);
+
+                card.appendChild(header);
+                card.appendChild(content);
+                grid.appendChild(card);
+            });
+        }
+
+        // 页面加载完成后渲染
+        window.addEventListener('DOMContentLoaded', renderThemes);
+    </script>
+</body>
+</html>
+

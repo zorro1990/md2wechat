@@ -78,16 +78,11 @@ export const BUILTIN_THEMES: ThemePreset[] = [
             padding: '10px 20px',
             display: 'inline-block',
             backgroundColor: '#a72f2f',
+            // ✅ 微信兼容: 用边框替代渐变纹理,增加视觉层次
+            border: '2px solid rgba(255, 255, 255, 0.2)',
+            boxShadow: '0 2px 8px rgba(167, 47, 47, 0.3)',
           },
-          // 渐变背景 - ✅ 支持 repeating-linear-gradient
-          gradient: {
-            type: 'repeating-linear',  // 关键：指定类型
-            angle: '135deg',
-            colors: [
-              'rgba(255,255,255,0.05) 0 1px',  // ✅ 真实语法：颜色 + 位置范围
-              'transparent 1px 4px',           // ✅ 真实语法：颜色 + 位置范围
-            ],
-          },
+          // ❌ 移除渐变配置 - 微信不支持 background-image
         },
         h3: {
           styles: {
@@ -146,7 +141,7 @@ export const BUILTIN_THEMES: ThemePreset[] = [
           styles: {
             marginBottom: '1.2em',
             paddingLeft: '28px', // 为 marker 留出空间
-            position: 'relative',
+            // ❌ 移除 position: relative - 微信会过滤
             lineHeight: '1.8',
           },
         },
@@ -600,20 +595,18 @@ export const BUILTIN_THEMES: ThemePreset[] = [
       '--wx-code-text': '#000000',
     },
     structured: {
-      // 页面全局样式（从 themes.css:236-244 提取）
+      // 页面全局样式 - ✅ 微信兼容版本
       page: {
         styles: {
           fontFamily: '-apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif',
           lineHeight: '1.8',
           color: '#2c2c2c',
           backgroundColor: '#f7f7f7',
-          backgroundImage: 'radial-gradient(#ffd166 15%, transparent 16%), radial-gradient(#06d6a0 15%, transparent 16%)',
-          backgroundSize: '60px 60px',
-          backgroundPosition: '0 0, 30px 30px',
+          // ❌ 移除 backgroundImage - 微信不支持径向渐变
         },
       },
 
-      // 容器样式（从 themes.css:246-253 提取）
+      // 容器样式 - ✅ 微信兼容版本
       container: {
         styles: {
           backgroundColor: '#ffffff',
@@ -621,37 +614,11 @@ export const BUILTIN_THEMES: ThemePreset[] = [
           border: '3px solid #000',
           maxWidth: '800px',
           margin: '0 auto',
-          position: 'relative',
+          // ❌ 移除 position: relative
+          // ✅ 用多重边框模拟装饰效果
+          boxShadow: '0 0 0 8px #ffd166, 0 0 0 11px #000',
         },
-        pseudoBefore: {
-          content: '',
-          styles: {
-            position: 'absolute',
-            top: '-25px',
-            left: '20px',
-            width: '120px',
-            height: '15px',
-            backgroundImage: 'repeating-linear-gradient(-45deg, #000, #000 10px, #ffd166 10px, #ffd166 20px)',
-            zIndex: '1',
-            transform: 'rotate(-3deg)',
-          },
-          positioning: 'absolute',
-        },
-        pseudoAfter: {
-          content: '',
-          styles: {
-            position: 'absolute',
-            bottom: '20px',
-            right: '-30px',
-            width: '0',
-            height: '0',
-            borderStyle: 'solid',
-            borderWidth: '0 30px 50px 30px',
-            borderColor: 'transparent transparent #EF476F transparent',
-            zIndex: '-1',
-          },
-          positioning: 'absolute',
-        },
+        // ❌ 移除所有伪元素 - 需要 position: absolute
       },
 
       // 标题样式（从 themes.css:280-331 提取）
@@ -669,7 +636,7 @@ export const BUILTIN_THEMES: ThemePreset[] = [
             border: '3px solid #000',
             boxShadow: '8px 8px 0 #EF476F',
           },
-          transforms: ['rotate(-2deg)'],
+          // ❌ 移除 transforms - 微信不支持 rotate
           boxShadow: '8px 8px 0 #EF476F',
         },
         h2: {
@@ -684,7 +651,7 @@ export const BUILTIN_THEMES: ThemePreset[] = [
             display: 'inline-block',
             boxShadow: '8px 8px 0 #FFD166',
           },
-          transforms: ['rotate(1.5deg)'],
+          // ❌ 移除 transforms - 微信不支持 rotate
           boxShadow: '8px 8px 0 #FFD166',
         },
         h3: {
@@ -697,8 +664,7 @@ export const BUILTIN_THEMES: ThemePreset[] = [
             display: 'inline-block',
             border: '2px solid #000',
             background: '#fff',
-            position: 'relative',
-            zIndex: '1',
+            // ❌ 移除 position: relative 和 zIndex
           },
         },
         h4: {
@@ -710,7 +676,7 @@ export const BUILTIN_THEMES: ThemePreset[] = [
             padding: '8px 30px 8px 15px',
             display: 'inline-block',
             backgroundColor: '#06D6A0',
-            position: 'relative',
+            // ❌ 移除 position: relative
             border: '2px solid #000',
             boxShadow: '4px 4px 0px #000',
           },
@@ -1110,7 +1076,7 @@ export const BUILTIN_THEMES: ThemePreset[] = [
       // 引用块样式（从 themes.css:485-498 提取）
       blockquote: {
         styles: {
-          fontFamily: '"Georgia", "Times New Roman", "KaiTi", "STKaiti", serif',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "KaiTi", "STKaiti", serif, sans-serif',
           fontSize: '1.2em',
           fontStyle: 'italic',
           color: '#9B2226',
@@ -1534,128 +1500,2133 @@ export const BUILTIN_THEMES: ThemePreset[] = [
       },
     },
   }),
+  // ========== 新增主题: 第一批微信兼容主题 ==========
   buildTheme({
-    id: 'cyberpunk',
-    name: '赛博朋克风',
+    id: 'business',
+    name: '简约商务风',
     tokens: {
-      '--wx-surface': '#1a1a2e',
-      '--wx-text': '#cddc39',
-      '--wx-heading': '#ffffff',
-      '--wx-subheading': '#cddc39',
-      '--wx-accent': '#00ffff',
-      '--wx-accent-contrast': '#000000',
-      '--wx-link': '#ff00ff',
-      '--wx-quote-border': '#ffff00',
-      '--wx-code-bg': '#000000',
-      '--wx-code-text': '#cddc39',
+      '--wx-surface': '#ffffff',
+      '--wx-text': '#333333',
+      '--wx-heading': '#1a1a1a',
+      '--wx-subheading': '#666666',
+      '--wx-accent': '#2c3e50',
+      '--wx-accent-contrast': '#ffffff',
+      '--wx-link': '#2c3e50',
+      '--wx-quote-border': '#d0d0d0',
+      '--wx-code-bg': '#f5f5f5',
+      '--wx-code-text': '#333333',
     },
     structured: {
-      // 页面全局样式（从 themes.css:673-679 提取）
+      // 页面全局样式 - ✅ 100%微信兼容
       page: {
         styles: {
-          fontFamily: '"SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, "PingFang SC", "Microsoft YaHei", sans-serif',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif',
           lineHeight: '1.8',
-          color: '#cddc39',
-          backgroundColor: '#1a1a2e',
-          backgroundImage: 'repeating-linear-gradient(0deg, rgba(22, 22, 47, 0.8), rgba(22, 22, 47, 0.8) 1px, transparent 1px, transparent 4px)',
+          color: '#333333',
+          backgroundColor: '#ffffff',
         },
       },
 
-      // 容器样式（从 themes.css:681-689 提取）
+      // 容器样式 - ✅ 100%微信兼容
       container: {
         styles: {
-          backgroundColor: 'rgba(16, 16, 32, 0.7)',
-          padding: '28px',
-          border: '1px solid #00ffff',
-          boxShadow: '0 0 15px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.2)',
-          backdropFilter: 'blur(5px)',
+          backgroundColor: '#ffffff',
+          padding: '40px 30px',
+          border: '1px solid #e8e8e8',
           maxWidth: '800px',
           margin: '0 auto',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
         },
       },
 
-      // 标题样式（从 themes.css:691-738 提取）
+      // 标题样式 - ✅ 100%微信兼容
+      headings: {
+        h1: {
+          styles: {
+            fontSize: '2em',
+            fontWeight: '600',
+            textAlign: 'center',
+            color: '#1a1a1a',
+            margin: '20px 0 30px',
+            paddingBottom: '20px',
+            borderBottom: '1px solid #e8e8e8',
+            letterSpacing: '0.5px',
+          },
+        },
+        h2: {
+          styles: {
+            fontSize: '1.6em',
+            fontWeight: '600',
+            color: '#1a1a1a',
+            margin: '40px 0 20px',
+            paddingBottom: '12px',
+            borderBottom: '1px solid #e8e8e8',
+          },
+        },
+        h3: {
+          styles: {
+            fontSize: '1.3em',
+            fontWeight: '600',
+            color: '#333333',
+            margin: '30px 0 15px',
+            paddingLeft: '12px',
+            borderLeft: '3px solid #2c3e50',
+          },
+        },
+        h4: {
+          styles: {
+            fontSize: '1.1em',
+            fontWeight: '600',
+            color: '#666666',
+            margin: '25px 0 12px',
+          },
+        },
+      },
+
+      // 列表样式 - ✅ 100%微信兼容
+      lists: {
+        ul: {
+          styles: {
+            margin: '20px 0',
+            paddingLeft: '1.5em',
+            listStyle: 'none',
+          },
+          markers: {
+            simple: {
+              symbol: '•',
+              color: '#2c3e50',
+              styles: {
+                fontSize: '1em',
+              },
+            },
+          },
+        },
+        ol: {
+          styles: {
+            margin: '20px 0',
+            paddingLeft: '1.5em',
+          },
+          listStyle: 'decimal',
+        },
+        li: {
+          styles: {
+            marginBottom: '0.8em',
+            lineHeight: '1.8',
+            color: '#333333',
+          },
+        },
+      },
+
+      // 链接样式 - ✅ 100%微信兼容
+      links: {
+        styles: {
+          color: '#2c3e50',
+          textDecoration: 'none',
+          borderBottom: '1px solid rgba(44, 62, 80, 0.3)',
+        },
+        hoverStyles: {
+          borderBottomColor: '#2c3e50',
+        },
+      },
+
+      // 引用块样式 - ✅ 100%微信兼容
+      blockquote: {
+        styles: {
+          backgroundColor: '#f9f9f9',
+          color: '#666666',
+          padding: '15px 20px',
+          margin: '20px 0',
+          borderLeft: '4px solid #d0d0d0',
+          fontSize: '0.95em',
+          lineHeight: '1.7',
+        },
+      },
+
+      // 代码块样式 - ✅ 100%微信兼容
+      codeBlocks: {
+        code: {
+          fontFamily: '"SFMono-Regular", Consolas, Menlo, Courier, monospace',
+          backgroundColor: '#f5f5f5',
+          color: '#333333',
+          padding: '0.2em 0.5em',
+          fontSize: '0.9em',
+          borderRadius: '3px',
+        },
+        pre: {
+          fontFamily: '"SFMono-Regular", Consolas, Menlo, Courier, monospace',
+          background: '#f5f5f5',
+          color: '#333333',
+          padding: '15px',
+          margin: '20px 0',
+          borderRadius: '4px',
+          border: '1px solid #e8e8e8',
+          overflowX: 'auto',
+        },
+      },
+
+      // 分隔符样式 - ✅ 100%微信兼容
+      dividers: {
+        styles: {
+          border: 'none',
+          height: '1px',
+          backgroundColor: '#e8e8e8',
+          margin: '30px 0',
+        },
+      },
+
+      // 表格样式 - ✅ 100%微信兼容
+      tables: {
+        table: {
+          width: '100%',
+          borderCollapse: 'collapse',
+          margin: '20px 0',
+        },
+        th: {
+          backgroundColor: '#f5f5f5',
+          color: '#1a1a1a',
+          padding: '12px 15px',
+          border: '1px solid #e8e8e8',
+          textAlign: 'left',
+          fontWeight: '600',
+        },
+        td: {
+          padding: '12px 15px',
+          border: '1px solid #e8e8e8',
+          color: '#333333',
+          lineHeight: '1.6',
+        },
+        tr: {
+          border: '1px solid #e8e8e8',
+        },
+      },
+
+      // 组件模板 - ✅ 100%微信兼容
+      components: {
+        ctaLink: {
+          display: 'inline-block',
+          padding: '10px 24px',
+          background: '#2c3e50',
+          borderRadius: '4px',
+          fontWeight: '600',
+          color: '#ffffff',
+          textDecoration: 'none',
+          textAlign: 'center',
+        },
+        pill: {
+          display: 'inline-flex',
+          alignItems: 'center',
+          padding: '4px 12px',
+          borderRadius: '12px',
+          background: '#f5f5f5',
+          color: '#333333',
+          fontSize: '0.875em',
+          fontWeight: '500',
+        },
+      },
+    },
+  }),
+  buildTheme({
+    id: 'literary',
+    name: '清新文艺风',
+    tokens: {
+      '--wx-surface': '#faf9f7',
+      '--wx-text': '#5a5a5a',
+      '--wx-heading': '#8b7d6b',
+      '--wx-subheading': '#9a8c7e',
+      '--wx-accent': '#b8a89a',
+      '--wx-accent-contrast': '#ffffff',
+      '--wx-link': '#8b7d6b',
+      '--wx-quote-border': '#d4c4b0',
+      '--wx-code-bg': '#f5f3f0',
+      '--wx-code-text': '#5a5a5a',
+    },
+    structured: {
+      // 页面全局样式 - ✅ 100%微信兼容 (莫兰迪色系)
+      page: {
+        styles: {
+          fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif',
+          lineHeight: '2',
+          color: '#5a5a5a',
+          backgroundColor: '#faf9f7',
+        },
+      },
+
+      // 容器样式 - ✅ 100%微信兼容
+      container: {
+        styles: {
+          backgroundColor: '#ffffff',
+          padding: '35px 30px',
+          border: '1px solid #e8e3dc',
+          maxWidth: '800px',
+          margin: '0 auto',
+          boxShadow: '0 2px 12px rgba(139, 125, 107, 0.08)',
+          borderRadius: '8px',
+        },
+      },
+
+      // 标题样式 - ✅ 100%微信兼容
+      headings: {
+        h1: {
+          styles: {
+            fontSize: '1.9em',
+            fontWeight: '500',
+            textAlign: 'center',
+            color: '#8b7d6b',
+            margin: '20px 0 30px',
+            paddingBottom: '18px',
+            borderBottom: '1px solid #e8e3dc',
+            letterSpacing: '1px',
+          },
+        },
+        h2: {
+          styles: {
+            fontSize: '1.5em',
+            fontWeight: '500',
+            color: '#8b7d6b',
+            margin: '35px 0 20px',
+            paddingBottom: '10px',
+            borderBottom: '1px dashed #d4c4b0',
+          },
+        },
+        h3: {
+          styles: {
+            fontSize: '1.3em',
+            fontWeight: '500',
+            color: '#9a8c7e',
+            margin: '28px 0 15px',
+            paddingLeft: '15px',
+            borderLeft: '3px solid #d4c4b0',
+          },
+        },
+        h4: {
+          styles: {
+            fontSize: '1.1em',
+            fontWeight: '500',
+            color: '#9a8c7e',
+            margin: '22px 0 12px',
+          },
+        },
+      },
+
+      // 列表样式 - ✅ 100%微信兼容
+      lists: {
+        ul: {
+          styles: {
+            margin: '18px 0',
+            paddingLeft: '1.5em',
+            listStyle: 'none',
+          },
+          markers: {
+            simple: {
+              symbol: '◦',
+              color: '#b8a89a',
+              styles: {
+                fontSize: '1.2em',
+              },
+            },
+          },
+        },
+        ol: {
+          styles: {
+            margin: '18px 0',
+            paddingLeft: '1.5em',
+          },
+          listStyle: 'decimal',
+        },
+        li: {
+          styles: {
+            marginBottom: '0.9em',
+            lineHeight: '2',
+            color: '#5a5a5a',
+          },
+        },
+      },
+
+      // 链接样式 - ✅ 100%微信兼容
+      links: {
+        styles: {
+          color: '#8b7d6b',
+          textDecoration: 'none',
+          borderBottom: '1px solid rgba(139, 125, 107, 0.3)',
+        },
+        hoverStyles: {
+          backgroundColor: 'rgba(139, 125, 107, 0.05)',
+          borderBottomColor: '#8b7d6b',
+        },
+      },
+
+      // 引用块样式 - ✅ 100%微信兼容
+      blockquote: {
+        styles: {
+          backgroundColor: '#f5f3f0',
+          color: '#7a7a7a',
+          padding: '18px 22px',
+          margin: '22px 0',
+          borderLeft: '4px solid #d4c4b0',
+          fontSize: '0.95em',
+          lineHeight: '1.9',
+          fontStyle: 'italic',
+          borderRadius: '4px',
+        },
+      },
+
+      // 代码块样式 - ✅ 100%微信兼容
+      codeBlocks: {
+        code: {
+          fontFamily: '"SFMono-Regular", Consolas, Menlo, Courier, monospace',
+          backgroundColor: '#f5f3f0',
+          color: '#5a5a5a',
+          padding: '0.2em 0.5em',
+          fontSize: '0.9em',
+          borderRadius: '3px',
+        },
+        pre: {
+          fontFamily: '"SFMono-Regular", Consolas, Menlo, Courier, monospace',
+          background: '#f5f3f0',
+          color: '#5a5a5a',
+          padding: '15px',
+          margin: '20px 0',
+          borderRadius: '6px',
+          border: '1px solid #e8e3dc',
+          overflowX: 'auto',
+        },
+      },
+
+      // 分隔符样式 - ✅ 100%微信兼容
+      dividers: {
+        styles: {
+          border: 'none',
+          height: '1px',
+          backgroundColor: '#e8e3dc',
+          margin: '35px 0',
+        },
+      },
+
+      // 表格样式 - ✅ 100%微信兼容
+      tables: {
+        table: {
+          width: '100%',
+          borderCollapse: 'collapse',
+          margin: '20px 0',
+        },
+        th: {
+          backgroundColor: '#f5f3f0',
+          color: '#8b7d6b',
+          padding: '12px 15px',
+          border: '1px solid #e8e3dc',
+          textAlign: 'left',
+          fontWeight: '500',
+        },
+        td: {
+          padding: '12px 15px',
+          border: '1px solid #e8e3dc',
+          color: '#5a5a5a',
+          lineHeight: '1.8',
+        },
+        tr: {
+          border: '1px solid #e8e3dc',
+        },
+      },
+
+      // 组件模板 - ✅ 100%微信兼容
+      components: {
+        ctaLink: {
+          display: 'inline-block',
+          padding: '10px 24px',
+          background: '#b8a89a',
+          borderRadius: '20px',
+          fontWeight: '500',
+          color: '#ffffff',
+          textDecoration: 'none',
+          textAlign: 'center',
+        },
+        pill: {
+          display: 'inline-flex',
+          alignItems: 'center',
+          padding: '4px 12px',
+          borderRadius: '12px',
+          background: '#f5f3f0',
+          color: '#8b7d6b',
+          fontSize: '0.875em',
+          fontWeight: '500',
+        },
+      },
+    },
+  }),
+  buildTheme({
+    id: 'card',
+    name: '卡片风',
+    tokens: {
+      '--wx-surface': '#f0f2f5',
+      '--wx-text': '#3c3c3c',
+      '--wx-heading': '#1f1f1f',
+      '--wx-subheading': '#5c5c5c',
+      '--wx-accent': '#4a90e2',
+      '--wx-accent-contrast': '#ffffff',
+      '--wx-link': '#4a90e2',
+      '--wx-quote-border': '#4a90e2',
+      '--wx-code-bg': '#f7f8fa',
+      '--wx-code-text': '#3c3c3c',
+    },
+    structured: {
+      // 页面全局样式 - ✅ 100%微信兼容
+      page: {
+        styles: {
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif',
+          lineHeight: '1.8',
+          color: '#3c3c3c',
+          backgroundColor: '#f0f2f5',
+        },
+      },
+
+      // 容器样式 - ✅ 100%微信兼容 (卡片式设计)
+      container: {
+        styles: {
+          backgroundColor: '#ffffff',
+          padding: '30px',
+          borderRadius: '12px',
+          maxWidth: '800px',
+          margin: '0 auto',
+          boxShadow: '0 2px 12px rgba(0, 0, 0, 0.08)',
+        },
+      },
+
+      // 标题样式 - ✅ 100%微信兼容 (卡片化标题)
+      headings: {
+        h1: {
+          styles: {
+            fontSize: '2em',
+            fontWeight: '600',
+            textAlign: 'center',
+            color: '#1f1f1f',
+            margin: '20px 0 30px',
+            padding: '20px',
+            backgroundColor: '#f7f8fa',
+            borderRadius: '10px',
+            border: '1px solid #e8eaed',
+          },
+        },
+        h2: {
+          styles: {
+            fontSize: '1.6em',
+            fontWeight: '600',
+            color: '#1f1f1f',
+            margin: '35px 0 20px',
+            padding: '15px 20px',
+            backgroundColor: '#f7f8fa',
+            borderRadius: '8px',
+            borderLeft: '4px solid #4a90e2',
+          },
+        },
+        h3: {
+          styles: {
+            fontSize: '1.3em',
+            fontWeight: '600',
+            color: '#3c3c3c',
+            margin: '28px 0 15px',
+            padding: '12px 18px',
+            backgroundColor: '#f7f8fa',
+            borderRadius: '6px',
+          },
+        },
+        h4: {
+          styles: {
+            fontSize: '1.1em',
+            fontWeight: '600',
+            color: '#5c5c5c',
+            margin: '22px 0 12px',
+            paddingLeft: '12px',
+            borderLeft: '3px solid #4a90e2',
+          },
+        },
+      },
+
+      // 列表样式 - ✅ 100%微信兼容
+      lists: {
+        ul: {
+          styles: {
+            margin: '20px 0',
+            paddingLeft: '1.5em',
+            listStyle: 'none',
+          },
+          markers: {
+            simple: {
+              symbol: '▪',
+              color: '#4a90e2',
+              styles: {
+                fontSize: '1em',
+              },
+            },
+          },
+        },
+        ol: {
+          styles: {
+            margin: '20px 0',
+            paddingLeft: '1.5em',
+          },
+          listStyle: 'decimal',
+        },
+        li: {
+          styles: {
+            marginBottom: '0.8em',
+            lineHeight: '1.8',
+            color: '#3c3c3c',
+          },
+        },
+      },
+
+      // 链接样式 - ✅ 100%微信兼容
+      links: {
+        styles: {
+          color: '#4a90e2',
+          textDecoration: 'none',
+          borderBottom: '1px solid rgba(74, 144, 226, 0.3)',
+        },
+        hoverStyles: {
+          backgroundColor: 'rgba(74, 144, 226, 0.08)',
+          borderBottomColor: '#4a90e2',
+        },
+      },
+
+      // 引用块样式 - ✅ 100%微信兼容 (卡片式引用)
+      blockquote: {
+        styles: {
+          backgroundColor: '#f7f8fa',
+          color: '#5c5c5c',
+          padding: '18px 20px',
+          margin: '22px 0',
+          borderLeft: '4px solid #4a90e2',
+          fontSize: '0.95em',
+          lineHeight: '1.8',
+          borderRadius: '8px',
+          boxShadow: '0 1px 4px rgba(0, 0, 0, 0.05)',
+        },
+      },
+
+      // 代码块样式 - ✅ 100%微信兼容 (卡片式代码块)
+      codeBlocks: {
+        code: {
+          fontFamily: '"SFMono-Regular", Consolas, Menlo, Courier, monospace',
+          backgroundColor: '#f7f8fa',
+          color: '#3c3c3c',
+          padding: '0.2em 0.6em',
+          fontSize: '0.9em',
+          borderRadius: '4px',
+          border: '1px solid #e8eaed',
+        },
+        pre: {
+          fontFamily: '"SFMono-Regular", Consolas, Menlo, Courier, monospace',
+          background: '#f7f8fa',
+          color: '#3c3c3c',
+          padding: '16px',
+          margin: '20px 0',
+          borderRadius: '8px',
+          border: '1px solid #e8eaed',
+          overflowX: 'auto',
+          boxShadow: '0 1px 4px rgba(0, 0, 0, 0.05)',
+        },
+      },
+
+      // 分隔符样式 - ✅ 100%微信兼容
+      dividers: {
+        styles: {
+          border: 'none',
+          height: '1px',
+          backgroundColor: '#e8eaed',
+          margin: '30px 0',
+        },
+      },
+
+      // 表格样式 - ✅ 100%微信兼容 (卡片式表格)
+      tables: {
+        table: {
+          width: '100%',
+          borderCollapse: 'collapse',
+          margin: '20px 0',
+          borderRadius: '8px',
+          overflow: 'hidden',
+        },
+        th: {
+          backgroundColor: '#f7f8fa',
+          color: '#1f1f1f',
+          padding: '14px 16px',
+          border: '1px solid #e8eaed',
+          textAlign: 'left',
+          fontWeight: '600',
+        },
+        td: {
+          padding: '14px 16px',
+          border: '1px solid #e8eaed',
+          color: '#3c3c3c',
+          lineHeight: '1.6',
+          backgroundColor: '#ffffff',
+        },
+        tr: {
+          border: '1px solid #e8eaed',
+        },
+      },
+
+      // 组件模板 - ✅ 100%微信兼容 (卡片式组件)
+      components: {
+        ctaLink: {
+          display: 'inline-block',
+          padding: '12px 28px',
+          background: '#4a90e2',
+          borderRadius: '8px',
+          fontWeight: '600',
+          color: '#ffffff',
+          textDecoration: 'none',
+          textAlign: 'center',
+          boxShadow: '0 2px 8px rgba(74, 144, 226, 0.25)',
+        },
+        pill: {
+          display: 'inline-flex',
+          alignItems: 'center',
+          padding: '5px 14px',
+          borderRadius: '16px',
+          background: '#e8f2ff',
+          color: '#4a90e2',
+          fontSize: '0.875em',
+          fontWeight: '500',
+          border: '1px solid rgba(74, 144, 226, 0.2)',
+        },
+      },
+    },
+  }),
+  // ========== 第二批: 常用风格 ==========
+  buildTheme({
+    id: 'magazine',
+    name: '杂志风',
+    tokens: {
+      '--wx-surface': '#ffffff',
+      '--wx-text': '#2d2d2d',
+      '--wx-heading': '#1a1a1a',
+      '--wx-subheading': '#4a4a4a',
+      '--wx-accent': '#d4af37',
+      '--wx-accent-contrast': '#ffffff',
+      '--wx-link': '#1a1a1a',
+      '--wx-quote-border': '#d4af37',
+      '--wx-code-bg': '#f8f8f8',
+      '--wx-code-text': '#2d2d2d',
+    },
+    structured: {
+      page: {
+        styles: {
+          fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Songti SC", serif, sans-serif',
+          lineHeight: '1.9',
+          color: '#2d2d2d',
+          backgroundColor: '#ffffff',
+        },
+      },
+      container: {
+        styles: {
+          backgroundColor: '#ffffff',
+          padding: '50px 40px',
+          maxWidth: '800px',
+          margin: '0 auto',
+          borderTop: '3px solid #1a1a1a',
+          borderBottom: '3px solid #1a1a1a',
+        },
+      },
+      headings: {
+        h1: {
+          styles: {
+            fontSize: '2.5em',
+            fontWeight: '700',
+            textAlign: 'center',
+            color: '#1a1a1a',
+            margin: '30px 0 15px',
+            letterSpacing: '2px',
+            textTransform: 'uppercase',
+          },
+        },
+        h2: {
+          styles: {
+            fontSize: '1.8em',
+            fontWeight: '700',
+            color: '#1a1a1a',
+            margin: '45px 0 20px',
+            paddingLeft: '20px',
+            borderLeft: '5px solid #d4af37',
+          },
+        },
+        h3: {
+          styles: {
+            fontSize: '1.4em',
+            fontWeight: '600',
+            color: '#2d2d2d',
+            margin: '35px 0 15px',
+            paddingBottom: '8px',
+            borderBottom: '2px solid #e0e0e0',
+          },
+        },
+        h4: {
+          styles: {
+            fontSize: '1.2em',
+            fontWeight: '600',
+            color: '#4a4a4a',
+            margin: '28px 0 12px',
+          },
+        },
+      },
+      lists: {
+        ul: {
+          styles: {
+            margin: '20px 0',
+            paddingLeft: '2em',
+            listStyle: 'none',
+          },
+          markers: {
+            simple: {
+              symbol: '■',
+              color: '#d4af37',
+              styles: {
+                fontSize: '0.8em',
+              },
+            },
+          },
+        },
+        ol: {
+          styles: {
+            margin: '20px 0',
+            paddingLeft: '2em',
+          },
+          listStyle: 'decimal',
+        },
+        li: {
+          styles: {
+            marginBottom: '1em',
+            lineHeight: '1.9',
+            color: '#2d2d2d',
+          },
+        },
+      },
+      links: {
+        styles: {
+          color: '#1a1a1a',
+          textDecoration: 'underline',
+          fontWeight: '500',
+        },
+        hoverStyles: {
+          color: '#d4af37',
+        },
+      },
+      blockquote: {
+        styles: {
+          backgroundColor: '#f8f8f8',
+          color: '#4a4a4a',
+          padding: '25px 30px',
+          margin: '30px 0',
+          borderLeft: '5px solid #d4af37',
+          fontSize: '1.1em',
+          lineHeight: '1.8',
+          fontStyle: 'italic',
+        },
+      },
+      codeBlocks: {
+        code: {
+          fontFamily: '"Courier New", Courier, monospace',
+          backgroundColor: '#f8f8f8',
+          color: '#2d2d2d',
+          padding: '0.2em 0.5em',
+          fontSize: '0.9em',
+          border: '1px solid #e0e0e0',
+        },
+        pre: {
+          fontFamily: '"Courier New", Courier, monospace',
+          background: '#f8f8f8',
+          color: '#2d2d2d',
+          padding: '20px',
+          margin: '25px 0',
+          border: '1px solid #e0e0e0',
+          overflowX: 'auto',
+        },
+      },
+      dividers: {
+        styles: {
+          border: 'none',
+          height: '2px',
+          backgroundColor: '#d4af37',
+          margin: '40px auto',
+          width: '60%',
+        },
+      },
+      tables: {
+        table: {
+          width: '100%',
+          borderCollapse: 'collapse',
+          margin: '25px 0',
+        },
+        th: {
+          backgroundColor: '#1a1a1a',
+          color: '#ffffff',
+          padding: '15px',
+          border: '1px solid #e0e0e0',
+          textAlign: 'left',
+          fontWeight: '700',
+        },
+        td: {
+          padding: '15px',
+          border: '1px solid #e0e0e0',
+          color: '#2d2d2d',
+          lineHeight: '1.6',
+        },
+        tr: {
+          border: '1px solid #e0e0e0',
+        },
+      },
+      components: {
+        ctaLink: {
+          display: 'inline-block',
+          padding: '12px 30px',
+          background: '#1a1a1a',
+          fontWeight: '700',
+          color: '#ffffff',
+          textDecoration: 'none',
+          textAlign: 'center',
+          letterSpacing: '1px',
+        },
+        pill: {
+          display: 'inline-flex',
+          alignItems: 'center',
+          padding: '5px 15px',
+          background: '#f8f8f8',
+          color: '#1a1a1a',
+          fontSize: '0.875em',
+          fontWeight: '600',
+          border: '1px solid #e0e0e0',
+        },
+      },
+    },
+  }),
+  buildTheme({
+    id: 'tech-blue',
+    name: '科技蓝风',
+    tokens: {
+      '--wx-surface': '#f0f4f8',
+      '--wx-text': '#1e3a5f',
+      '--wx-heading': '#0d47a1',
+      '--wx-subheading': '#1565c0',
+      '--wx-accent': '#2196f3',
+      '--wx-accent-contrast': '#ffffff',
+      '--wx-link': '#1976d2',
+      '--wx-quote-border': '#42a5f5',
+      '--wx-code-bg': '#e3f2fd',
+      '--wx-code-text': '#0d47a1',
+    },
+    structured: {
+      page: {
+        styles: {
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", sans-serif',
+          lineHeight: '1.8',
+          color: '#1e3a5f',
+          backgroundColor: '#f0f4f8',
+        },
+      },
+      container: {
+        styles: {
+          backgroundColor: '#ffffff',
+          padding: '35px',
+          maxWidth: '800px',
+          margin: '0 auto',
+          border: '2px solid #2196f3',
+          borderRadius: '8px',
+          boxShadow: '0 4px 16px rgba(33, 150, 243, 0.15)',
+        },
+      },
       headings: {
         h1: {
           styles: {
             fontSize: '2.2em',
             fontWeight: '700',
             textAlign: 'center',
-            color: '#fff',
-            backgroundColor: 'transparent',
+            color: '#0d47a1',
+            margin: '25px 0 30px',
             padding: '20px',
-            margin: '25px 0 40px',
-            border: '2px solid #f0f',
-            textTransform: 'uppercase',
-            position: 'relative',
+            backgroundColor: '#e3f2fd',
+            borderRadius: '6px',
+            borderLeft: '5px solid #2196f3',
           },
-          textShadow: '0 0 5px #f0f, 0 0 10px #f0f',
         },
         h2: {
           styles: {
-            fontSize: '1.6em',
-            fontWeight: '700',
-            color: '#00ffff',
-            margin: '50px 0 25px',
+            fontSize: '1.7em',
+            fontWeight: '600',
+            color: '#0d47a1',
+            margin: '40px 0 20px',
+            paddingBottom: '12px',
+            borderBottom: '3px solid #2196f3',
+          },
+        },
+        h3: {
+          styles: {
+            fontSize: '1.4em',
+            fontWeight: '600',
+            color: '#1565c0',
+            margin: '30px 0 15px',
+            paddingLeft: '15px',
+            borderLeft: '4px solid #42a5f5',
+          },
+        },
+        h4: {
+          styles: {
+            fontSize: '1.2em',
+            fontWeight: '600',
+            color: '#1976d2',
+            margin: '25px 0 12px',
+          },
+        },
+      },
+      lists: {
+        ul: {
+          styles: {
+            margin: '20px 0',
+            paddingLeft: '1.8em',
+            listStyle: 'none',
+          },
+          markers: {
+            simple: {
+              symbol: '▸',
+              color: '#2196f3',
+              styles: {
+                fontSize: '1.2em',
+              },
+            },
+          },
+        },
+        ol: {
+          styles: {
+            margin: '20px 0',
+            paddingLeft: '1.8em',
+          },
+          listStyle: 'decimal',
+        },
+        li: {
+          styles: {
+            marginBottom: '0.9em',
+            lineHeight: '1.8',
+            color: '#1e3a5f',
+          },
+        },
+      },
+      links: {
+        styles: {
+          color: '#1976d2',
+          textDecoration: 'none',
+          borderBottom: '2px solid rgba(25, 118, 210, 0.3)',
+          fontWeight: '500',
+        },
+        hoverStyles: {
+          borderBottomColor: '#1976d2',
+          backgroundColor: 'rgba(33, 150, 243, 0.05)',
+        },
+      },
+      blockquote: {
+        styles: {
+          backgroundColor: '#e3f2fd',
+          color: '#1565c0',
+          padding: '20px 25px',
+          margin: '25px 0',
+          borderLeft: '5px solid #2196f3',
+          fontSize: '0.95em',
+          lineHeight: '1.8',
+          borderRadius: '4px',
+        },
+      },
+      codeBlocks: {
+        code: {
+          fontFamily: '"Consolas", "Monaco", "Courier New", monospace',
+          backgroundColor: '#e3f2fd',
+          color: '#0d47a1',
+          padding: '0.2em 0.6em',
+          fontSize: '0.9em',
+          borderRadius: '3px',
+          border: '1px solid #bbdefb',
+        },
+        pre: {
+          fontFamily: '"Consolas", "Monaco", "Courier New", monospace',
+          background: '#e3f2fd',
+          color: '#0d47a1',
+          padding: '18px',
+          margin: '20px 0',
+          borderRadius: '6px',
+          border: '1px solid #bbdefb',
+          overflowX: 'auto',
+        },
+      },
+      dividers: {
+        styles: {
+          border: 'none',
+          height: '2px',
+          backgroundColor: '#2196f3',
+          margin: '35px 0',
+        },
+      },
+      tables: {
+        table: {
+          width: '100%',
+          borderCollapse: 'collapse',
+          margin: '20px 0',
+        },
+        th: {
+          backgroundColor: '#2196f3',
+          color: '#ffffff',
+          padding: '14px',
+          border: '1px solid #bbdefb',
+          textAlign: 'left',
+          fontWeight: '600',
+        },
+        td: {
+          padding: '14px',
+          border: '1px solid #bbdefb',
+          color: '#1e3a5f',
+          lineHeight: '1.6',
+        },
+        tr: {
+          border: '1px solid #bbdefb',
+        },
+      },
+      components: {
+        ctaLink: {
+          display: 'inline-block',
+          padding: '12px 28px',
+          background: '#2196f3',
+          borderRadius: '6px',
+          fontWeight: '600',
+          color: '#ffffff',
+          textDecoration: 'none',
+          textAlign: 'center',
+          boxShadow: '0 3px 10px rgba(33, 150, 243, 0.3)',
+        },
+        pill: {
+          display: 'inline-flex',
+          alignItems: 'center',
+          padding: '5px 14px',
+          borderRadius: '14px',
+          background: '#e3f2fd',
+          color: '#0d47a1',
+          fontSize: '0.875em',
+          fontWeight: '500',
+          border: '1px solid #bbdefb',
+        },
+      },
+    },
+  }),
+  buildTheme({
+    id: 'guochao',
+    name: '国潮风',
+    tokens: {
+      '--wx-surface': '#fef5e7',
+      '--wx-text': '#3e2723',
+      '--wx-heading': '#b71c1c',
+      '--wx-subheading': '#c62828',
+      '--wx-accent': '#d32f2f',
+      '--wx-accent-contrast': '#ffffff',
+      '--wx-link': '#c62828',
+      '--wx-quote-border': '#ff6f00',
+      '--wx-code-bg': '#fff3e0',
+      '--wx-code-text': '#3e2723',
+    },
+    structured: {
+      page: {
+        styles: {
+          fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "STKaiti", "KaiTi", sans-serif',
+          lineHeight: '2',
+          color: '#3e2723',
+          backgroundColor: '#fef5e7',
+        },
+      },
+      container: {
+        styles: {
+          backgroundColor: '#ffffff',
+          padding: '40px 35px',
+          maxWidth: '800px',
+          margin: '0 auto',
+          border: '3px solid #b71c1c',
+          boxShadow: '0 0 0 6px #ff6f00, 0 4px 12px rgba(183, 28, 28, 0.2)',
+        },
+      },
+      headings: {
+        h1: {
+          styles: {
+            fontSize: '2.2em',
+            fontWeight: '600',
+            textAlign: 'center',
+            color: '#b71c1c',
+            margin: '25px 0 30px',
+            padding: '18px 25px',
+            backgroundColor: '#ffebee',
+            border: '2px solid #b71c1c',
+            borderRadius: '4px',
+          },
+        },
+        h2: {
+          styles: {
+            fontSize: '1.7em',
+            fontWeight: '600',
+            color: '#b71c1c',
+            margin: '40px 0 20px',
+            paddingLeft: '20px',
+            borderLeft: '6px solid #ff6f00',
+            backgroundColor: '#fff3e0',
+            padding: '12px 20px',
+          },
+        },
+        h3: {
+          styles: {
+            fontSize: '1.4em',
+            fontWeight: '600',
+            color: '#c62828',
+            margin: '30px 0 15px',
             paddingBottom: '10px',
-            borderBottom: '2px solid #00ffff',
+            borderBottom: '2px dashed #ff6f00',
+          },
+        },
+        h4: {
+          styles: {
+            fontSize: '1.2em',
+            fontWeight: '600',
+            color: '#d32f2f',
+            margin: '25px 0 12px',
+          },
+        },
+      },
+      lists: {
+        ul: {
+          styles: {
+            margin: '20px 0',
+            paddingLeft: '2em',
+            listStyle: 'none',
+          },
+          markers: {
+            simple: {
+              symbol: '●',
+              color: '#ff6f00',
+              styles: {
+                fontSize: '1em',
+              },
+            },
+          },
+        },
+        ol: {
+          styles: {
+            margin: '20px 0',
+            paddingLeft: '2em',
+          },
+          listStyle: 'decimal',
+        },
+        li: {
+          styles: {
+            marginBottom: '1em',
+            lineHeight: '2',
+            color: '#3e2723',
+          },
+        },
+      },
+      links: {
+        styles: {
+          color: '#c62828',
+          textDecoration: 'none',
+          borderBottom: '2px solid rgba(198, 40, 40, 0.3)',
+          fontWeight: '500',
+        },
+        hoverStyles: {
+          borderBottomColor: '#c62828',
+          backgroundColor: 'rgba(255, 111, 0, 0.1)',
+        },
+      },
+      blockquote: {
+        styles: {
+          backgroundColor: '#fff3e0',
+          color: '#5d4037',
+          padding: '20px 25px',
+          margin: '25px 0',
+          borderLeft: '5px solid #ff6f00',
+          fontSize: '1em',
+          lineHeight: '1.9',
+          borderRadius: '4px',
+        },
+      },
+      codeBlocks: {
+        code: {
+          fontFamily: '"Courier New", Courier, monospace',
+          backgroundColor: '#fff3e0',
+          color: '#3e2723',
+          padding: '0.2em 0.6em',
+          fontSize: '0.9em',
+          border: '1px solid #ffe0b2',
+          borderRadius: '3px',
+        },
+        pre: {
+          fontFamily: '"Courier New", Courier, monospace',
+          background: '#fff3e0',
+          color: '#3e2723',
+          padding: '18px',
+          margin: '20px 0',
+          border: '1px solid #ffe0b2',
+          borderRadius: '4px',
+          overflowX: 'auto',
+        },
+      },
+      dividers: {
+        styles: {
+          border: 'none',
+          height: '3px',
+          backgroundColor: '#ff6f00',
+          margin: '35px auto',
+          width: '50%',
+        },
+      },
+      tables: {
+        table: {
+          width: '100%',
+          borderCollapse: 'collapse',
+          margin: '20px 0',
+        },
+        th: {
+          backgroundColor: '#b71c1c',
+          color: '#ffffff',
+          padding: '14px',
+          border: '2px solid #ff6f00',
+          textAlign: 'left',
+          fontWeight: '600',
+        },
+        td: {
+          padding: '14px',
+          border: '1px solid #ffe0b2',
+          color: '#3e2723',
+          lineHeight: '1.8',
+        },
+        tr: {
+          border: '1px solid #ffe0b2',
+        },
+      },
+      components: {
+        ctaLink: {
+          display: 'inline-block',
+          padding: '12px 30px',
+          background: '#b71c1c',
+          fontWeight: '600',
+          color: '#ffffff',
+          textDecoration: 'none',
+          textAlign: 'center',
+          border: '2px solid #ff6f00',
+        },
+        pill: {
+          display: 'inline-flex',
+          alignItems: 'center',
+          padding: '5px 15px',
+          background: '#fff3e0',
+          color: '#b71c1c',
+          fontSize: '0.875em',
+          fontWeight: '600',
+          border: '2px solid #ff6f00',
+        },
+      },
+    },
+  }),
+  buildTheme({
+    id: 'warm-orange',
+    name: '暖色调活力风',
+    tokens: {
+      '--wx-surface': '#fff8f0',
+      '--wx-text': '#5d4037',
+      '--wx-heading': '#e65100',
+      '--wx-subheading': '#f57c00',
+      '--wx-accent': '#ff9800',
+      '--wx-accent-contrast': '#ffffff',
+      '--wx-link': '#f57c00',
+      '--wx-quote-border': '#ffb74d',
+      '--wx-code-bg': '#fff3e0',
+      '--wx-code-text': '#5d4037',
+    },
+    structured: {
+      page: {
+        styles: {
+          fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif',
+          lineHeight: '1.9',
+          color: '#5d4037',
+          backgroundColor: '#fff8f0',
+        },
+      },
+      container: {
+        styles: {
+          backgroundColor: '#ffffff',
+          padding: '35px',
+          maxWidth: '800px',
+          margin: '0 auto',
+          borderRadius: '16px',
+          border: '2px solid #ffb74d',
+          boxShadow: '0 4px 16px rgba(255, 152, 0, 0.15)',
+        },
+      },
+      headings: {
+        h1: {
+          styles: {
+            fontSize: '2.1em',
+            fontWeight: '700',
+            textAlign: 'center',
+            color: '#e65100',
+            margin: '25px 0 30px',
+            padding: '20px',
+            backgroundColor: '#fff3e0',
+            borderRadius: '12px',
+            border: '2px solid #ffb74d',
+          },
+        },
+        h2: {
+          styles: {
+            fontSize: '1.7em',
+            fontWeight: '600',
+            color: '#e65100',
+            margin: '38px 0 20px',
+            paddingLeft: '18px',
+            borderLeft: '5px solid #ff9800',
+            backgroundColor: '#fff3e0',
+            padding: '12px 18px',
+            borderRadius: '8px',
+          },
+        },
+        h3: {
+          styles: {
+            fontSize: '1.4em',
+            fontWeight: '600',
+            color: '#f57c00',
+            margin: '30px 0 15px',
+            paddingBottom: '10px',
+            borderBottom: '2px solid #ffb74d',
+          },
+        },
+        h4: {
+          styles: {
+            fontSize: '1.2em',
+            fontWeight: '600',
+            color: '#fb8c00',
+            margin: '25px 0 12px',
+          },
+        },
+      },
+      lists: {
+        ul: {
+          styles: {
+            margin: '20px 0',
+            paddingLeft: '1.8em',
+            listStyle: 'none',
+          },
+          markers: {
+            simple: {
+              symbol: '◉',
+              color: '#ff9800',
+              styles: {
+                fontSize: '1em',
+              },
+            },
+          },
+        },
+        ol: {
+          styles: {
+            margin: '20px 0',
+            paddingLeft: '1.8em',
+          },
+          listStyle: 'decimal',
+        },
+        li: {
+          styles: {
+            marginBottom: '0.9em',
+            lineHeight: '1.9',
+            color: '#5d4037',
+          },
+        },
+      },
+      links: {
+        styles: {
+          color: '#f57c00',
+          textDecoration: 'none',
+          borderBottom: '2px solid rgba(245, 124, 0, 0.3)',
+          fontWeight: '500',
+        },
+        hoverStyles: {
+          borderBottomColor: '#f57c00',
+          backgroundColor: 'rgba(255, 152, 0, 0.08)',
+        },
+      },
+      blockquote: {
+        styles: {
+          backgroundColor: '#fff3e0',
+          color: '#6d4c41',
+          padding: '20px 25px',
+          margin: '25px 0',
+          borderLeft: '5px solid #ff9800',
+          fontSize: '0.95em',
+          lineHeight: '1.8',
+          borderRadius: '10px',
+        },
+      },
+      codeBlocks: {
+        code: {
+          fontFamily: '"Consolas", "Monaco", monospace',
+          backgroundColor: '#fff3e0',
+          color: '#5d4037',
+          padding: '0.2em 0.6em',
+          fontSize: '0.9em',
+          borderRadius: '4px',
+          border: '1px solid #ffe0b2',
+        },
+        pre: {
+          fontFamily: '"Consolas", "Monaco", monospace',
+          background: '#fff3e0',
+          color: '#5d4037',
+          padding: '18px',
+          margin: '20px 0',
+          borderRadius: '10px',
+          border: '1px solid #ffe0b2',
+          overflowX: 'auto',
+        },
+      },
+      dividers: {
+        styles: {
+          border: 'none',
+          height: '2px',
+          backgroundColor: '#ffb74d',
+          margin: '35px 0',
+          borderRadius: '2px',
+        },
+      },
+      tables: {
+        table: {
+          width: '100%',
+          borderCollapse: 'collapse',
+          margin: '20px 0',
+          borderRadius: '8px',
+          overflow: 'hidden',
+        },
+        th: {
+          backgroundColor: '#ff9800',
+          color: '#ffffff',
+          padding: '14px',
+          border: '1px solid #ffe0b2',
+          textAlign: 'left',
+          fontWeight: '600',
+        },
+        td: {
+          padding: '14px',
+          border: '1px solid #ffe0b2',
+          color: '#5d4037',
+          lineHeight: '1.6',
+        },
+        tr: {
+          border: '1px solid #ffe0b2',
+        },
+      },
+      components: {
+        ctaLink: {
+          display: 'inline-block',
+          padding: '12px 28px',
+          background: '#ff9800',
+          borderRadius: '20px',
+          fontWeight: '600',
+          color: '#ffffff',
+          textDecoration: 'none',
+          textAlign: 'center',
+          boxShadow: '0 3px 12px rgba(255, 152, 0, 0.3)',
+        },
+        pill: {
+          display: 'inline-flex',
+          alignItems: 'center',
+          padding: '5px 14px',
+          borderRadius: '16px',
+          background: '#fff3e0',
+          color: '#e65100',
+          fontSize: '0.875em',
+          fontWeight: '500',
+          border: '1px solid #ffb74d',
+        },
+      },
+    },
+  }),
+  // ========== 第三批: 特色风格 ==========
+  buildTheme({
+    id: 'minimal-bw',
+    name: '极简黑白风',
+    tokens: {
+      '--wx-surface': '#ffffff',
+      '--wx-text': '#000000',
+      '--wx-heading': '#000000',
+      '--wx-subheading': '#333333',
+      '--wx-accent': '#000000',
+      '--wx-accent-contrast': '#ffffff',
+      '--wx-link': '#000000',
+      '--wx-quote-border': '#000000',
+      '--wx-code-bg': '#f5f5f5',
+      '--wx-code-text': '#000000',
+    },
+    structured: {
+      page: {
+        styles: {
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Helvetica Neue", "Arial", sans-serif',
+          lineHeight: '1.8',
+          color: '#000000',
+          backgroundColor: '#ffffff',
+        },
+      },
+      container: {
+        styles: {
+          backgroundColor: '#ffffff',
+          padding: '60px 40px',
+          maxWidth: '800px',
+          margin: '0 auto',
+          border: '4px solid #000000',
+        },
+      },
+      headings: {
+        h1: {
+          styles: {
+            fontSize: '2.5em',
+            fontWeight: '900',
+            textAlign: 'center',
+            color: '#000000',
+            margin: '30px 0 40px',
+            letterSpacing: '3px',
             textTransform: 'uppercase',
           },
-          textShadow: '0 0 8px rgba(0, 255, 255, 0.7)',
+        },
+        h2: {
+          styles: {
+            fontSize: '1.8em',
+            fontWeight: '800',
+            color: '#000000',
+            margin: '50px 0 25px',
+            paddingBottom: '15px',
+            borderBottom: '4px solid #000000',
+          },
+        },
+        h3: {
+          styles: {
+            fontSize: '1.4em',
+            fontWeight: '700',
+            color: '#000000',
+            margin: '35px 0 18px',
+            paddingLeft: '20px',
+            borderLeft: '6px solid #000000',
+          },
+        },
+        h4: {
+          styles: {
+            fontSize: '1.2em',
+            fontWeight: '700',
+            color: '#333333',
+            margin: '28px 0 14px',
+          },
+        },
+      },
+      lists: {
+        ul: {
+          styles: {
+            margin: '25px 0',
+            paddingLeft: '2em',
+            listStyle: 'none',
+          },
+          markers: {
+            simple: {
+              symbol: '■',
+              color: '#000000',
+              styles: {
+                fontSize: '0.8em',
+              },
+            },
+          },
+        },
+        ol: {
+          styles: {
+            margin: '25px 0',
+            paddingLeft: '2em',
+          },
+          listStyle: 'decimal',
+        },
+        li: {
+          styles: {
+            marginBottom: '1em',
+            lineHeight: '1.8',
+            color: '#000000',
+          },
+        },
+      },
+      links: {
+        styles: {
+          color: '#000000',
+          textDecoration: 'none',
+          borderBottom: '3px solid #000000',
+          fontWeight: '600',
+        },
+        hoverStyles: {
+          backgroundColor: '#f5f5f5',
+        },
+      },
+      blockquote: {
+        styles: {
+          backgroundColor: '#ffffff',
+          color: '#333333',
+          padding: '25px 30px',
+          margin: '30px 0',
+          borderLeft: '6px solid #000000',
+          fontSize: '1em',
+          lineHeight: '1.8',
+          border: '2px solid #000000',
+        },
+      },
+      codeBlocks: {
+        code: {
+          fontFamily: '"Courier New", Courier, monospace',
+          backgroundColor: '#f5f5f5',
+          color: '#000000',
+          padding: '0.3em 0.6em',
+          fontSize: '0.9em',
+          border: '1px solid #000000',
+        },
+        pre: {
+          fontFamily: '"Courier New", Courier, monospace',
+          background: '#f5f5f5',
+          color: '#000000',
+          padding: '20px',
+          margin: '25px 0',
+          border: '2px solid #000000',
+          overflowX: 'auto',
+        },
+      },
+      dividers: {
+        styles: {
+          border: 'none',
+          height: '4px',
+          backgroundColor: '#000000',
+          margin: '50px 0',
+        },
+      },
+      tables: {
+        table: {
+          width: '100%',
+          borderCollapse: 'collapse',
+          margin: '25px 0',
+          border: '2px solid #000000',
+        },
+        th: {
+          backgroundColor: '#000000',
+          color: '#ffffff',
+          padding: '16px',
+          border: '2px solid #000000',
+          textAlign: 'left',
+          fontWeight: '700',
+        },
+        td: {
+          padding: '16px',
+          border: '2px solid #000000',
+          color: '#000000',
+          lineHeight: '1.6',
+        },
+        tr: {
+          border: '2px solid #000000',
+        },
+      },
+      components: {
+        ctaLink: {
+          display: 'inline-block',
+          padding: '14px 32px',
+          background: '#000000',
+          fontWeight: '700',
+          color: '#ffffff',
+          textDecoration: 'none',
+          textAlign: 'center',
+          letterSpacing: '2px',
+          textTransform: 'uppercase',
+        },
+        pill: {
+          display: 'inline-flex',
+          alignItems: 'center',
+          padding: '6px 16px',
+          background: '#ffffff',
+          color: '#000000',
+          fontSize: '0.875em',
+          fontWeight: '700',
+          border: '2px solid #000000',
+        },
+      },
+    },
+  }),
+  buildTheme({
+    id: 'fresh-green',
+    name: '小清新绿植风',
+    tokens: {
+      '--wx-surface': '#f1f8f4',
+      '--wx-text': '#2d5016',
+      '--wx-heading': '#1b5e20',
+      '--wx-subheading': '#2e7d32',
+      '--wx-accent': '#4caf50',
+      '--wx-accent-contrast': '#ffffff',
+      '--wx-link': '#388e3c',
+      '--wx-quote-border': '#81c784',
+      '--wx-code-bg': '#e8f5e9',
+      '--wx-code-text': '#2d5016',
+    },
+    structured: {
+      page: {
+        styles: {
+          fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif',
+          lineHeight: '1.9',
+          color: '#2d5016',
+          backgroundColor: '#f1f8f4',
+        },
+      },
+      container: {
+        styles: {
+          backgroundColor: '#ffffff',
+          padding: '35px',
+          maxWidth: '800px',
+          margin: '0 auto',
+          borderRadius: '12px',
+          border: '2px solid #81c784',
+          boxShadow: '0 4px 16px rgba(76, 175, 80, 0.12)',
+        },
+      },
+      headings: {
+        h1: {
+          styles: {
+            fontSize: '2.1em',
+            fontWeight: '600',
+            textAlign: 'center',
+            color: '#1b5e20',
+            margin: '25px 0 30px',
+            padding: '20px',
+            backgroundColor: '#e8f5e9',
+            borderRadius: '10px',
+            border: '2px solid #81c784',
+          },
+        },
+        h2: {
+          styles: {
+            fontSize: '1.7em',
+            fontWeight: '600',
+            color: '#1b5e20',
+            margin: '38px 0 20px',
+            paddingLeft: '18px',
+            borderLeft: '5px solid #4caf50',
+            backgroundColor: '#e8f5e9',
+            padding: '12px 18px',
+            borderRadius: '8px',
+          },
+        },
+        h3: {
+          styles: {
+            fontSize: '1.4em',
+            fontWeight: '600',
+            color: '#2e7d32',
+            margin: '30px 0 15px',
+            paddingBottom: '10px',
+            borderBottom: '2px solid #81c784',
+          },
+        },
+        h4: {
+          styles: {
+            fontSize: '1.2em',
+            fontWeight: '600',
+            color: '#388e3c',
+            margin: '25px 0 12px',
+          },
+        },
+      },
+      lists: {
+        ul: {
+          styles: {
+            margin: '20px 0',
+            paddingLeft: '1.8em',
+            listStyle: 'none',
+          },
+          markers: {
+            simple: {
+              symbol: '🌿',
+              color: '#4caf50',
+              styles: {
+                fontSize: '1em',
+              },
+            },
+          },
+        },
+        ol: {
+          styles: {
+            margin: '20px 0',
+            paddingLeft: '1.8em',
+          },
+          listStyle: 'decimal',
+        },
+        li: {
+          styles: {
+            marginBottom: '0.9em',
+            lineHeight: '1.9',
+            color: '#2d5016',
+          },
+        },
+      },
+      links: {
+        styles: {
+          color: '#388e3c',
+          textDecoration: 'none',
+          borderBottom: '2px solid rgba(56, 142, 60, 0.3)',
+          fontWeight: '500',
+        },
+        hoverStyles: {
+          borderBottomColor: '#388e3c',
+          backgroundColor: 'rgba(76, 175, 80, 0.08)',
+        },
+      },
+      blockquote: {
+        styles: {
+          backgroundColor: '#e8f5e9',
+          color: '#33691e',
+          padding: '20px 25px',
+          margin: '25px 0',
+          borderLeft: '5px solid #4caf50',
+          fontSize: '0.95em',
+          lineHeight: '1.8',
+          borderRadius: '10px',
+        },
+      },
+      codeBlocks: {
+        code: {
+          fontFamily: '"Consolas", "Monaco", monospace',
+          backgroundColor: '#e8f5e9',
+          color: '#2d5016',
+          padding: '0.2em 0.6em',
+          fontSize: '0.9em',
+          borderRadius: '4px',
+          border: '1px solid #c8e6c9',
+        },
+        pre: {
+          fontFamily: '"Consolas", "Monaco", monospace',
+          background: '#e8f5e9',
+          color: '#2d5016',
+          padding: '18px',
+          margin: '20px 0',
+          borderRadius: '10px',
+          border: '1px solid #c8e6c9',
+          overflowX: 'auto',
+        },
+      },
+      dividers: {
+        styles: {
+          border: 'none',
+          height: '2px',
+          backgroundColor: '#81c784',
+          margin: '35px 0',
+          borderRadius: '2px',
+        },
+      },
+      tables: {
+        table: {
+          width: '100%',
+          borderCollapse: 'collapse',
+          margin: '20px 0',
+          borderRadius: '8px',
+          overflow: 'hidden',
+        },
+        th: {
+          backgroundColor: '#4caf50',
+          color: '#ffffff',
+          padding: '14px',
+          border: '1px solid #c8e6c9',
+          textAlign: 'left',
+          fontWeight: '600',
+        },
+        td: {
+          padding: '14px',
+          border: '1px solid #c8e6c9',
+          color: '#2d5016',
+          lineHeight: '1.6',
+        },
+        tr: {
+          border: '1px solid #c8e6c9',
+        },
+      },
+      components: {
+        ctaLink: {
+          display: 'inline-block',
+          padding: '12px 28px',
+          background: '#4caf50',
+          borderRadius: '20px',
+          fontWeight: '600',
+          color: '#ffffff',
+          textDecoration: 'none',
+          textAlign: 'center',
+          boxShadow: '0 3px 12px rgba(76, 175, 80, 0.3)',
+        },
+        pill: {
+          display: 'inline-flex',
+          alignItems: 'center',
+          padding: '5px 14px',
+          borderRadius: '16px',
+          background: '#e8f5e9',
+          color: '#1b5e20',
+          fontSize: '0.875em',
+          fontWeight: '500',
+          border: '1px solid #81c784',
+        },
+      },
+    },
+  }),
+
+  // ========== 渐变紫蓝主题 ==========
+  buildTheme({
+    id: 'gradient-purple',
+    name: '渐变紫蓝',
+    tokens: {
+      '--wx-surface': '#ffffff',
+      '--wx-text': '#333333',
+      '--wx-heading': '#333333',
+      '--wx-subheading': '#333333',
+      '--wx-accent': '#c471ed',
+      '--wx-accent-contrast': '#ffffff',
+      '--wx-link': '#c471ed',
+      '--wx-quote-border': '#c471ed',
+      '--wx-code-bg': '#2d2d2d',
+      '--wx-code-text': '#f8f8f2',
+    },
+    structured: {
+      // 页面全局样式
+      page: {
+        styles: {
+          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif',
+          lineHeight: '1.8',
+          color: '#333333',
+          backgroundColor: '#ffffff',
+          fontSize: '15px',
+        },
+      },
+
+      // 容器样式
+      container: {
+        styles: {
+          backgroundColor: '#ffffff',
+          padding: '30px',
+          maxWidth: '800px',
+          margin: '0 auto',
+        },
+      },
+
+      // 标题样式
+      headings: {
+        h1: {
+          styles: {
+            fontSize: '1.9em',
+            fontWeight: '500',
+            textAlign: 'center',
+            color: '#333333',
+            margin: '25px 0 35px',
+            padding: '20px 30px',
+            background: 'linear-gradient(135deg, #c471ed 0%, #12c2e9 100%)',
+            color: 'white',
+            borderRadius: '15px',
+            boxShadow: '0 4px 15px rgba(196, 113, 237, 0.3)',
+          },
+        },
+        h2: {
+          styles: {
+            fontSize: '1.5em',
+            fontWeight: '600',
+            color: '#333333',
+            margin: '50px 0 25px',
+            paddingLeft: '20px',
+            borderLeft: '4px solid #c471ed',
+            borderBottom: '2px dotted #e0e0e0',
+            paddingBottom: '10px',
+          },
         },
         h3: {
           styles: {
             fontSize: '1.3em',
-            fontWeight: '700',
-            color: '#cddc39',
-            margin: '30px 0 15px',
-            textTransform: 'uppercase',
-          },
-          pseudoBefore: {
-            content: '>> ',
-            styles: {
-              color: '#f0f',
-            },
-            positioning: 'absolute',
+            fontWeight: '600',
+            color: '#333333',
+            margin: '35px 0 20px',
+            paddingLeft: '20px',
+            borderLeft: '4px solid #5b8ff9',
+            borderBottom: '2px dotted #e0e0e0',
+            paddingBottom: '10px',
           },
         },
         h4: {
           styles: {
             fontSize: '1.1em',
-            fontWeight: '700',
-            color: '#f0f',
-            textShadow: '0 0 5px rgba(255, 0, 255, 0.7)',
-            margin: '25px 0 12px',
-            padding: '5px 10px',
-            borderLeft: '3px solid #f0f',
-            backgroundColor: 'rgba(255, 0, 255, 0.1)',
+            fontWeight: '600',
+            color: '#333333',
+            margin: '30px 0 15px',
+            paddingLeft: '15px',
+            background: '#f9f9fb',
+            padding: '10px 15px',
+            borderLeft: '4px solid transparent',
+            borderImage: 'linear-gradient(135deg, #c471ed 0%, #5b8ff9 100%) 1',
+            borderRadius: '4px',
           },
-          textShadow: '0 0 5px rgba(255, 0, 255, 0.7)',
         },
       },
 
-      // 列表样式（从 themes.css:770-792 提取）
+      // 链接样式
+      links: {
+        styles: {
+          color: '#c471ed',
+          textDecoration: 'underline',
+          fontWeight: '500',
+        },
+      },
+
+      // 引用块样式
+      blockquote: {
+        styles: {
+          background: 'linear-gradient(135deg, rgba(196, 113, 237, 0.05) 0%, rgba(91, 143, 249, 0.05) 100%)',
+          color: '#666666',
+          padding: '15px 20px',
+          margin: '30px 0',
+          borderLeft: '4px solid #c471ed',
+          borderRadius: '8px',
+          fontSize: '0.95em',
+          lineHeight: '1.7',
+        },
+      },
+
+      // 代码块样式
+      codeBlocks: {
+        code: {
+          fontFamily: '"SFMono-Regular", Consolas, Menlo, Courier, monospace',
+          background: 'linear-gradient(135deg, rgba(196, 113, 237, 0.1) 0%, rgba(91, 143, 249, 0.1) 100%)',
+          color: '#c471ed',
+          padding: '0.2em 0.6em',
+          margin: '0 2px',
+          fontSize: '0.9em',
+          borderRadius: '4px',
+        },
+        pre: {
+          fontFamily: '"SFMono-Regular", Consolas, Menlo, Courier, monospace',
+          background: '#2d2d2d',
+          color: '#f8f8f2',
+          padding: '1.5em',
+          margin: '25px 0',
+          borderRadius: '8px',
+          overflowX: 'auto',
+          borderTop: '4px solid transparent',
+          borderImage: 'linear-gradient(90deg, #c471ed 0%, #12c2e9 50%, #c471ed 100%) 1',
+        },
+      },
+
+      // 列表样式
       lists: {
         ul: {
           styles: {
-            margin: '0 0 1.5em 0',
+            listStyle: 'none',
             paddingLeft: '0',
+            margin: '30px 0',
           },
           markers: {
-            custom: (_index: number, element: HTMLElement) => {
-              const marker = element.ownerDocument!.createElement('span')
-              marker.setAttribute('data-wx-marker', 'true')
-              marker.style.cssText = `
-                position: absolute;
-                left: 0;
-                top: 0.6em;
-                width: 8px;
-                height: 8px;
-                background-color: #00ffff;
-                border-radius: 50%;
-                box-shadow: 0 0 8px #00ffff, 0 0 12px rgba(0, 255, 255, 0.7);
-              `
-              return marker
+            simple: {
+              symbol: '●',
+              color: '#c471ed',
+              styles: {
+                fontSize: '1.2em',
+              },
             },
           },
         },
@@ -1668,79 +3639,10 @@ export const BUILTIN_THEMES: ThemePreset[] = [
         },
         li: {
           styles: {
-            marginBottom: '0.8em',
-            listStyleType: 'none',
-            position: 'relative',
-            paddingLeft: '25px',
+            marginBottom: '1em',
+            paddingLeft: '28px',
+            lineHeight: '1.8',
           },
-        },
-      },
-
-      // 链接样式（从 themes.css:740-752 提取）
-      links: {
-        styles: {
-          color: '#f0f',
-          textDecoration: 'none',
-          fontWeight: '700',
-          textShadow: '0 0 5px rgba(255, 0, 255, 0.7)',
-        },
-        hoverStyles: {
-          color: '#fff',
-          backgroundColor: '#f0f',
-          boxShadow: '0 0 15px #f0f',
-        },
-      },
-
-      // 引用块样式（从 themes.css:754-768 提取）
-      blockquote: {
-        styles: {
-          backgroundColor: 'rgba(255, 255, 0, 0.1)',
-          color: '#ffff00',
-          padding: '20px',
-          margin: '30px 0',
-          border: '2px solid #ffff00',
-          borderLeftWidth: '10px',
-          fontFamily: 'monospace',
-        },
-        pseudoBefore: {
-          content: 'SYSTEM ALERT: ',
-          styles: {
-            fontWeight: 'bold',
-            color: '#fff',
-          },
-          positioning: 'absolute',
-        },
-      },
-
-      // 分隔符样式（从 themes.css:794-799 提取）
-      dividers: {
-        styles: {
-          border: 'none',
-          height: '2px',
-          backgroundImage: 'linear-gradient(to right, transparent, #00ffff, transparent)',
-          margin: '50px 0',
-        },
-      },
-
-      // 代码块样式（从 themes.css:801-819 提取）
-      codeBlocks: {
-        code: {
-          fontFamily: 'inherit',
-          backgroundColor: 'rgba(0, 255, 255, 0.1)',
-          color: '#00ffff',
-          padding: '0.2em 0.5em',
-          margin: '0 2px',
-          borderRadius: '4px',
-          border: '1px solid rgba(0, 255, 255, 0.3)',
-        },
-        pre: {
-          background: '#000',
-          color: '#cddc39',
-          padding: '1.5em',
-          margin: '25px 0',
-          overflowX: 'auto',
-          border: '1px solid #cddc39',
-          boxShadow: 'inset 0 0 10px rgba(205, 220, 57, 0.3)',
         },
       },
 
@@ -1750,92 +3652,116 @@ export const BUILTIN_THEMES: ThemePreset[] = [
           width: '100%',
           borderCollapse: 'collapse',
           margin: '25px 0',
+          borderRadius: '8px',
+          overflow: 'hidden',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
         },
         th: {
-          backgroundColor: 'rgba(0, 255, 255, 0.1)',
-          color: '#cddc39',
+          background: 'linear-gradient(135deg, #c471ed 0%, #5b8ff9 100%)',
+          color: '#ffffff',
           padding: '12px 16px',
-          border: '1px solid #00ffff',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
           textAlign: 'left',
           fontWeight: '600',
-          verticalAlign: 'middle',
         },
         td: {
           padding: '12px 16px',
-          border: '1px solid rgba(0, 255, 255, 0.3)',
+          border: '1px solid #e8e8e8',
           verticalAlign: 'top',
           lineHeight: '1.6',
-          color: '#cddc39',
         },
         tr: {
-          border: '1px solid rgba(0, 255, 255, 0.3)',
+          borderBottom: '1px solid #e8e8e8',
+        },
+      },
+
+      // 分隔符样式
+      dividers: {
+        styles: {
+          border: 'none',
+          height: '2px',
+          background: 'linear-gradient(90deg, transparent 0%, #c471ed 50%, transparent 100%)',
+          margin: '40px 0',
         },
       },
 
       // 组件模板
       components: {
-        ctaLink: {
-          display: 'inline-block',
-          padding: '12px 28px',
-          background: '#f0f',
-          borderRadius: '0',
-          fontWeight: '700',
-          color: '#000',
-          textDecoration: 'none',
+        // 对话框容器
+        dialogueContainer: {
+          background: 'white',
+          border: '2px solid #f0f0f0',
+          borderRadius: '12px',
+          padding: '20px',
+          margin: '30px 0',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
+        },
+        // 对话标题
+        dialogueTitle: {
+          color: '#d4380d',
+          fontSize: '1.1em',
+          fontWeight: 'bold',
           textAlign: 'center',
-          border: '2px solid #f0f',
-          boxShadow: '0 0 15px #f0f',
+          paddingBottom: '15px',
+          marginBottom: '20px',
+          borderBottom: '1px solid #f0f0f0',
         },
-        pill: {
-          display: 'inline-flex',
-          alignItems: 'center',
-          padding: '4px 12px',
-          borderRadius: '0',
-          background: '#00ffff',
-          color: '#000',
-          fontSize: '0.875em',
-          fontWeight: '700',
-          boxShadow: '0 0 10px #00ffff',
+        // 对话消息容器 (表格)
+        dialogueMessages: {
+          width: '100%',
+          borderCollapse: 'separate',
+          borderSpacing: '0 15px',
         },
-        alertCard: {
-          margin: '24px 0',
-          padding: '20px',
-          borderRadius: '0',
-          background: 'rgba(255, 255, 0, 0.1)',
-          border: '2px solid #ffff00',
-          boxShadow: '0 0 10px rgba(255, 255, 0, 0.5)',
+        // 对话消息行 (tr)
+        dialogueMessage: {
+          // 表格行不需要额外样式
         },
-        infoCard: {
-          margin: '24px 0',
-          padding: '20px',
-          borderRadius: '0',
-          background: 'rgba(0, 255, 255, 0.1)',
-          border: '2px solid #00ffff',
-          boxShadow: '0 0 10px rgba(0, 255, 255, 0.5)',
+        // 用户消息行
+        dialogueMessageUser: {
+          // 用户消息:头像在左,内容在右 (通过td顺序控制)
         },
-        successCard: {
-          margin: '24px 0',
-          padding: '20px',
-          borderRadius: '0',
-          background: 'rgba(0, 255, 0, 0.1)',
-          border: '2px solid #00ff00',
-          boxShadow: '0 0 10px rgba(0, 255, 0, 0.5)',
+        // AI消息行
+        dialogueMessageAi: {
+          // AI消息:内容在左,头像在右 (通过td顺序控制)
         },
-        warningCard: {
-          margin: '24px 0',
-          padding: '20px',
-          borderRadius: '0',
-          background: 'rgba(255, 255, 0, 0.1)',
-          border: '2px solid #ffff00',
-          boxShadow: '0 0 10px rgba(255, 255, 0, 0.5)',
+        // 头像单元格 (td)
+        dialogueAvatar: {
+          width: '40px',
+          height: '40px',
+          borderRadius: '50%',
+          textAlign: 'center',
+          verticalAlign: 'middle',
+          color: 'white',
+          fontWeight: 'bold',
+          fontSize: '16px',
+          padding: '0',
         },
-        errorCard: {
-          margin: '24px 0',
-          padding: '20px',
-          borderRadius: '0',
-          background: 'rgba(255, 0, 255, 0.1)',
-          border: '2px solid #ff00ff',
-          boxShadow: '0 0 10px rgba(255, 0, 255, 0.5)',
+        // 用户头像 (纯色背景,微信不支持渐变)
+        dialogueAvatarUser: {
+          background: '#ff6b6b',
+        },
+        // AI头像 (纯色背景,微信不支持渐变)
+        dialogueAvatarAi: {
+          background: '#4a5568',
+        },
+        // 气泡单元格 (td)
+        dialogueBubble: {
+          background: 'white',
+          border: '1px solid #e8e8e8',
+          borderRadius: '12px',
+          padding: '12px 16px',
+          lineHeight: '1.6',
+          verticalAlign: 'middle',
+        },
+        // 用户气泡
+        dialogueBubbleUser: {
+          background: 'white',
+          borderBottomLeftRadius: '4px',
+        },
+        // AI气泡
+        dialogueBubbleAi: {
+          background: '#f5f5f7',
+          borderBottomRightRadius: '4px',
         },
       },
     },

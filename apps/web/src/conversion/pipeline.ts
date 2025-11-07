@@ -6,6 +6,7 @@ import rehypeStringify from 'rehype-stringify'
 import remarkRehype from 'remark-rehype'
 
 import { wechatMappingPlugin } from '@/conversion/plugins/wechat-mapping'
+import { dialogueRehypePlugin } from '@/conversion/plugins/dialogue-rehype-plugin'
 
 export interface PipelineOptions {
   enableFootnoteLinks?: boolean
@@ -18,6 +19,7 @@ const defaultRemarkPlugins = [remarkParse, remarkGfm]
 const defaultRehypePlugins = [
   [remarkRehype, { allowDangerousHtml: true }],
   rehypeRaw,
+  dialogueRehypePlugin,
   rehypeStringify,
 ] as const
 
