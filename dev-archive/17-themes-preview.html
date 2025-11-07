@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>17个主题预览</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+body{font-family:-apple-system,sans-serif;background:#f0f2f5;padding:20px}
+.container{max-width:1600px;margin:0 auto}
+h1{text-align:center;margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:20px}
+.card{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);overflow:hidden}
+.card:hover{box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+.header{padding:15px 20px;color:#fff;font-weight:bold}
+.content{padding:20px;max-height:450px;overflow-y:auto;font-size:14px}
+.content h2{margin-top:1em;margin-bottom:0.5em}
+.content p{margin:0.8em 0}
+.content ul{margin:1em 0;padding-left:2em}
+.content code{padding:2px 6px;border-radius:3px;font-family:monospace}
+.content blockquote{margin:1em 0;padding:10px 15px}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🎨 17个主题预览</h1>
+<div class="grid" id="grid"></div>
+</div>
+<script>
+const md=`## 欢迎使用
+
+**这是加粗文本**，*这是斜体*。
+
+### 列表示例
+
+- 简洁的设计
+- 强大的功能
+- 流畅的体验
+
+### 代码示例
+
+这是\`内联代码\`示例。
+
+> 这是引用块。设计不仅仅是外观，更是产品如何运作。
+
+---
+
+感谢使用！`;
+
+const themes=[
+{name:"1. 橙心",desc:"活力橙红",color:"rgb(239,112,96)",css:"h2{color:rgb(239,112,96);border-bottom:2px solid rgb(239,112,96)}blockquote{border-left:4px solid rgb(239,112,96);background:#fff9f9}code{color:rgb(239,112,96);background:#fff9f9}"},
+{name:"2. 墨黑",desc:"深邃灰黑",color:"#5c5c5c",css:"h2{background:#5c5c5c;color:#fff;padding:5px 15px;border-radius:3px}"},
+{name:"3. 茶紫",desc:"优雅紫色",color:"#773098",css:"h2{color:#773098;border-bottom:1px solid #773098;text-align:center}blockquote{border-left:3px solid #9654b5;background:#fbf9fd}code{color:#9654b5}"},
+{name:"4. 嫩青",desc:"清新青色",color:"rgb(71,193,168)",css:"h2{border-bottom:2px solid rgb(89,89,89)}blockquote:before{content:'❝';color:#555;font-size:3em}strong{color:rgb(71,193,168)}code{color:rgb(71,193,168)}"},
+{name:"5. 绿意",desc:"生机绿色",color:"#35b378",css:"h2{color:#35b378;padding:0.5em 0;border-bottom:2px solid #35b378}blockquote{border-left:3px solid #35b378;background:#fbf9fd}strong{color:#35b378}code{color:#35b378}"},
+{name:"6. 红绯",desc:"鲜艳红色",color:"rgb(248,57,41)",css:"h2{padding-left:10px;border-left:5px solid rgb(248,57,41);font-weight:bold}blockquote{background:#000;color:#feeeed;border-radius:10px}strong{color:rgb(248,57,41)}code{color:rgb(271,93,108)}"},
+{name:"7. 微信格式",desc:"经典微信",color:"#ff3502",css:"h2{text-align:center;font-size:140%}blockquote{border-left:3px solid rgb(158,158,158);background:rgba(158,158,158,0.1)}strong{color:#ff3502}code{background:#f8f5ec;color:#ff3502}"},
+{name:"8. 蓝樱",desc:"科技蓝色",color:"hsl(216,100%,68%)",css:"h2{border-bottom:1px solid hsl(216,100%,68%)}blockquote{border-left:4px solid hsl(216,100%,68%);background:#f9f9f9}strong{color:hsl(216,80%,44%);font-weight:bold}code{color:hsl(216,100%,68%)}"},
+{name:"9. 科技蓝",desc:"深邃蓝色",color:"#0e88eb",css:"h2{padding-left:10px;border-left:5px solid #0e88eb;color:#0e88eb}blockquote{border-left:4px solid #0e88eb}code{color:#0e88eb}"},
+{name:"10. 蓝青",desc:"清爽青蓝",color:"#009688",css:"h2{color:#009688;padding-left:10px;border-left:3px solid #009688}blockquote{border-left:2px solid #888;border-right:2px solid #888}code{color:#009688}"},
+{name:"11. 珊瑚",desc:"温暖金黄",color:"#ffb11b",css:"h2{background:linear-gradient(#fff 60%,#ffb11b 40%);padding:2px 13px;display:inline-block}blockquote{border-left-color:#ffb11b;background:#fff5e3}code{color:#9b6e23;background:#fff5e3}"},
+{name:"12. 前端",desc:"专业蓝色",color:"rgb(60,112,198)",css:"h2{color:rgb(60,112,198);text-align:center}blockquote{background:#efefef}strong{color:rgb(74,74,74)}code{color:rgb(60,112,198)}"},
+{name:"13. 极客黑",desc:"极客黑色",color:"rgb(33,33,34)",css:"h2{background:rgb(33,33,34);color:#fff;padding-right:30px;padding-left:30px;line-height:40px;border-radius:0 100px 100px 0}blockquote{border-left:4px solid #ddd;background:#fbfbfb}code{color:rgb(239,112,96)}"},
+{name:"14. 简",desc:"极简蓝色",color:"#3e64ff",css:"h2{border-bottom:1px solid #dfe2e5}code{color:#e46918;background:#efefef}"},
+{name:"15. 蔷薇紫",desc:"浪漫紫色",color:"#dec6fb",css:"h2{padding-left:10px;border-left:5px solid #dec6fb}blockquote{border:1px solid #dec6fb;background:#f6eeff}blockquote:before{content:'❝';color:#dec6fb;font-size:2em}strong:before{content:'「'}strong:after{content:'」'}code{background:#f6eeff}"},
+{name:"16. 萌绿",desc:"可爱绿色",color:"#48b378",css:"h2{color:#48b378;text-align:center}blockquote{border-left:3px solid #35b378;background:#fbf9fd}strong{color:rgb(74,74,74)}code{color:#28ca71}"},
+{name:"17. 全栈蓝",desc:"全栈蓝色",color:"#40b8fa",css:"h2{border-bottom:4px solid #40b8fa;color:#40b8fa}blockquote{border:1px solid rgba(64,184,250,0.4);background:rgba(64,184,250,0.1)}blockquote:before{content:'❝';color:rgba(64,184,250,0.5);font-size:2em}strong{color:#3594f7}strong:before{content:'「'}strong:after{content:'」'}code{color:#3594f7;background:rgba(59,170,250,0.1)}"}
+];
+
+const grid=document.getElementById('grid');
+themes.forEach((t,i)=>{
+const card=document.createElement('div');
+card.className='card';
+card.innerHTML=`
+<div class="header" style="background:${t.color}">${t.name}<br><small style="font-weight:normal;opacity:0.9">${t.desc}</small></div>
+<div class="content theme-${i}">${marked.parse(md)}</div>
+`;
+grid.appendChild(card);
+const style=document.createElement('style');
+style.textContent=`.theme-${i}{${t.css}}`;
+document.head.appendChild(style);
+});
+</script>
+</body>
+</html>
